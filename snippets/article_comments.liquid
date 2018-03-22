@@ -1,0 +1,99 @@
+<span class="anchor" id="comments-list"></span>
+<section class="comments">
+  <div class="container container--shrink">
+    <header class="comments__header">
+      <h3 class="comments__count">{{ 'blog.comments.comments_count' | t: count: article.comments_count }}</h3>
+
+      {% if article.comments_count > 0 %}
+        <a href="#comments" class="comments__write" data-smooth-scroll>{{ 'blog.comments.write' | t }}</a>
+      {% endif %}
+    </header>
+
+    {% paginate article.comments by 25 %}
+      {% for comment in article.comments %}
+        <article class="comment">
+          <header class="comment__header">
+            <img class="comment__gravatar" alt="{{ comment.author }}" src="//www.gravatar.com/avatar/{{ comment.email | remove: ' ' | strip_newlines | downcase | md5 }}?d=https:{{ 'gravatar-user-default-retina.png' | asset_url }}">
+            <p class="comment__author">{{ comment.author }}</p>
+            <time class="comment__date" datetime="{{ comment.created_at | date: '%Y-%m-%dT%T' }}">{{ comment.created_at | date: format: 'month_day_year_time' }}</time>
+          </header>
+
+          <div class="comment__content rte">
+            {{ comment.content }}
+          </div>
+        </article>
+      {% endfor %}
+
+      {% if paginate.pages > 1 %}
+        <div class="pagination pagination--minimal">
+          <div class="pagination__wrapper">
+            {% if paginate.previous %}
+              <a class="pagination__prev" rel="prev" href="{{ paginate.previous.url }}#comments-list">
+                {% include 'icon' with 'arrow-left' %}
+                {{ 'blog.comments.previous_comments' | t }}
+              </a>
+            {% endif %}
+
+            {% if paginate.next %}
+              <a class="pagination__next" rel="next" href="{{ paginate.next.url }}#comments-list">
+                {{ 'blog.comments.next_comments' | t }}
+                {% include 'icon' with 'arrow-right' %}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</section>
+
+<span class="anchor" id="comments"></span>
+<section class="comment-form">
+  <div class="container container--shrink">
+    <header class="comment-form__header">
+      <h3 class="comment-form__heading">{{ 'blog.comments.write' | t }}</h3>
+    </header>
+
+    {% form 'new_comment', article, class: 'comment__form' %}
+      {% if form.posted_successfully? %}
+        <div class="alert alert--success">
+          {% if blog.moderated? %}
+            <p class="alert__content">{{ 'blog.comments.success_moderated' | t }}</p>
+          {% else %}
+            <p class="alert__content">{{ 'blog.comments.success' | t }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="alert alert--error">
+          <h4 class="alert__title">{{ 'general.forms.errors' | t }}</h4>
+          {% include 'form_errors' %}
+        </div>
+      {% endif %}
+
+      <div class="form__control {% if form.errors.message.author %}form__control--error{% endif %}">
+        <label class="form__label" for="comment__author">{{ 'blog.comments.name' | t }}</label>
+        <input type="text" id="comment__author" name="comment[author]" value="{{ form.name | escape }}" required="required">
+      </div>
+
+      <div class="form__control {% if form.errors.message.email %}form__control--error{% endif %}">
+        <label class="form__label" for="comment__email">{{ 'blog.comments.email' | t }}</label>
+        <input type="email" id="comment__email" name="comment[email]" value="{{ form.email | escape }}" required="required">
+      </div>
+
+      <div class="form__control {% if form.errors.message.body %}form__control--error{% endif %}">
+        <label class="form__label" for="comment__body">{{ 'blog.comments.comment' | t }}</label>
+        <textarea id="comment__body" rows="7" name="comment[body]" required="required">{{ form.body }}</textarea>
+      </div>
+
+      {% if blog.moderated? %}
+        <small class="comment-form__approval">{{ 'blog.comments.approval' | t }}</small>
+      {% endif %}
+
+      <div class="button-wrapper comment-form__submit">
+        <button type="submit" class="button button--primary">{{ 'blog.comments.submit' | t }}</button>
+      </div>
+    {% endform %}
+  </div>
+</section>

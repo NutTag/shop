@@ -1,0 +1,76 @@
+<div class="wrapper1"> 
+  <div class="grid-uniform text-left section-{{ section.id }} bluetooth-image-text">
+    <div class="wrapper">
+      {% for block in section.blocks %}
+      <div class="display-flex one-whole align-{{ block.settings.align_text }}">
+        {% if block.settings.block_title != blank or block.settings.block_text != blank %}
+        <div class="grid-item three-eighths flex-item1">
+          <div class="feature-block wow">
+            <h3 class="dark-text37">{{ block.settings.block_title }}</h3>
+            <p class="text19">{{ block.settings.block_text }}</p>
+          </div>
+        </div>
+        {% endif %}
+        {% if block.settings.block_image != blank %}   
+        <div class="grid-item five-eighths flex-item2">
+          <span class="bluetooth-img">
+            <img src="{{ block.settings.block_image | img_url: 'original' }}" alt="{{ block.settings.block_image.alt }}"></span>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+"name": "Bluetooth - Image & Text",
+"class": "bluetooth-image-text-section",
+"max_blocks": 4,
+"blocks" : [
+{
+"type": "image",
+"name": "Image",
+"settings": [
+{
+"type": "select",
+"id": "align_text",
+"label": "Text alignment",
+"options": [
+{
+"value": "left",
+"label": "Left"
+},
+{
+"value": "right",
+"label": "Right"
+}
+]
+},
+{
+"type": "image_picker",
+"id": "block_image",
+"label": "Image"
+},
+{
+"type": "text",
+"id": "block_title",
+"label": "Title"
+},
+{
+"type": "html",
+"id": "block_text",
+"label": "Text"
+}
+]
+} 
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

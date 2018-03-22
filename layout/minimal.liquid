@@ -1,0 +1,70 @@
+<!doctype html>
+
+<!--[if IE 9 ]><html class="no-js csscalc no-flexbox ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html class="no-js"><!--<![endif]-->
+  <head>
+    <meta charset="utf-8"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+
+    <title>
+      {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {% comment %} We preconnect of two popular domains (Shopify CDN and Google Font) to speed up performance {% endcomment %}
+    <link rel="preconnect" href="//cdn.shopify.com" crossorigin>
+    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+
+    {% if settings.favicon %}
+      <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+    {% endif %}
+
+    {% include 'social_meta_tags' %}
+    {% include 'google_fonts' %}
+
+    {{ content_for_header }}
+
+    {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+
+    <script>
+      // This allows to expose several variables to the global scope, to be used in scripts
+      window.shop = {
+        template: {{ template | json }},
+        currentPage: {{ current_page }},
+        shopCurrency: {{ shop.currency | json }},
+        moneyFormat: {{ shop.money_format | json }},
+        moneyWithCurrencyFormat: {{ shop.money_with_currency_format | json }},
+        collectionSortBy: {{ collection.sort_by | default: collection.default_sort_by | json }}
+      };
+    </script>
+  </head>
+
+  {% assign template_handle = template | replace: '.', ' ' | truncatewords: 1, '' | handle %}
+
+  <body class="focal kagami--v4 template-{{ template_handle }} {% if page.template_suffix != blank %}template-{{ template_handle }}-{{page.template_suffix}}{% endif %}">
+    {% include 'svg_icons' %}
+
+    <div class="page__overlay"></div>
+
+    <div class="page__container">
+      {% section 'header' %}
+
+      <main id="main" class="main" role="main">
+        {{ content_for_layout }}
+      </main>
+    </div>
+
+    {{ '//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js' | script_tag }}
+    {{ 'modernizr.min.js' | asset_url | script_tag }}
+
+    {{ '//cdn.polyfill.io/v2/polyfill.min.js?features=String.prototype.trim,Element.prototype.placeholder,Object.keys,Array.prototype.map,Array.prototype.forEach' | script_tag }}
+    {{ 'libs.js' | asset_url | script_tag }}
+    {{ 'script.js' | asset_url | script_tag }}
+  </body>
+</html>

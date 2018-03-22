@@ -1,0 +1,185 @@
+<nav id="customCollectionNavBar" class="nav-bar page-navbar" role="navigation">
+  <div class="wrapper">
+
+    <ul id="customCollectionNav" class="page-nav">
+      <li><a href="#shopify-section-customer-feedback-gps-vehicle">Reviews</a></li>
+      <li><a href="#shopify-section-product-accessories-gps">Accessories</a></li>
+      <li><a href="#shopify-section-product-whats-inbox-gps">Whats in box</a></li>
+      <li><a href="#shopify-section-unit-specifications-gps">Specifications</a></li>
+      <li><a href="#shopify-section-product-faq-gps">FAQ</a></li>
+    </ul>
+
+  </div>
+</nav>
+  
+{% schema %}
+{
+    "name": "Collection",
+    "class": "collection-pagenav-section",
+    "settings": []
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+
+$(document).ready(function() 
+{ 
+  var $header = $('#shopify-section-header');  
+  var $headerTracking = $('#shopify-section-header-tracking');  
+  var $siteNav = $('#accessibleNav');
+  var $pageNavBar = $('#customCollectionNavBar');
+  var fixedTopClass = 'fixed-top';
+
+  var calculateMarginPaddingBorderHeight = function($element)
+  {
+    if ($element == undefined || $element.length == 0)
+      return 0;
+
+    var height = 
+        parseInt($element.css('margin-top')) + 
+        parseInt($element.css('margin-bottom')) + 
+        parseInt($element.css('padding-top')) + 
+        parseInt($element.css('padding-bottom')) + 
+        parseInt($element.css('border-top-width')) + 
+        parseInt($element.css('border-bottom-width'));
+    return height;
+  }
+
+  var calculateHeight = function($element, includeMarginPaddingBorder)
+  {
+    if ($element == undefined || $element.length == 0)
+      return 0;
+
+    if ( includeMarginPaddingBorder == undefined)
+      includeMarginPaddingBorder = true;
+
+    if (!includeMarginPaddingBorder)
+      return $element.height();
+    
+    var mpbHeight = calculateMarginPaddingBorderHeight($element);
+    return $element.height() + mpbHeight;
+  }
+
+  var calculateHeaderHeight = function()
+  {
+    var headerHeight = calculateHeight($header); /* must calculate height each time due to responsive changes */
+    
+    //consider dropdown
+    var dropNavHeight = 0;
+    if ($siteNav.find('> li.nav-hover').length)
+    {
+        var $dropNav = $siteNav.find('> li.nav-hover .site-nav--dropdown');
+        dropNavHeight = calculateHeight($dropNav);
+    }
+    else if ($siteNav.find('> li.show-dropdown').length)
+    {
+        var $dropNav = $siteNav.find('> li.show-dropdown .site-nav--dropdown');
+        dropNavHeight = calculateHeight($dropNav);
+    }
+    return headerHeight + dropNavHeight;
+  }
+
+  var scrollTo = function (targetId)
+  {
+      if (typeof targetId === 'undefined' || targetId === null || targetId.length === 0)
+          return false;
+
+      if (!targetId.startsWith('#'))
+          targetId = '#' + targetId;
+
+      var $target = $(targetId);
+      if ($target.length)
+      {   
+        var targetTop = $target.offset().top;
+        var headerHeight = calculateHeaderHeight();
+        var pageNavBarHeight = calculateHeight($pageNavBar);
+        var scrollTop = targetTop - ( headerHeight + pageNavBarHeight );
+
+        $('html, body').animate({ scrollTop: scrollTop}, 1000);
+      }
+      return false;
+  };
+  
+  var activateFixedTop = function ()
+  {
+      if ($pageNavBar.length)
+      {
+          if (!$pageNavBar.hasClass(fixedTopClass))
+          {
+            $pageNavBar.addClass(fixedTopClass);
+            initNavBarPosition();
+          }
+      }
+  };
+  
+  var deactivateFixedTop = function ()
+  {
+      if ($pageNavBar.length)
+      {
+          if ($pageNavBar.hasClass(fixedTopClass))
+          {
+              $pageNavBar.removeClass(fixedTopClass);
+              $pageNavBar.css({top: 0, position:'relative'});
+          }
+      }
+  };
+  
+  var initNavBar = function ()
+  {
+    var targetTop = $pageNavBar.closest('.shopify-section').offset().top - 80; /* consider margin+padding */    
+    if ( $(window).scrollTop() > targetTop )
+    {
+        activateFixedTop();
+    }
+    else
+    {
+        deactivateFixedTop();
+    }
+  };
+
+  var initNavBarPosition = function()
+  {
+    if ($pageNavBar.length && $pageNavBar.hasClass(fixedTopClass))
+    {
+      var headerHeight = calculateHeaderHeight();
+      $pageNavBar.css({top: headerHeight, position:'fixed'});
+    }
+  }
+  //register function so we can use in main navigation scripts.
+  //see theme.js - its calls 'window.initNavBarPosition'
+  window.initNavBarPosition = initNavBarPosition;
+
+  $(document).off('click.page-nav').on('click.page-nav', '#customCollectionNavBar .page-nav a', function(e)
+  {
+    var $self = $(e.target);
+    var targetId = $self.get(0).hash;
+    return scrollTo(targetId);
+  });
+  
+  $(document).off('mouseover.site-nav').on('mouseover.site-nav', '#accessibleNav > li', function(e)
+  {
+    initNavBarPosition();
+  });  
+  $(document).off('mouseout.site-nav').on('mouseout.site-nav', '#accessibleNav > li', function(e)
+  {
+    initNavBarPosition();
+  });
+
+  $(window).resize(function (e)
+  {
+    initNavBarPosition();
+  });
+
+  $(window).scroll(function (e)
+  {
+      initNavBar();
+  });
+
+  initNavBar();
+
+});
+
+{% endjavascript %}

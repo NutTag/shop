@@ -1,0 +1,62 @@
+{% assign accessories_collection = collections[accessories] %}
+{% assign number_of_products = 4 %}
+{% assign number_of_products_to_fetch = number_of_products | plus: 1 %}
+
+
+  
+<h2 class="dark-text37 text-center">{% if accessories_heading != blank %}{{ accessories_heading }}{% else %}{{accessories_collection.title}}{% endif %}</h2>
+<br />
+
+<div class="accessoris-desc text-center text19">{{accessories_collection.description}}</div>
+<div class="wrapper">
+  <div class="grid-uniform accessories">
+    {% assign current_product = product %}
+    {% assign current_product_found = false %}
+
+    {% for product in accessories_collection.products  %}
+    {% if product.handle == current_product.handle %}
+    {% assign current_product_found = true %}
+    {% else %}
+    {% include 'product-grid-accessories' %}
+    {% endif %}
+    {% endfor %}
+
+    <div class="load-wrap text-center">
+      <a href="#" id="loadMore">See more accessories</a>
+      <a href="#" id="showLess">Show less accessories</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    //  accessories load more n less
+    //============
+    $(".accessories .grid-item").slice(0, 4).show();
+    var cal =  $(".accessories .grid-item").length;
+    if(cal > 4 ){
+      $("#loadMore").show();
+    }
+    $("#loadMore").on('click', function (e) {
+      e.preventDefault();
+      var len = $(".accessories .grid-item:hidden").length;
+      $(".accessories .grid-item:hidden").slice(0, 4).slideDown();
+      if($(".accessories .grid-item:hidden").length == 0) {
+        $("#loadMore").hide();
+        $("#showLess").show();        
+      } 
+    });
+
+    $("#showLess").on('click', function (e) {
+      e.preventDefault();
+      var len1 = $(".accessories .grid-item").length;
+      $(".accessories .grid-item").slice(0, 4).show();
+      $(".accessories .grid-item").slice(4, len1).slideUp();
+      $("#loadMore").show();
+      $("#showLess").hide();
+    });
+
+
+  });
+
+</script>

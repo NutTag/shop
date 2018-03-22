@@ -1,0 +1,40 @@
+<div class="grid about-page">
+  <div class="grid-item large--one-whole text-center">
+    <div class="banner-img banner-img--dark" style="margin-bottom:40px;background-image:url(//cdn.shopify.com/s/files/1/1801/4767/files/about-banner.jpg?9944138862738684183)">
+      
+      <ul> 
+       <li class="banner-list">
+        <div class="banner-left">
+          <div class="banner-left-inner">
+            <div class="wrapper wow fadeInLeft animated" style="visibility: visible;">
+            <h2>{{ page.title }}</h2>
+           </div>
+          </div>
+        </div>
+      </li>
+     </ul>
+    </div>
+
+   <!-- <div class="wrapper"><h2 class="page-title dark-text37">{{ page.title }}</h2></div>-->
+    <!--{% section 'page-featured-image' %}-->
+    <div class="wrapper">
+      {% section 'about-nuttag' %}
+      <hr/>
+      </div>
+      {% section 'about-who-are-we' %}
+      {% section 'about-established' %}
+    
+
+    <div class="contact_page_description">
+      <div class="wrapper">
+        {{ page.content }}
+      </div>
+    </div>
+    <div class="contact_page_featured_blocks">
+      {% section 'featured-blocks' %}
+    </div>
+
+    {% section 'featured-parallax' %}
+  </div>
+
+</div>

@@ -1,0 +1,148 @@
+<section class="index-module section section--padded {% if section.settings.use_secondary_background %}section--secondary{% endif %} index-module__featured-text">
+  <div class="container">
+    {% if section.settings.title != blank %}
+      <h2 class="section__title">{{ section.settings.title | escape }}</h2>
+    {% endif %}
+
+    {% assign section_buttons_accumulator = '' %}
+
+    <div class="section-wrapper rte" style="text-align: {{ section.settings.content_position }}">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'richtext' %}
+            {% if section_buttons_accumulator != blank %}
+              <div class="button-group">
+                {{ section_buttons_accumulator }}
+              </div>
+            {% endif %}
+
+            {% assign section_buttons_accumulator = '' %}
+
+            {{ block.settings.content }}
+
+          {% when 'page' %}
+            {% if section_buttons_accumulator != blank %}
+              <div class="button-group">
+                {{ section_buttons_accumulator }}
+              </div>
+            {% endif %}
+
+            {% assign section_buttons_accumulator = '' %}
+            {% assign page = pages[block.settings.page] %}
+
+            {{ page.content | default: '<p>Add your own custom content to give more information about your store, availability details...</p>' }}
+
+          {% when 'button' %}
+            {% capture section_button %}
+              <div class="button-group__item">
+                <a href="{{ block.settings.url }}" class="button {% cycle 'button--primary', 'button--secondary' %}">{{ block.settings.text | escape }}</a>
+              </div>
+            {% endcapture %}
+
+            {% assign section_buttons_accumulator = section_buttons_accumulator | append: section_button %}
+        {% endcase %}
+      {% endfor %}
+
+      {% if section_buttons_accumulator != blank %}
+        <div class="button-group">
+          {{ section_buttons_accumulator }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured text",
+  "class": "shopify-section__featured-text",
+  "max_blocks": 9,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Your title"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_secondary_background",
+      "label": "Use secondary background",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Text position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "richtext",
+      "name": "Rich text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Text",
+          "default": "<p>Add your own custom content to give more information about your store, availability details...</p>"
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "name": "Page",
+      "settings": [
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Text",
+      "name": "Rich text",
+      "blocks": [
+        {
+          "type": "richtext",
+          "settings": {}
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

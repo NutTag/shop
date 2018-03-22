@@ -1,0 +1,38 @@
+<div class="grid-uniform text-center section-{{ section.id }} about-who-are-we-i">
+    <div class="grid-item one-whole medium-down--one-whole">
+      <div class="wrapper">
+      <h3 class="dark-text37 text-center wow fadeInDown" data-wow-delay="0.15s">{{ section.settings.heading }}</h3>
+      <div class="block-setion-rel wow zoomIn">
+        {% if section.settings.text != blank %}        
+        <p>{{ section.settings.text }}</p>
+        {% endif %}    
+      </div>
+        </div>
+    </div>
+
+  </div>  
+
+{% schema %}
+{
+"name": "About who are we?",
+"class": "about-who-are-we",
+"settings": [
+{
+"type": "text",
+"id": "heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "text",
+"label": "Text"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

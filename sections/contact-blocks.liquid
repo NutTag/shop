@@ -1,0 +1,75 @@
+<div class="grid contact-blocks">
+  {% for block in section.blocks %} 
+  {% if block.settings.contact_text != blank and block.settings.contact_description != blank %}
+  <div class="grid-item one-quarter">
+    {% if block.settings.contact_text != blank %}
+    <div class="contact_text">
+      {{ block.settings.contact_text }}
+    </div>
+    {% endif %}
+    {% if block.settings.contact_description != blank %}
+    <div class="contact_desc text19">
+      {{ block.settings.contact_description}}
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+  {% endfor %}      
+</div>
+<div class="contact_form">
+  {% if section.settings.contact_form_heading != blank %}<h3>{{ section.settings.contact_form_heading }}</h3>{% endif %}
+  {% if section.settings.contact_form_sub_heading != blank %}<h4 class="text19">{{ section.settings.contact_form_sub_heading  }}</h4>{% endif %}
+</div>
+{% schema %}
+{
+"name": "Contact Page",
+"class": "Contact-Page",
+"max_blocks": 4,
+"presets": [
+{
+"name": "Contact Help Blocks",
+"category": "Featured"
+}
+],
+"blocks" : [
+{
+"type": "text",
+"name": "Contact Block",
+"settings": [
+{
+"type": "text",
+"id": "contact_text",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "contact_description",
+"label": "Description"
+}
+]
+} 
+],
+"settings": [
+{
+"type" : "header",
+"content" : "Contact Form Settings"
+},
+{
+"type": "text",
+"id": "contact_form_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "contact_form_sub_heading",
+"label": "Sub heading"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

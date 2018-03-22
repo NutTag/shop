@@ -1,0 +1,160 @@
+<section class="index-module section section--padded {% if section.settings.use_secondary_background %}section--secondary{% endif %}">
+  <div class="inner">
+    {% if section.settings.title != blank %}
+      <h2 class="section__title">{{ section.settings.title | escape }}</h2>
+    {% endif %}
+
+    {% if section.settings.layout_mode == 'collage' %}
+      <div class="list-collections list-collections--collage ftg">
+        <div class="ftg-items">
+          {% for block in section.blocks %}
+            {% assign collection = collections[block.settings.collection] %}
+
+            {% unless collection.empty? %}
+              {% include 'collection_collage_item' %}
+            {% else %}
+              {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+
+              <div class="list-collections__item collection tile" {{ block.shopify_attributes }}>
+                <a href="#" class="collection__link">
+                  {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg collection__image item' | replace: '<svg', '<svg width="500" height="500"' }}
+
+                  <div class="collection__overlay">
+                    <h3 class="collection__title">{{ collection.title }}</h3>
+                  </div>
+                </a>
+              </div>
+            {% endunless %}
+          {% endfor %}
+        </div>
+      </div>
+    {% else %}
+      <div class="list-collections list-collections--grid grid grid--middle grid--gallery">
+        {% assign grid_items_per_row = section.settings.grid_items_per_row %}
+
+        {% for block in section.blocks %}
+          {% assign collection = collections[block.settings.collection] %}
+
+          {% unless collection.empty? %}
+            {% include 'collection_grid_item' %}
+          {% else %}
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+
+            <div class="list-collections__item collection grid__cell 1/2 1/3--handheld 1/{{ grid_items_per_row }}--lap-and-up" {{ block.shopify_attributes }}>
+              <a href="#" class="collection__link">
+                {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+
+                <div class="collection__overlay">
+                  <h3 class="collection__title">{{ 'home_page.onboarding.collection_title' | t }}</h3>
+                </div>
+              </a>
+            </div>
+          {% endunless %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured collections",
+  "class": "shopify-section__featured-collections",
+  "max_blocks": 9,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Collections list"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_secondary_background",
+      "label": "Use secondary background",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "layout_mode",
+      "label": "Layout mode",
+      "options": [
+        {
+          "value": "collage",
+          "label": "Collage"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "grid_items_per_row",
+      "label": "Items per row",
+      "info": "This setting is only used for the grid layout mode.",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Collection",
+      "name": "Collection list",
+      "settings": {
+        "layout_mode": "grid"
+      },
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

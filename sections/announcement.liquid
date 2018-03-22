@@ -1,0 +1,66 @@
+{% if section.settings.show_announcement %}
+  <section class="announcement-bar">
+    <p class="announcement__content">{{ section.settings.announcement_text | escape }}</p>
+  </section>
+{% endif %}
+
+<style>
+  .announcement-bar {
+    text-align: {{ section.settings.announcement_text_position }};
+    color: {{ section.settings.announcement_color }};
+    background: {{ section.settings.announcement_background }};
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "class": "shopify-section__announcement-bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Announce something here"
+    },
+    {
+      "type": "select",
+      "id": "announcement_text_position",
+      "label": "Text position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "announcement_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "announcement_background",
+      "label": "Background",
+      "default": "#407ac6"
+    }
+  ]
+}
+{% endschema %}

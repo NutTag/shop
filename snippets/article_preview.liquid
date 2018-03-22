@@ -1,0 +1,20 @@
+<article class="grid__cell 1/3--handheld-and-up article article--preview">
+  {% if article.image %}
+    <a class="article__image-link" href="{{ article.url }}">
+      <img class="article__image" alt="{{ article.title | escape }}" src="{{ article.image | img_url: '600x' }}">
+    </a>
+  {% endif %}
+
+  <div class="article__inner">
+    {% include 'article_header' %}
+
+    <p class="article__excerpt">
+      {{ article.excerpt_or_content | strip_html | truncatewords: 25 }}
+    </p>
+
+    <a class="article__read-more" href="{{ article.url }}">
+      {{ 'blog.article.read_more' | t }}
+      {% include 'icon' with 'arrow-right' %}
+    </a>
+  </div>
+</article>

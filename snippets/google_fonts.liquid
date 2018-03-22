@@ -1,0 +1,32 @@
+{% comment %}
+We optimize the usage of fonts by doing one optimized request to Google Font instead of several small ones
+{% endcomment %}
+
+{% assign font_url = '' %}
+
+{% if settings.heading_font contains 'Google' %}
+  {% assign font_parts = settings.heading_font | split: '_' %}
+  {% assign font_url = font_url | append: font_parts[1] | append: ':700|' %}
+{% endif %}
+
+{% if settings.text_font contains 'Google' %}
+  {% assign font_parts = settings.text_font | split: '_' %}
+  {% assign font_url = font_url | append: font_parts[1] | append: ':400,700|' %}
+{% endif %}
+
+{% if settings.slideshow_heading_font contains 'Google' %}
+  {% assign font_parts = settings.slideshow_heading_font | split: '_' %}
+  {% assign font_url = font_url | append: font_parts[1] | append: ':700|' %}
+{% endif %}
+
+{% if settings.slideshow_subheading_font contains 'Google' %}
+  {% assign font_parts = settings.slideshow_subheading_font | split: '_' %}
+  {% assign font_url = font_url | append: font_parts[1] | append: ':400|' %}
+{% endif %}
+
+{% if font_url != blank %}
+  {% assign font_url_length = font_url.size | minus: 1 %}
+  {% assign font_url = font_url | slice: 0, font_url_length %}
+
+  {{ '//fonts.googleapis.com/css?family=' | append: font_url | stylesheet_tag }}
+{% endif %}

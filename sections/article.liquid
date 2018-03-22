@@ -1,0 +1,75 @@
+<div class="article__top">
+  {% include 'breadcrumb' %}
+
+  {% if section.settings.show_rss %}
+    <div class="blog__rss">
+      <div class="inner">
+        <a href="{{ blog.url }}.atom">
+          {{ 'blog.general.rss' | t }} {% include 'icon' with 'rss' %}
+        </a>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<article class="article article--full">
+  {% if article.image %}
+    <img class="article__image" alt="{{ article.title | escape }}" src="{{ article.image | img_url: '1200x' }}">
+  {% endif %}
+
+  <div class="article__body">
+    <div class="container {% if section.settings.reduce_content %}container--shrink{% endif %}">
+      {% include 'article_header', show_author: section.settings.show_author %}
+
+      <section class="article__content rte">
+        {{ article.content }}
+      </section>
+
+      <section class="article__misc">
+        {% include 'share_buttons' %}
+
+        {% if article.tags.size > 0 %}
+          <div class="article__tags">
+            <span class="article__tags-label">{{ 'general.social.tags' | t }}</span>
+
+            <ul class="article__tags-list">
+              {% for tag in article.tags %}
+                <li class="article__tags-item">{{ tag | link_to_tag: tag }}{% unless forloop.last %}, {% endunless %}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </section>
+    </div>
+  </div>
+</article>
+
+{% if blog.comments_enabled? %}
+  {% include 'article_comments' %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Article page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "reduce_content",
+      "label": "Reduce content size",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author name",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rss",
+      "label": "Show RSS feed",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

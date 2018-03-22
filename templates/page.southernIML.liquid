@@ -1,0 +1,192 @@
+{%- comment -%} Capture the content for header containing the tracking data {%- endcomment -%}
+{%- capture contentForQuerystring -%}{{ content_for_header }}{%- endcapture -%}
+
+{% comment %} Use string splitting to pull the value from content_for_header and apply some string clean up {% endcomment %}
+{%- assign pageUrl = contentForQuerystring | split:'"pageurl":"' | last | split:'"' | first | split:'.myshopify.com' | last |
+   replace:'\/','/' | 
+   replace:'%20',' ' | 
+   replace:'\u0026','&'
+-%}
+{% assign debug = false %}
+{%- for i in (1..1) -%}
+  {%- comment -%} If the string doesn't contain a ? then we have no querystring. Go no further {%- endcomment -%}
+  {%- unless pageUrl contains "?" -%}{% break %}{%- endunless -%}
+
+  {%- comment -%} Only work when the cache qs is used. Be aware of the perf issues with using cache=false {%- endcomment -%}
+  {%- unless pageUrl contains "cache=false" -%}{% break %}{%- endunless -%}
+
+  {%- comment -%} Split the url at the ? to get all values after it {%- endcomment -%}
+  {%- assign pageQuerystring = pageUrl | split:'?' | last -%}
+
+  {%- comment -%} Split the remaining string at & to get the list of keys and values (if any) {%- endcomment -%}
+  {%- assign parts = pageQuerystring | split:'&' -%}
+
+  {%- comment -%} Loop over them... {%- endcomment -%}
+  {%- for part in parts -%}
+
+    {%- comment -%} Split the part at the =. Not all querystrings will be in pairs so we need to account for that {%- endcomment -%}
+    {%- assign keyAndValue = part | split:'=' -%}
+
+    {%- if keyAndValue.size > 1 -%}
+      {%- if debug -%}
+      <!-- 
+        key: {{ keyAndValue[0] }}<br>
+        value: {{ keyAndValue[1] }}
+      -->
+      {% endif %}
+      {%- comment -%}And for an example. If the querystring key was "ref" and the value "freakdesign" do something {%- endcomment -%}
+      {% if keyAndValue[0] == "formsent"  %}
+      {% assign form_sent = keyAndValue[1] %}
+      {% endif %}
+    {%- else -%}
+     {%- if debug -%}
+      <!-- 
+        value: {{ keyAndValue }}
+      -->
+      {%- endif -%}
+    {%- endif -%}
+
+  {%- endfor -%}
+{%- endfor -%}
+
+<div class="grid warranty-page">
+  <div class="grid-item large--one-whole text-center">
+
+    <div class="banner-img banner-img--dark" style="background-image:url(//cdn.shopify.com/s/files/1/1801/4767/files/SouthernImaging_Portal_02_16bdc689-3ea4-46c3-a4dd-f588ce87595a.png)">
+      
+      <ul> 
+       <li class="banner-list">
+        <div class="banner-left">
+          <div class="banner-left-inner">
+            <div class="wrapper wow fadeInLeft animated" style="visibility: visible;">
+            <h2>Merry Christmas <br/> From Southern IML Pathology</h2>
+            <h3 class="dark-text20"></h3>
+           </div>
+          </div>
+        </div>
+      </li>
+     </ul>
+     
+    </div>
+
+    <div class="wrapper">
+        <div class="grid-item large--one-whole text-center">
+            <div class="content-area">
+
+                <h3 class="dark-text37">{{ page.title }}</h3>
+                <div class="rte text19">
+                {{ page.content }}
+                </div>
+
+            </div>
+            <div class="form">
+
+                {% if form_sent == 'ok' %}
+                    <div class="text19 thanks-message">Thanks for your submission!</div>
+                {% else %}     
+                <script type="text/javascript" src="https://form.jotform.co/jsform/73128386133860"></script>        
+                <script src="https://cdn.jotfor.ms/static/prototype.forms.js" type="text/javascript"></script>
+                <script src="https://cdn.jotfor.ms/static/jotform.forms.js?3.3.293" type="text/javascript"></script>
+                <script type="text/javascript"> 
+                    JotForm.init(function(){ setTimeout(function() { $('input_3').hint('Name'); }, 20); setTimeout(function() { $('input_4').hint('Email'); }, 20); setTimeout(function() { $('input_6').hint('Postcode'); }, 20); setTimeout(function() { $('input_7').hint('Purchased from'); }, 20); JotForm.alterTexts({"alphabetic":"This field can only contain letters","alphanumeric":"This field can only contain letters and numbers.","ccDonationMinLimitError":"Minimum amount is {minAmount} {currency}","ccInvalidCVC":"CVC number is invalid.","ccInvalidExpireDate":"Expire date is invalid.","ccInvalidNumber":"Credit Card Number is invalid.","ccMissingDetails":"Please fill up the Credit Card details.","ccMissingDonation":"Please enter numeric values for donation amount.","ccMissingProduct":"Please select at least one product.","characterLimitError":"Too many Characters. The limit is","characterMinLimitError":"Too few characters. The minimum is","confirmClearForm":"Are you sure you want to clear the form?","confirmEmail":"E-mail does not match","currency":"This field can only contain currency values.","cyrillic":"This field can only contain cyrillic characters","dateInvalid":"This date is not valid. The date format is {format}","dateInvalidSeparate":"This date is not valid. Enter a valid {element}.","dateLimited":"This date is unavailable.","disallowDecimals":"Please enter a whole number.","email":"Enter a valid e-mail address","fillMask":"Field value must fill mask.","freeEmailError":"Free email accounts are not allowed","generalError":"There are errors on the form. Please fix them before continuing.","generalPageError":"There are errors on this page. Please fix them before continuing.","gradingScoreError":"Score total should only be less than or equal to","incompleteFields":"There are incomplete required fields. Please complete them.","inputCarretErrorA":"Input should not be less than the minimum value:","inputCarretErrorB":"Input should not be greater than the maximum value:","lessThan":"Your score should be less than or equal to","maxDigitsError":"The maximum digits allowed is","maxSelectionsError":"The maximum number of selections allowed is","minSelectionsError":"The minimum required number of selections is","multipleFileUploads_emptyError":"{file} is empty, please select files again without it.","multipleFileUploads_fileLimitError":"Only {fileLimit} file uploads allowed.","multipleFileUploads_minSizeError":"{file} is too small, minimum file size is {minSizeLimit}.","multipleFileUploads_onLeave":"The files are being uploaded, if you leave now the upload will be cancelled.","multipleFileUploads_sizeError":"{file} is too large, maximum file size is {sizeLimit}.","multipleFileUploads_typeError":"{file} has invalid extension. Only {extensions} are allowed.","numeric":"This field can only contain numeric values","pastDatesDisallowed":"Date must not be in the past.","pleaseWait":"Please wait...","required":"This field is required.","requireEveryCell":"Every cell is required.","requireEveryRow":"Every row is required.","requireOne":"At least one field required.","submissionLimit":"Sorry! Only one entry is allowed. Multiple submissions are disabled for this form.","uploadExtensions":"You can only upload following files:","uploadFilesize":"File size cannot be bigger than:","uploadFilesizemin":"File size cannot be smaller than:","url":"This field can only contain a valid URL","wordLimitError":"Too many words. The limit is","wordMinLimitError":"Too few words. The minimum is"}); JotForm.clearFieldOnHide="disable"; }); JotForm.prepareCalculationsOnTheFly([null,{"name":"heading","qid":"1","text":"Warranty","type":"control_head"},{"name":"submit2","qid":"2","text":"Submit","type":"control_button"},{"name":"name","qid":"3","text":"","type":"control_textbox"},{"name":"email4","qid":"4","text":"","type":"control_email"},null,{"name":"postcode","qid":"6","text":"","type":"control_number"},{"name":"purchasedFrom","qid":"7","text":"","type":"control_textbox"},{"name":"phone","qid":"8","text":"Phone","type":"control_textbox"}]);
+                </script>
+                {% endif %}
+
+            </div>
+            <hr />
+
+        </div>
+        <div class="grid-item large--one-whole text-center">
+            <div class="content-area warranty-setup-guide">
+
+                <h3 class="dark-text37">Setup Guide</h3>
+                <div class="lead">
+
+                    <p class="text19">
+                        Your tags are designed to suit your lifestyle so it's important that you complete the next steps carefully, set and forget and be sure - You'll find it!
+                        Let's get started by downloading the Nut find app on your phone. Please search "nut find" in either the App Store or Google Play.
+                    </p>
+                    <p class="text19">
+                        <a href="#SetupGuideVideo"><i class="fa fa-fw fa-youtube-play"></i>Watch Setup Video</a>
+                    </p>
+                    <br />
+
+                </div>
+                
+                <div class="grid setup-steps-grid">
+                    <div class="grid-item one-half text-left">
+
+                        <div class="step-section">
+
+                            <h4>Step 1</h4>
+                            <p class="text19"><span><strong>1.1.</strong> Download our app to your phone or device. Search “Nut Find” in the Google Play or App Store. </span></p>
+
+                            <h4>Step 2</h4>
+                            <p class="text19">
+                                <strong>2.1.</strong> Open the app and create your account.<br />
+                                <strong>2.2.</strong> Add phone number and click “Acquire” to receive verification code. Enter code. <br />
+                                <strong>2.3.</strong> Create your password then click "Done"</p>
+                            
+                            <h4>Step 3</h4>
+                            <p class="text19">
+                                <strong>3.1.</strong> Select "Bind Bluetooth Tracker" or “Add Hardware” for android to bind your new NutTag with your account.
+                            </p>
+
+                        </div>
+
+                    </div>
+                    <div class="grid-item one-half text-left">
+
+                        <div class="step-section">
+                    
+                            <h4>Step 4</h4>
+                            <p class="text19">
+                                <strong>4.1.</strong> Hold down the button on the face of the NutTag. The Tag will then make a sound and a light will appear.
+                            </p>
+                            <p class="text19">
+                                <strong>4.2.</strong> Your app will now be able to see the Tag, please select to begin binding.
+                            </p>
+                            
+                            <h4>Step 5</h4>
+                            <p class="text19">
+                                <strong>5.1.</strong> Continue through the steps as prompted. Name the Tag and take a photo of the item it will be attached to for future reference.  
+                            </p>
+                            <p class="text19">Click Finish to save!</p>  
+
+                        </div>                     
+                
+                    </div>    
+                </div>
+
+                <div class="photo-guide">                   
+                <div>
+
+                    <img src="https://cdn.shopify.com/s/files/1/1801/4767/files/userguide.jpg?10081555334600249993" alt="Download and get setup image" />
+
+                </div>
+                <div class="text-center">
+
+                    <img alt="" src="//cdn.shopify.com/s/files/1/1801/4767/files/Step4.1_large.png?v=1495089594" style="float: none;" width="296" height="368" />
+                    
+
+                </div>
+                </div>
+
+                <div class="video-wrapper text-center" style="min-height:400px;">
+                    <!-- video wrapper has bugs so I have implemented manually -->
+                    <iframe id="SetupGuideVideo" width="560" height="400" src="https://www.youtube.com/embed/bSwYDZ6r3NQ" frameborder="0" allowfullscreen=""></iframe>
+                </div>
+
+               
+
+            </div>
+        </div>
+    </div>
+   
+  </div>
+
+</div>
+
+
+
+

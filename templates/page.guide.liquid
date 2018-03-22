@@ -1,0 +1,187 @@
+
+{% assign topic = 'download-setup' %}
+{%- comment -%} Capture the content for header containing the tracking data {%- endcomment -%}
+{%- capture contentForQuerystring -%}{{ content_for_header }}{%- endcapture -%}
+
+{% comment %} Use string splitting to pull the value from content_for_header and apply some string clean up {% endcomment %}
+{%- assign pageUrl = contentForQuerystring | split:'"pageurl":"' | last | split:'"' | first | split:'.myshopify.com' | last |
+   replace:'\/','/' | 
+   replace:'%20',' ' | 
+   replace:'\u0026','&'
+-%}
+{% assign debug = false %}
+{%- for i in (1..1) -%}
+  {%- comment -%} If the string doesn't contain a ? then we have no querystring. Go no further {%- endcomment -%}
+  {%- unless pageUrl contains "?" -%}{% break %}{%- endunless -%}
+
+  {%- comment -%} Only work when the cache qs is used. Be aware of the perf issues with using cache=false {%- endcomment -%}
+  {%- unless pageUrl contains "cache=false" -%}{% break %}{%- endunless -%}
+
+  {%- comment -%} Split the url at the ? to get all values after it {%- endcomment -%}
+  {%- assign pageQuerystring = pageUrl | split:'?' | last -%}
+
+  {%- comment -%} Split the remaining string at & to get the list of keys and values (if any) {%- endcomment -%}
+  {%- assign parts = pageQuerystring | split:'&' -%}
+
+  {%- comment -%} Loop over them... {%- endcomment -%}
+  {%- for part in parts -%}
+
+    {%- comment -%} Split the part at the =. Not all querystrings will be in pairs so we need to account for that {%- endcomment -%}
+    {%- assign keyAndValue = part | split:'=' -%}
+
+    {%- if keyAndValue.size > 1 -%}
+      {%- if debug -%}
+      <!-- 
+        key: {{ keyAndValue[0] }}<br>
+        value: {{ keyAndValue[1] }}
+      -->
+      {% endif %}
+      {%- comment -%}And for an example. If the querystring key was "ref" and the value "freakdesign" do something {%- endcomment -%}
+      
+      {% if keyAndValue[0] == "topic"  %}
+      {% assign topic = keyAndValue[1] %}
+      {% endif %}
+    {%- else -%}
+     {%- if debug -%}
+      <!-- 
+        value: {{ keyAndValue }}
+      -->
+      {%- endif -%}
+    {%- endif -%}
+
+  {%- endfor -%}
+{%- endfor -%}
+
+<div class="grid guide-page">
+  <div class="grid-item large--one-whole text-center">
+
+    <div class="banner-img banner-img--dark" style="background-image:url(//cdn.shopify.com/s/files/1/1801/4767/files/about-banner.jpg?9944138862738684183)">
+      
+      <ul> 
+       <li class="banner-list">
+        <div class="banner-left">
+          <div class="banner-left-inner">
+            <div class="wrapper wow fadeInLeft animated" style="visibility: visible;">
+            <h2>{{ page.title }}</h2>
+           </div>
+          </div>
+        </div>
+      </li>
+     </ul>
+    </div>
+
+   <!-- {% section "guide-topics" %}-->
+
+    <div class="wrapper">
+      <div class="grid">
+        <div class="grid-item large--one-whole text-left ">
+          <p class="breadcrumbs"><a href="https://nut-tag.myshopify.com/">Home</a> > User Guide > 
+          {% case topic %}
+                {% when 'download-setup' %}
+                   Download and get setup
+                {% when 'silent-zones' %}
+                  Silent zones
+                {% when 'group-share-mode' %}
+                  Group share mode
+                {% when 'disconnecting-nuttag' %}
+                    Disconnecting your NutTag
+                {% endcase %}
+          </p>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="grid-item large--one-fifth text-left ">
+          <div class="content-area">
+          <h3>Topic</h3>
+          <nav>
+            <ul>
+              <li><a href="?topic=download-setup&cache=false">Download & get setup</a></li>
+              <li><a href="?topic=silent-zones&cache=false">Silent zones</a></li>
+              <li><a href="?topic=group-share-mode&cache=false">Group share mode</a></li>
+              <li><a href="?topic=disconnecting-nuttag&cache=false">Disconnecting your NutTag</a></li>
+            </ul>
+          </nav>
+          </div>
+        </div>
+        <div class="grid-item large--four-fifths side-border text-left">
+            <div class="content-area">
+              {% case topic %}
+                {% when 'download-setup' %}
+                   <h1>Download and get setup</h1>
+                   <div class="text19">
+                     Secret offer- see bottom of this page. Secrte offer - see bottom of this page. 
+                     Secret offer- see bottom of this page. Secrte offer - see bottom of this page. 
+                     Secret offer- see bottom of this page. Secrte offer - see bottom of this page. 
+                     Secret offer- see bottom of this page. Secrte offer - see bottom of this page. 
+                     Secret offer- see bottom of this page. Secrte offer - see bottom of this page. 
+                     <div class="step-section">
+
+                      <h4>
+                        Step 1 
+                      </h4>
+                      <p>
+                        ::Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. 
+                      </p>
+
+                      <h4>
+                        Step 2 
+                      </h4>
+                      <p>
+                        ::Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. 
+                      </p>
+
+                      <h4>
+                        Step 3 
+                      </h4>
+                      <p>
+                        ::Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. 
+                      </p>
+
+                      <h4>
+                        Step 4 
+                      </h4>
+                      <p>
+                        ::Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. 
+                      </p>
+
+                      <h4>
+                        Step 5
+                      </h4>
+                      <p>
+                        ::Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. 
+                      </p>
+                     </div>
+                   </div>
+                   <div>
+                     <img src="https://cdn.shopify.com/s/files/1/1801/4767/files/userguide.jpg?10081555334600249993" alt="Download and get setup image">
+                   </div>
+                   <div class="text-center">
+                     <iframe width="560" height="315" src="https://www.youtube.com/embed/HAosj7T0unU" frameborder="0" allowfullscreen></iframe>
+                   </div>
+                {% when 'silent-zones' %}
+                  <h1>Silent zones</h1>
+                   <div class="text19">
+                     ;;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. Dicet pro me ipsa virtus nec dubitabit isti vestro beato M. Dulce amarum, leve asperum, prope longe, stare movere, quadratum rotundum. Huic ego, si negaret quicquam interesse ad beate vivendum quali uteretur victu, concederem, laudarem etiam; Et quidem Arcesilas tuus, etsi fuit in disserendo pertinacior, tamen noster fuit; Duo Reges: constructio interrete. Quid iudicant sensus? Quantum Aristoxeni ingenium consumptum videmus in musicis?
+                   </div>
+                {% when 'group-share-mode' %}
+                  <h1>Group share mode</h1>
+                   <div class="text19">
+                     ;;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. Dicet pro me ipsa virtus nec dubitabit isti vestro beato M. Dulce amarum, leve asperum, prope longe, stare movere, quadratum rotundum. Huic ego, si negaret quicquam interesse ad beate vivendum quali uteretur victu, concederem, laudarem etiam; Et quidem Arcesilas tuus, etsi fuit in disserendo pertinacior, tamen noster fuit; Duo Reges: constructio interrete. Quid iudicant sensus? Quantum Aristoxeni ingenium consumptum videmus in musicis?
+                   </div>
+                {% when 'disconnecting-nuttag' %}
+                    <h1>Disconnecting your NutTag</h1>
+                   <div class="text19">
+                     ;;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. Dicet pro me ipsa virtus nec dubitabit isti vestro beato M. Dulce amarum, leve asperum, prope longe, stare movere, quadratum rotundum. Huic ego, si negaret quicquam interesse ad beate vivendum quali uteretur victu, concederem, laudarem etiam; Et quidem Arcesilas tuus, etsi fuit in disserendo pertinacior, tamen noster fuit; Duo Reges: constructio interrete. Quid iudicant sensus? Quantum Aristoxeni ingenium consumptum videmus in musicis?
+                   </div>
+                   
+              {% endcase %}
+          </div>
+      
+        </div>
+      </div>
+    </div>
+   
+  </div>
+
+</div>
+

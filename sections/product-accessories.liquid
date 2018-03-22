@@ -1,0 +1,31 @@
+{% assign grid_item_width = 'large--one-quarter medium--one-half small--one-whole' %}
+{% assign accessories = section.settings.accessories_collection %}
+{% assign accessories_heading = section.settings.accessories_heading %}
+{% include 'accessories-products' %}
+
+
+{% schema %}
+{
+  "name": "Product Accessories",
+  "class": "product-accessories-section",
+  "settings": [
+  {
+      "type": "text",
+      "id": "accessories_heading",
+      "label": "Accessories Heading",
+      "default": "Accessories"
+  },
+  {
+      "type": "collection",
+      "id": "accessories_collection",
+      "label": "Choose Accessories Collection"
+  }]
+}
+
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

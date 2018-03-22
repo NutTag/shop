@@ -1,0 +1,198 @@
+
+{% if section.settings.header_tracking_display %}
+<nav id="nav-bar-page" role="navigation" data-section-id="{{ section.id }}">
+  <div class="nav-bar-page-head wrapper">
+
+      <form class="form">
+
+        <label for="#nav-bar-page-select">{{ section.settings.header_tracking_label }}</label>
+        <select id="nav-bar-page-select" data-target="#nav-bar-page-content">
+          <option value="">{{ section.settings.header_tracking_select_empty_text }}</option>     
+          {% for block in section.blocks %}
+          <option value="{{ pages[block.settings.tracking_page_handle].id }}">{{ block.settings.tracking_page_text }}</option>
+          {% endfor %}   
+        </select>
+
+      </form>      
+    
+  </div>
+  <div class="nav-bar-page-body">
+    <div class="nav-bar-page-content">
+      
+      {% for block in section.blocks %}
+      <div data-pageid="{{ pages[block.settings.tracking_page_handle].id }}" style="display: none">
+        {{ pages[block.settings.tracking_page_handle].content }}
+      </div>
+      {% endfor %}
+
+    </div>
+    <div class="nav-bar-page-toolbar">
+      <a href="#"><img class="icon-arrow-up" src="{{ "icon-arrow-down.svg" | asset_url }}" alt="Close" /></a>
+    </div>
+  </div>
+</nav>
+
+<script>
+
+  $(function(){
+
+    var $navBarPage = $('#nav-bar-page');
+    var $navBarPageTarget = $navBarPage.find('.nav-bar-page-body .nav-bar-page-content');
+    var navBarPageDisplayEvent;
+    var delay = 10000;    
+  
+    $(document).off('change.navbarpageselect').on('change.navbarpageselect', '#nav-bar-page-select', function(e){
+
+      var $self = $(e.currentTarget);
+
+      var selected = $self.find('option:selected').val();
+      if (selected == '')
+      {
+        $navBarPageTarget.find("[data-pageid]").hide();
+        $navBarPageTarget.closest('.nav-bar-page-body').slideUp('fast');
+                  
+        if (window.initNavBarPosition != undefined && typeof(window.initNavBarPosition) == 'function')
+          window.initNavBarPosition();
+
+        return true;
+      }
+
+      if (selected != null && selected.length)
+      {
+        var pageId = selected; 
+
+        $navBarPageTarget.find("[data-pageid]").hide();
+        $navBarPageTarget.find("[data-pageid='" + pageId + "']").fadeIn();
+        $navBarPageTarget.closest('.nav-bar-page-body').fadeIn().slideDown();
+
+        if (window.initNavBarPosition != undefined && window.initNavBarPosition == 'function')
+          window.initNavBarPosition();
+      }
+
+    });      
+    
+    $(document).off('click.navbarpage').on('click.navbarpage', '#nav-bar-page .nav-bar-page-head', function(e){
+
+      var $self = $(e.currentTarget);
+
+      var selected = $self.find('select option:selected').val();
+      if (selected == '')
+      {
+        $navBarPageTarget.find("[data-pageid]").hide();
+        $navBarPageTarget.closest('.nav-bar-page-body').slideUp('fast');
+                  
+        if (window.initNavBarPosition != undefined && typeof(window.initNavBarPosition) == 'function')
+          window.initNavBarPosition();
+
+        return true;
+      }
+      else
+      {        
+        if (!$navBarPageTarget.is(':visible'))
+          $navBarPageTarget.closest('.nav-bar-page-body').fadeIn().slideDown();   
+      
+        if (window.initNavBarPosition != undefined && typeof(window.initNavBarPosition) == 'function')
+          window.initNavBarPosition();
+      }
+    });
+
+    $(document).off('mouseout.navbarpage').on('mouseout.navbarpage', '#nav-bar-page', function(e){
+
+      navBarPageDisplayEvent = setTimeout(function()
+      {
+        if($('#nav-bar-page .nav-bar-page-head:hover').length || $('#nav-bar-page-select:hover').length || $('#nav-bar-page .nav-bar-page-content:hover').length )
+            return;
+
+        $navBarPageTarget.closest('.nav-bar-page-body').slideUp('fast');
+          
+        if (window.initNavBarPosition != undefined && typeof(window.initNavBarPosition) == 'function')
+          window.initNavBarPosition();
+
+      },delay);
+    });
+
+    $(document).off('mouseover.navbarpage').on('mouseover.navbarpage', '#nav-bar-page', function(e){
+
+      clearTimeout(navBarPageDisplayEvent);
+    });
+
+    $(document).off('click.navbarpage-toolbar').on('click.navbarpage-toolbar', '#nav-bar-page .nav-bar-page-toolbar', function(e){
+
+      clearTimeout(navBarPageDisplayEvent);
+
+      $navBarPageTarget.closest('.nav-bar-page-body').slideUp('fast');
+          
+      if (window.initNavBarPosition != undefined && typeof(window.initNavBarPosition) == 'function')
+         window.initNavBarPosition();      
+    });
+
+    $(document).off('mouseover.header').on('mouseover.header', '#shopify-section-header', function(e){
+
+      //special case to prevent select dropdown having focus when using main navigation (as it z-index overlays otherwise)
+      $('#nav-bar-page-select').blur();
+    });
+
+    $(document).click(function(e){
+
+      $('#ajaxifyDrawer').removeClass('is-visible');
+      $('body').removeClass('ajaxify-open');
+
+      //hide navbar page when click outside.
+      var $self = $(e.target);   
+      if(!$self.is('#nav-bar-page') && !$self.closest('#nav-bar-page').length) 
+      {
+        $navBarPageTarget.closest('.nav-bar-page-body').hide().blur();
+      }
+
+    });
+
+  });
+
+</script>
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "Header Tracking",
+  "class": "header-tracking-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "header_tracking_display",
+      "label": "Show Tracking Bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "header_tracking_label",
+      "label": "Tracking Dropdown Label",
+      "default": "What do you need to track?"
+    },
+    {
+      "type": "text",
+      "id": "header_tracking_select_empty_text",
+      "label": "Tracking Dropdown Empty Text",
+      "default": "Select..."
+    }   
+  ],
+  "blocks" : [
+    {
+      "type": "page",
+      "name": "Page",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tracking_page_text",
+          "label": "Tracking Option Title"
+        },
+        {
+          "type": "page",
+          "id": "tracking_page_handle",
+          "label": "Choose Tracking Page"
+        }
+      ]
+    } 
+  ]
+}
+{% endschema %}

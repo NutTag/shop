@@ -1,0 +1,216 @@
+<header class="page__header {% if cart.item_count == 0 %}page__header--no-border{% endif %}">
+  {% include 'breadcrumb' %}
+
+  <div class="page__header-wrapper">
+    <div class="container">
+      {% if cart.item_count == 0 %}
+        <h1 class="page__title">
+          {{ 'cart.general.empty_title' | t }}
+        </h1>
+
+        <div class="page__description page__description--centered">
+          <p>{{ 'cart.general.empty_subtitle' | t }}</p>
+
+          <div class="page__header-actions">
+            <a href="{{ shop.url }}" class="button button--primary">{{ 'cart.general.empty_button' | t }}</a>
+          </div>
+        </div>
+      {% else %}
+        <h1 class="page__title">
+          {{ 'cart.general.title' | t }}
+        </h1>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+{% if cart.item_count > 0 %}
+  <form action="/cart" method="POST">
+    <div class="cart--mobile">
+      <ul class="cart__items">
+        {% for line_item in cart.items %}
+          <li class="cart-item" data-variant-id="{{ line_item.id }}" data-index="{{ forloop.index }}">
+            <div class="cart-item__left">
+              <a href="{{ line_item.url }}" class="cart-item__link">
+                <img class="cart-item__image" src="{{ line_item.image | img_url: '180x' }}">
+              </a>
+            </div>
+
+            <div class="cart-item__right">
+              <a class="cart-item__title">{{ line_item.title }}</a>
+
+              {% if line_item.properties.size > 0 %}
+                <ul class="cart-item__properties">
+                  <li class="cart-item__property">{{ property.first }}: {{ property.last }}</li>
+                </ul>
+              {% endif %}
+
+              <span class="cart-item__subtotal" data-money-convertible>{{ line_item.line_price | money }}</span>
+              <input type="text" pattern="[0-9]*" class="cart-item__quantity-input" name="quantity" value="{{ line_item.quantity }}">
+              <a class="cart-item__remove" href="/cart/change?quantity=0&line={{ forloop.index }}">{{ 'cart.items.remove' | t }}</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="cart--desktop">
+      <table>
+        <thead>
+          <tr>
+            <th>{{ 'cart.items.product' | t }}</th>
+            <th></th>
+            <th class="cart-item__price-header">{{ 'cart.items.price' | t }}</th>
+            <th>{{ 'cart.items.quantity' | t }}</th>
+            <th>{{ 'cart.items.subtotal' | t }}</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for line_item in cart.items %}
+            <tr data-variant-id="{{ line_item.id }}" data-index="{{ forloop.index }}">
+              <td class="cart-item__product">
+                <a href="{{ line_item.url }}" class="cart-item__link">
+                  <img class="cart-item__image" src="{{ line_item.image | img_url: '320x320' }}">
+                </a>
+              </td>
+
+              <td class="cart-item__info table__left">
+                {% if section.settings.show_vendor %}
+                  <span class="cart-item__brand">{{ line_item.vendor }}</span>
+                {% endif %}
+
+                <a class="cart-item__title" href="{{ line_item.url }}">{{ line_item.product.title }}</a>
+
+                {% if line_item.variant.title != 'Default Title' %}
+                  <span class="cart-item__variant">{{ line_item.variant.title }}</span>
+                {% endif %}
+
+                {% if line_item.properties.size > 0 %}
+                  <ul class="cart-item__properties">
+                    <li class="cart-item__property">{{ property.first }}: {{ property.last }}</li>
+                  </ul>
+                {% endif %}
+              </td>
+
+              <td class="cart-item__price" data-money-convertible>{{ line_item.price | money }}</td>
+
+              <td class="cart-item__quantity">
+                <span>{{ line_item.quantity }}</span>
+
+                <div class="quantity__actions">
+                  <a href="/cart/change?quantity={{ line_item.quantity | minus: 1 }}&line={{ forloop.index }}">
+                    {% include 'icon' with 'minus' %}
+                  </a>
+                  <a href="/cart/change?quantity={{ line_item.quantity | plus: 1 }}&line={{ forloop.index }}">
+                    {% include 'icon' with 'plus' %}
+                  </a>
+                </div>
+              </td>
+
+              <td class="cart-item__subtotal" data-money-convertible>{{ line_item.line_price | money }}</td>
+
+              <td class="cart-item__remove">
+                <a href="/cart/change?quantity=0&line={{ forloop.index }}" class="icon-cross-container">
+                  {% include 'icon' with 'close' %}
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="inner">
+      <div class="cart__meta cart__meta--mobile">
+        <div class="cart__recap">
+          <span class="cart__total cart__total" data-money-convertible>{{ cart.total_price | money }}</span>
+          <span class="cart__taxes">{{ 'cart.general.shipping_not_included' | t }}</span>
+
+          {% if settings.currency_conversion_enabled %}
+            <p class="cart__currency-notice rte">{{ 'cart.general.currency_notice' | t: shop_currency: shop.currency }}</p>
+          {% endif %}
+        </div>
+
+        {% if section.settings.show_notes %}
+          <div class="cart__instructions">
+            <div class="form__control cart__note">
+              <label class="form__label" for="note">{{ 'cart.general.add_note' | t }}</label>
+              <textarea name="note" cols="30" rows="5">{{ cart.note }}</textarea>
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="cart__checkout">
+          <div class="button-wrapper">
+            <button type="submit" name="checkout" class="button button--primary">{{ 'cart.general.checkout' | t }}</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart__meta cart__meta--desktop grid grid--large">
+        {% if section.settings.show_notes %}
+          <div class="cart__instructions grid__cell 3/5--handheld-and-up">
+            <div class="form__control cart__note">
+              <label class="form__label" for="note">{{ 'cart.general.add_note' | t }}</label>
+              <textarea name="note" cols="30" rows="5">{{ cart.note }}</textarea>
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="cart__checkout grid__cell {% if section.settings.show_notes %}2/5--handheld-and-up{% endif %}">
+          <div class="cart__recap--desktop">
+            <span class="cart__total cart__total" data-money-convertible>{{ cart.total_price | money }}</span>
+            <span class="cart__taxes">{{ 'cart.general.shipping_not_included' | t }}</span>
+
+            {% if settings.currency_conversion_enabled %}
+              <p class="cart__currency-notice rte">{{ 'cart.general.currency_notice' | t: shop_currency: shop.currency }}</p>
+            {% endif %}
+          </div>
+
+          <div class="button-wrapper">
+            <button type="submit" name="checkout" class="button button--primary">{{ 'cart.general.checkout' | t }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endif %}
+
+{% if section.settings.show_shipping_estimator and cart.item_count > 0 %}
+  {% include 'shipping_estimator' %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_notes",
+      "label": "Enable order notes",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_estimator",
+      "label": "Show shipping rates calculator",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_estimator_default_country",
+      "label": "Default country to use",
+      "info": "If your customer is logged-in, the country in his default shipping address will be selected.",
+      "default": "United States"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,61 @@
+<div class="wrapper"> 
+   
+    {% if section.settings.heading != blank %}
+    <h3 class="dark-text37 text-center">{{ section.settings.heading }}</h3>
+    {% endif %}
+  <div class="grid section-{{ section.id }} product-features product-faq-section">
+   
+    
+    <div class="product-feature-inner">
+    {% for block in section.blocks %}    
+      <div class="grid-item one-half  wow zoomIn small--one-whole small--text-center">
+          {% if block.settings.block_title != blank %}
+          <div class="feature-title">
+            <h3>{{ block.settings.block_title }}</h3>
+          </div>
+          {% endif %}
+          {% if block.settings.block_text != blank %}
+          <div class="feature-text">
+            <p>{{ block.settings.block_text }}</p>
+          </div>
+          {% endif %}
+      </div>
+    {% endfor %}
+   </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Advanced features",
+  "class": "advanced-features-section",
+  "settings": [
+  {
+    "type": "text",
+    "id": "heading",
+    "label": "Heading"
+  }],
+  "blocks" : [
+  {
+    "type": "text",
+    "name": "Text",
+    "settings": [
+    {
+      "type": "text",
+      "id": "block_title",
+      "label": "Title"
+    },
+    {
+      "type": "html",
+      "id": "block_text",
+      "label": "Text"
+    }]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

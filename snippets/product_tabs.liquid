@@ -1,0 +1,165 @@
+{% if section.blocks.size > 0 %}
+  <div class="product-tabs tabs">
+    {% comment %}
+    Kagami allows to attach up to two "unique tabs" through tags mechanism and pages. Also, our theme allows to use a page-less system using a native
+    integration of our app SuperFields
+    {% endcomment %}
+
+    {% assign has_unique_tab_1 = false %}
+    {% assign has_unique_tab_2 = false %}
+
+    {% for block in section.blocks %}
+      {% if block.type == 'unique_tab_1' or block.type == 'unique_tab_2' %}
+        {% comment %}First, we check using our app{% endcomment %}
+
+        {% if block.type == 'unique_tab_1' %}
+          {% if product.metafields.sf_product_tabs.tab_1_title != blank and product.metafields.sf_product_tabs.tab_1_content != blank %}
+            {% assign unique_tab_1_title = product.metafields.sf_product_tabs.tab_1_title %}
+            {% assign unique_tab_1_content = product.metafields.sf_product_tabs.tab_1_content %}
+            {% assign has_unique_tab_1 = true %}
+          {% endif %}
+        {% else %}
+          {% if product.metafields.sf_product_tabs.tab_2_title != blank and product.metafields.sf_product_tabs.tab_2_content != blank %}
+            {% assign unique_tab_2_title = product.metafields.sf_product_tabs.tab_2_title %}
+            {% assign unique_tab_2_content = product.metafields.sf_product_tabs.tab_2_content %}
+            {% assign has_unique_tab_2 = true %}
+          {% endif %}
+        {% endif %}
+
+        {% comment %}Then, we check using the tag system{% endcomment %}
+
+        {% for tag in product.tags %}
+          {% if block.type == 'unique_tab_1' and tag contains '__tab1' %}
+            {% assign custom_page = tag | split: ':' | last %}
+            {% assign custom_page = pages[custom_page] %}
+
+            {% if custom_page.title != blank and custom_page.content != blank %}
+              {% assign unique_tab_1_title = custom_page.title %}
+              {% assign unique_tab_1_content = custom_page.content %}
+              {% assign has_unique_tab_1 = true %}
+            {% endif %}
+          {% elsif block.type == 'unique_tab_2' and tag contains '__tab2' %}
+            {% assign custom_page = tag | split: ':' | last %}
+            {% assign custom_page = pages[custom_page] %}
+
+            {% if custom_page.title != blank and custom_page.content != blank %}
+              {% assign unique_tab_2_title = custom_page.title %}
+              {% assign unique_tab_2_content = custom_page.content %}
+              {% assign has_unique_tab_2 = true %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+        {% continue %}
+      {% endif %}
+    {% endfor %}
+
+    <ul class="tabs__nav">
+      {% assign tab_index = 0 %}
+
+      {%- for block in section.blocks -%}
+        {% if block.type == 'unique_tab_1' and has_unique_tab_1 == false %}
+          {% continue %}
+        {% endif %}
+
+        {% if block.type == 'unique_tab_2' and has_unique_tab_2 == false %}
+          {% continue %}
+        {% endif %}
+
+        <li class="tabs__nav-item {% if forloop.first %}tabs__nav-item--active{% endif %}" {{ block.shopify_attributes }} data-tab-index="{{ tab_index }}">
+          {%- case block.type -%}
+            {%- when 'gallery' -%}
+              {{ 'product.tabs.gallery' | t }}
+
+            {%- when 'description' -%}
+              {{ 'product.tabs.description' | t }}
+
+            {%- when 'reviews' -%}
+              {{ 'product.tabs.reviews' | t }}
+
+            {%- when 'unique_tab_1' -%}
+              {{ unique_tab_1_title }}
+
+            {%- when 'unique_tab_2' -%}
+              {{ unique_tab_2_title }}
+
+            {%- when 'global_tab' -%}
+              {%- assign global_tab_page = pages[block.settings.page] -%}
+
+              {%- unless global_tab_page.empty? -%}
+                {{ global_tab_page.title }}
+              {%- endunless -%}
+          {%- endcase -%}
+
+          {%- if forloop.first -%}
+            <span class="tabs__nav-line"></span>
+          {%- endif -%}
+        </li>
+
+        {% assign tab_index = tab_index | plus: 1 %}
+      {%- endfor -%}
+    </ul>
+
+    <div class="tabs__content">
+      {% for block in section.blocks %}
+        {% if block.type == 'unique_tab_1' and has_unique_tab_1 == false %}
+          {% continue %}
+        {% endif %}
+
+        {% if block.type == 'unique_tab_2' and has_unique_tab_2 == false %}
+          {% continue %}
+        {% endif %}
+
+        <div class="tabs__content-item {% if forloop.first %}tabs__content-item--active{% endif %}">
+          {% case block.type %}
+            {% when 'gallery' %}
+              <div class="inner">
+                <div class="product-collage-gallery ftg">
+                  <div class="ftg-items">
+                    {% for image in product.images %}
+                      {% if image.alt contains 'youtube.com/embed' or image.alt contains 'player.vimeo.com' %}
+                        {% continue %}
+                      {% endif %}
+
+                      <div class="tile">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="{{ image | img_url: '1200x' }}" class="item" alt="{{ image.alt | escape }}">
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+            {% when 'description' %}
+              <div class="container container--shrink rte">
+                {{ product.description }}
+              </div>
+
+            {% when 'reviews' %}
+              <div class="container container--shrink">
+                <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+              </div>
+
+            {% when 'unique_tab_1' %}
+              <div class="container container--shrink rte">
+                {{ unique_tab_1_content }}
+              </div>
+
+            {% when 'unique_tab_2' %}
+              <div class="container container--shrink rte">
+                {{ unique_tab_2_content }}
+              </div>
+
+            {% when 'global_tab' %}
+              {% assign global_tab_page = pages[block.settings.page] %}
+
+              {% unless global_tab_page.empty? %}
+                <div class="container container--shrink rte">
+                  {{ global_tab_page.content }}
+                </div>
+              {% endunless %}
+          {% endcase %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

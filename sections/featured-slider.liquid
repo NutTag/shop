@@ -1,0 +1,126 @@
+<div class="wrapper1"> 
+  <div class="grid-uniform section-{{ section.id }}">
+
+    <div class="grid-item">
+
+      <div class="text-image-slider grid" data-speed="{{ section.settings.slider_home_rate }}" data-autoplay="{{ section.settings.slider_home_auto }}">
+        {% for block in section.blocks %}    
+        <div class="block-slides text-align-{{ block.settings.slide_text_align }}">
+           <div class="display-table">
+          <div class="slide-text grid-item three-tenths display-table-cell">
+            <div class="wrapper">
+            {% if block.settings.slide_title != blank %}
+            <h3>{{ block.settings.slide_title }}</h3>
+            {% endif %} 
+            {% if block.settings.slide_text != blank %}
+            <p>{{ block.settings.slide_text }}</p>
+            {% endif %} 
+            </div>
+          </div>
+          {% if block.settings.slide_image != blank %}
+          <div class="slide-image grid-item seven-tenths text-right display-table-cell">
+            <img src="{{ block.settings.slide_image | img_url: 'original' }}" alt="{{ block.settings.slide_image.alt }}">
+          </div>
+          {% endif %}  
+          </div>
+        </div>
+        {% endfor %}      
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+"name": "Featured slider",
+"class": "featured-slider-section",
+"presets": [
+{
+"name": "Featured slider",
+"category": "Featured"
+}
+],
+"settings": [
+{
+"type": "checkbox",
+"id": "slider_home_auto",
+"label": "Auto-rotate slides"
+},
+{
+"type": "select",
+"id": "slider_home_rate",
+"label": "Transition time",
+"options": [
+{
+"value": "3000",
+"label": "3 seconds"
+},
+{
+"value": "4000",
+"label": "4 seconds"
+},
+{
+"value": "5000",
+"label": "5 seconds"
+},
+{
+"value": "7000",
+"label": "7 seconds"
+},
+{
+"value": "10000",
+"label": "10 seconds"
+},
+{
+"value": "15000",
+"label": "15 seconds"
+}
+]
+}
+],
+"blocks" : [
+{
+"type": "image",
+"name": "Image",
+"settings": [
+{
+"type": "select",
+"id": "slide_text_align",
+"label": "Text alignment",
+"options": [
+{
+"value": "left",
+"label": "Left"
+},
+{
+"value": "right",
+"label": "Right"
+}
+]
+},
+{
+"type": "image_picker",
+"id": "slide_image",
+"label": "Image"
+},
+{
+"type": "text",
+"id": "slide_title",
+"label": "Title"
+},
+{
+"type": "html",
+"id": "slide_text",
+"label": "Text"
+}
+]
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

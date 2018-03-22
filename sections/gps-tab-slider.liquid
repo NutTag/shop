@@ -1,0 +1,122 @@
+  
+<div class="wrapper1"> 
+<div class="grid-uniform section-{{ section.id }} bluetooth-tab-slider featured-slider-section">
+  <div class="grid-item">  
+    <div class="grid">
+
+      <div class="bluetooth-tab slider" data-speed="{{ section.settings.slider_home_rate }}" data-autoplay="{{ section.settings.slider_home_auto }}">
+
+        {% for block in section.blocks %}    
+        <div class="bl-slides" data-tab ="{{ block.settings.slide_tab }}">
+
+          {% if block.settings.slide_bg_image != blank %}
+          <div class="display-table"  style="background-image:url({{ block.settings.slide_bg_image | img_url: 'original' }})">
+            <div class="grid-item text-left display-table-cell">
+
+              <div class="wrapper slider-text wow zoomIn">
+
+                {% if block.settings.slide_title != blank or block.settings.slide_text != blank %}
+                <h3>{{ block.settings.slide_title }}</h3>
+                <p>{{ block.settings.slide_text }}</p>
+                {% endif %}
+
+              </div>
+              
+            </div> 
+          </div>
+          {% endif %}
+
+
+        </div>
+        {% endfor %} 
+
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<style>
+
+  /* remove the angled left section */
+  .featured-slider-section .slide-text::before { background:none !important; }
+  .featured-slider-section .slide-text::after { background:none !important; }
+
+</style>
+
+{% schema %}
+{
+  "name": "GPS - Tabbed Slider",
+  "class": "bluetooth-tab-slider",
+  "settings": [
+  {
+    "type": "checkbox",
+    "id": "slider_home_auto",
+    "label": "Auto-rotate slides"
+  },
+  {
+    "type": "select",
+    "id": "slider_home_rate",
+    "label": "Transition time",
+    "options": [
+    {
+      "value": "3000",
+      "label": "3 seconds"
+    },
+    {
+      "value": "4000",
+      "label": "4 seconds"
+    },
+    {
+      "value": "5000",
+      "label": "5 seconds"
+    },
+    {
+      "value": "7000",
+      "label": "7 seconds"
+    },
+    {
+      "value": "10000",
+      "label": "10 seconds"
+    },
+    {
+      "value": "15000",
+      "label": "15 seconds"
+    }]
+  }],
+  "blocks" : [
+  {
+    "type": "image",
+    "name": "Image",
+    "settings": [
+    {
+      "type": "image_picker",
+      "id": "slide_bg_image",
+      "label": "BG image"
+    },
+    {
+      "type": "text",
+      "id": "slide_title",
+      "label": "Slide title"
+    },
+    {
+      "type": "html",
+      "id": "slide_text",
+      "label": "Slide text"
+    },
+    {
+      "type": "text",
+      "id": "slide_tab",
+      "label": "Tab text"
+    }
+  ]} 
+]}
+
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

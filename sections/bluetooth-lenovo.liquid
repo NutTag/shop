@@ -1,0 +1,42 @@
+<div class="wrapper1"> 
+  <div class="grid-uniform section-{{ section.id }} bluetooth-lenovo-inner">
+    <div class="wrapper">
+            
+        {% if section.settings.image != blank %}   
+        <div class="grid-item one-quarter text-right">
+          <img src="{{ section.settings.image | img_url: 'original' }}" alt="{{ section.settings.image.alt }}">
+        </div>
+        {% endif %}
+        <div class="grid-item three-quarters text-left">
+            {% if section.settings.text %}
+            <p class="grey-text">{{ section.settings.text }}</p>
+            {% endif %}                      
+        </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+"name": "Bluetooth lenovo",
+"class": "bluetooth-lenovo",
+"settings": [
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image"
+},
+{
+"type": "html",
+"id": "text",
+"label": "Text"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

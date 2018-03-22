@@ -1,0 +1,45 @@
+<div class="product-meta {% if for_mobile %}product-meta--mobile{% else %}product-meta--desktop{% endif %}">
+  {% if show_vendor and product.vendor != blank %}
+    <h2 class="product-meta__vendor" >{{ product.vendor }}</h2>
+  {% endif %}
+
+  <h1 class="product-meta__title">{{ product.title }}</h1>
+
+  {% assign product_on_sale = false %}
+
+  {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+    {% assign product_on_sale = true %}
+  {% endif %}
+
+  <div class="product-meta__prices">
+    {% if product.available %}
+      {% if product_on_sale %}
+        <span class="product-meta__price product-meta__price--new" data-money-convertible>{{ product.selected_or_first_available_variant.price | money }}</span>
+        <span class="product-meta__price product-meta__price--old" data-money-convertible>{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+      {% else %}
+        <span class="product-meta__price" data-money-convertible>{{ product.selected_or_first_available_variant.price | money }}</span>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  {% capture product_meta_labels %}
+    {% for tag in product.tags %}
+      {% if tag contains '__label' %}
+        <span class="label label--custom">{{ tag | split: '__label:' | last }}</span>
+        {% break %}
+      {% endif %}
+    {% endfor %}
+
+    {% unless product.available %}
+      <span class="label label--sold-out">{{ 'product.labels.sold_out' | t }}</span>
+    {% endunless %}
+  {% endcapture %}
+
+  <div class="product-meta__labels">{{ product_meta_labels | strip }}</div>
+
+  {% if template contains 'product' and product_reviews_enabled %}
+    <div class="product__reviews-badge">
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}">{{ 'product.general.loading_reviews' | t }}</span>
+    </div>
+  {% endif %}
+</div>

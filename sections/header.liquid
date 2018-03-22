@@ -1,0 +1,521 @@
+<header class="site-header" role="banner" data-section-id="{{ section.id }}" data-section-type="header-section">
+  <div class="top-header">
+    <div class="wrapper">
+
+      <ul class="top-links inline-list">
+        {% for link in linklists.top-menu.links %}
+        <li> <a href="{{ link.url }}">{{ link.title }}</a> 
+        </li>
+        {% endfor %}
+      </ul>
+
+      {% if section.settings.header_message != blank or shop.customer_accounts_enabled %}
+      <div class="site-header--text-links{% if section.settings.header_message == blank %} medium-down--hide{% endif %}">
+        {% if section.settings.header_message != blank %}
+        <div class="rte">
+          {{ section.settings.header_message }}
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+  <div class="wrapper">
+    <div class="grid--full">
+      <div class="grid-item large--one-eighth">
+
+          {% if template.name == 'index' %}
+          <h1 class="header-logo" itemscope itemtype="http://schema.org/Organization">
+          {% else %}
+          <div class="h1 header-logo" itemscope itemtype="http://schema.org/Organization">
+          {% endif %}
+          {% if section.settings.logo %}
+          {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
+            <a href="/" itemprop="url"><img src="{{ section.settings.logo | img_url: image_size }}" srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x" alt="{{ section.settings.logo.alt | default: shop.name }}" itemprop="logo"></a>
+          {% else %}
+            <a href="/" itemprop="url">{{ shop.name }}</a>
+          {% endif %}
+          {% if template.name == 'index' %}
+            </h1>
+          {% else %}
+          </div>
+        {% endif %}
+
+      </div>
+
+      <div class="grid-item large--seven-eighths text-center large--text-right">
+
+        <div class="site-header--text-links">
+
+          {% if shop.customer_accounts_enabled %}
+          <span class="site-header--meta-links medium-down--hide">
+            {% if customer %}
+            {% capture first_name %}<a href="/account">{{ customer.first_name }}</a>{% endcapture %}
+            {{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }} &middot; {{ 'layout.customer.log_out' | t | customer_logout_link }}
+            {% else %}
+            {{ 'layout.customer.sign_in' | t | customer_login_link }}
+            <span class="site-header--spacer">{{ 'layout.customer.or' | t }}</span>
+            {{ 'layout.customer.create_account' | t | customer_register_link }}
+            {% endif %}
+          </span>
+          {% endif %}
+
+        </div>
+        <nav class="nav-bar" role="navigation">
+
+          <div class="wrapper">
+
+            {% include 'search-bar' %}
+
+            {% include 'site-nav' %}
+            
+          </div>
+
+        </nav>
+
+        {% if section.settings.buy_now_link != blank %}
+        <a href="{{ section.settings.buy_now_link }}" class="header-buy-btn buy-now btn">
+          <span class="buy-now-text">{{ section.settings.buy_now_text }}</span>
+        </a>
+        {% endif %}
+
+        <a href="/cart" class="header-cart-btn cart-toggle">
+          <span class="icon-cart1"><img src="{{ section.settings.cart_logo | img_url: 'original' }}" alt="Cart-logo" /></span>
+          <span class="cart-count cart-badge--desktop {% comment %}{% if cart.item_count == 1 %}hidden-count{% endif %}{% endcomment %}">{{ cart.item_count }}</span>
+        </a>
+
+      </div>
+      <div id="mobileNavBar">
+        <div class="display-table-cell first">
+
+          <a class="menu-toggle mobileNavBar-link"><span class="icon icon-hamburger"></span>{{ 'layout.navigation.mobile_menu' | t }}</a>
+
+        </div>
+        <div class="display-table-cell text-right second">
+
+          <a href="/cart" class="cart-toggle mobileNavBar-link">
+            <span class="icon-cart"><img src="{{ section.settings.cart_logo | img_url: 'original' }}" alt="Cart-logo" /></span>
+            <span class="cart-count {% comment %}{% if cart.item_count == 0 %}hidden-count{% endif %}{% endcomment %}">{{ cart.item_count }}</span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "header-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Custom logo",
+      "info": "400px wide .png recommended"
+    },
+    {
+      "type": "text",
+      "id": "logo_max_width",
+      "label": "Custom logo width",
+      "default": "305"
+    },
+    {
+      "type": "image_picker",
+      "id": "cart_logo",
+      "label": "Cart Icon Image"
+    },
+    {
+      "type": "header",
+      "content": "Message"
+    },
+    {
+      "type": "html",
+      "id": "header_message",
+      "label": "Text",
+      "info": "55 characters max"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "buy_now_text",
+      "label": "Buy now text"
+    },
+    {
+      "type": "url",
+      "id": "buy_now_link",
+      "label": "Buy now link"
+    },
+    {
+      "type": "header",
+      "content": "Bluetooth menu"
+    },
+    {
+      "type": "text",
+      "id": "bluetooth_menu_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "bluetooth_menu_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "bluetooth_menu_learn_text",
+      "label": "Learn more text"
+    },
+    {
+      "type": "url",
+      "id": "bluetooth_menu_learn_link",
+      "label": "Learn more link"
+    },
+    {
+      "type": "header",
+      "content": "Bluetooth sub-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "bluetooth_sub_link_1_show",
+      "label": "Enable link 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_sub_link_1_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_mouseover_link_1_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "bluetooth_sub_link_1_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "bluetooth_sub_link_1_url",
+      "label": "Sub link url"
+    },
+    {
+      "type": "checkbox",
+      "id": "bluetooth_sub_link_2_show",
+      "label": "Enable link 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_sub_link_2_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_mouseover_link_2_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "bluetooth_sub_link_2_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "bluetooth_sub_link_2_url",
+      "label": "Sub link url"
+    },
+    {
+      "type": "checkbox",
+      "id": "bluetooth_sub_link_3_show",
+      "label": "Enable link 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_sub_link_3_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_mouseover_link_3_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "bluetooth_sub_link_3_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "bluetooth_sub_link_3_url",
+      "label": "Sub link url"
+    },
+    {
+      "type": "checkbox",
+      "id": "bluetooth_sub_link_4_show",
+      "label": "Enable link 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_sub_link_4_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_mouseover_link_4_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "bluetooth_sub_link_4_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "bluetooth_sub_link_4_url",
+      "label": "Sub link url"
+    },
+    {
+      "type": "checkbox",
+      "id": "bluetooth_sub_link_5_show",
+      "label": "Enable link 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_sub_link_5_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_mouseover_link_5_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "bluetooth_sub_link_5_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "bluetooth_sub_link_5_url",
+      "label": "Sub link url"
+    },
+    {
+      "type": "checkbox",
+      "id": "bluetooth_sub_link_6_show",
+      "label": "Enable link 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_sub_link_6_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "bluetooth_mouseover_link_6_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "bluetooth_sub_link_6_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "bluetooth_sub_link_6_url",
+      "label": "Sub link url"
+    },
+    {
+      "type": "header",
+      "content": "GPS menu"
+    },
+    {
+      "type": "text",
+      "id": "gps_menu_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "gps_menu_text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "gps_menu_learn_text",
+      "label": "Learn more text"
+    },
+    {
+      "type": "url",
+      "id": "gps_menu_learn_link",
+      "label": "Learn more link"
+    },
+    {
+      "type": "header",
+      "content": "GPS sub-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "gps_sub_link_1_show",
+      "label": "Enable link 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_link_1_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_mouseover_link_1_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "gps_sub_link_1_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "gps_sub_link_1_url",
+      "label": "Sub link url"
+    },
+    {
+      "type": "checkbox",
+      "id": "gps_sub_link_2_show",
+      "label": "Enable link 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_link_2_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_mouseover_link_2_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "gps_sub_link_2_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "gps_sub_link_2_url",
+      "label": "Sub link url"
+    },
+    {
+      "type": "checkbox",
+      "id": "gps_sub_link_3_show",
+      "label": "Enable link 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_link_3_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_mouseover_link_3_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "gps_sub_link_3_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "gps_sub_link_3_url",
+      "label": "Sub link url"
+    },
+    {
+      "type": "checkbox",
+      "id": "gps_sub_link_4_show",
+      "label": "Enable link 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_link_4_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_mouseover_link_4_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "gps_sub_link_4_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "gps_sub_link_4_url",
+      "label": "Sub link url"
+    },
+    {
+      "type": "checkbox",
+      "id": "gps_sub_link_5_show",
+      "label": "Enable link 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_link_5_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_mouseover_link_5_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "gps_sub_link_5_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "gps_sub_link_5_url",
+      "label": "Sub link url"
+    },
+    {
+      "type": "checkbox",
+      "id": "gps_sub_link_6_show",
+      "label": "Enable link 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_link_6_icon",
+      "label": "Sub link icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "gps_sub_mouseover_link_6_icon",
+      "label": "Mouseover icon"
+    },
+    {
+      "type": "text",
+      "id": "gps_sub_link_6_text",
+      "label": "Sub link title"
+    },
+    {
+      "type": "url",
+      "id": "gps_sub_link_6_url",
+      "label": "Sub link url"
+    }    
+  ]
+}
+{% endschema %}

@@ -1,0 +1,80 @@
+{% unless grid_item_width %}
+{% assign grid_item_width = 'large--one-quarter medium-down--one-half' %}
+{% endunless %}
+
+{% unless image_size %}
+{%- assign image_size = '600x600' -%}
+{% endunless %}
+
+{% unless current_collection %}
+{% assign current_collection = collection %}
+{% endunless %}
+
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available  %}
+{% assign sold_out = false %}
+{% endif %}
+
+<div class="grid-item {{ grid_item_width }}{% if sold_out %} sold-out{% endif %}{% if on_sale %} on-sale{% endif %}">
+  <a href="{{ product.url | within: current_collection }}" class="product-grid-item">
+    <div class="product-grid-inner">
+      <div class="product-grid-image">
+        <div class="product-grid-image--centered">
+          {% if sold_out %}
+          <div class="badge badge--sold-out"><span class="badge-label">{{ 'products.product.sold_out' | t }}</span></div>
+          {% endif %}
+          <img src="{{ product.featured_image.src | img_url: image_size }}" 
+               srcset="{{ product.featured_image.src | img_url: image_size }} 1x, {{ product.featured_image.src | img_url: image_size, scale: 1 }} 1x"
+               alt="{{ product.featured_image.alt | escape }}">
+        </div>
+      </div>
+      <div class="product-grid-content">
+      <p class="text-center">{{ product.title }}</p>
+      <div class="product-item--price text-center">
+        <span class="h1 medium--center">
+          {% if on_sale %}
+          <span class="visually-hidden">{{ "products.general.sale_price" | t }}</span>
+          {% else %}
+          <span class="visually-hidden">{{ "products.general.regular_price" | t }}</span>
+          {% endif %}
+          {% include 'price' with product.price %}
+          {% if on_sale and section.settings.product_show_compare_at_price %}
+          <small>
+            <s>
+              <span class="visually-hidden">{{ "products.general.regular_price" | t }}</span>
+              {% include 'price' with product.compare_at_price %}
+            </s>
+          </small>
+          {% endif %}
+        </span>
+
+        {% if on_sale and section.settings.product_show_saved_amount %}
+        <span class="sale-tag{% unless section.settings.show_compare_at_price %} medium--right{% endunless %}{% if section.settings.product_reviews_enable %} has-reviews{% endif %}">
+          {% assign compare_price = product.compare_at_price %}
+          {% assign product_price = product.price %}
+          {% include 'price-sale' %}
+        </span>
+        {% endif %}
+      </div>
+
+      {% if section.settings.product_reviews_enable %}
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+      {% endif %}
+      </div>
+    </div>
+  </a>
+  
+  <form action="/cart/add" method="post" id="product-form-{{ product.id }}" class="text-center addToCartForm one-whole">   
+    <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+    <button type="submit" name="add" id="addToCart" class="btn addToCart">
+      <span class="icon icon-cart"></span>
+      <span id="addToCartText-{{ section.id }}">{{ 'products.product.add_to_cart' | t }}</span>
+    </button>
+  </form>
+
+</div>

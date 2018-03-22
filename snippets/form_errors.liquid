@@ -1,0 +1,9 @@
+<ul class="alert__errors">
+  {% for field in form.errors %}
+    {% if field == 'form' %}
+      <li class="alert__error">{{ form.errors.messages[field] }}</li>
+    {% else %}
+      <li class="alert__error">{{ form.errors.translated_fields[field] }}: {{ form.errors.messages[field] }}</li>
+    {% endif %}
+  {% endfor %}
+</ul>

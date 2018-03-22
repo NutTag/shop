@@ -1,0 +1,122 @@
+<ul class="site-nav" id="accessibleNav">
+
+  {% unless linklists[section.settings.menu].links.first.url == '/' %}
+  <li class="large--hide">
+    <a href="/">{{ 'general.breadcrumbs.home' | t }}</a>
+  </li>
+  {% endunless %}
+
+  {% for link in linklists[section.settings.menu].links %}
+  {% assign child_list_handle = link.title | handleize %}
+  {% if linklists[child_list_handle].links != blank %}
+  <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
+
+    <a href="{{ link.url }}">
+      {{ link.title }}
+      <span class="icon-fallback-text">
+        <span class="icon icon-arrow-down" aria-hidden="true"></span>
+      </span>
+    </a>
+
+    {% if section.settings.bluetooth_menu_title != blank or section.settings.gps_menu_title != blank %}
+    <div class="site-nav--dropdown" style="visibility:visible;opacity:1;display:block;">
+      <ul class="site-nav--dropdown-inner wrapper">
+        <li class="grid-item one-half medium-down--one-whole">
+
+          <ul class="left-inner">
+            <li>
+              <h3>{{ section.settings.bluetooth_menu_title }}</h3>
+              <p>{{ section.settings.bluetooth_menu_text }}</p>
+              <a href="{{ section.settings.bluetooth_menu_learn_link }}" class="learn-link green-btn btn">{{ section.settings.bluetooth_menu_learn_text }}</a>
+            </li>
+          </ul>
+
+          <ul class="right-inner">
+            {% for i in (1..6) %}
+            {% capture bluetooth_sub_link %}bluetooth_sub_link_{{ i }}_show{% endcapture %}
+            {% capture bluetooth_sub_link_icon %}bluetooth_sub_link_{{ i }}_icon{% endcapture %}
+            {% capture bluetooth_mouseover_link_icon %}bluetooth_mouseover_link_{{ i }}_icon{% endcapture %}
+            {% capture bluetooth_sub_link_text %}bluetooth_sub_link_{{ i }}_text{% endcapture %}
+            {% capture bluetooth_sub_link_url %}bluetooth_sub_link_{{ i }}_url{% endcapture %}
+            {% if section.settings[bluetooth_sub_link] %} 
+            <li {% if section.settings[bluetooth_sub_link_url].active %}class="active-url"{% endif %}>
+
+              <a href="{{ section.settings[bluetooth_sub_link_url] }}">
+                {% if section.settings[bluetooth_sub_link_icon] %}
+                <img src="{{ section.settings[bluetooth_sub_link_icon] | img_url: 'original' }}" />
+                {% endif %}
+                {% if section.settings[bluetooth_mouseover_link_icon] %}
+                <img src="{{ section.settings[bluetooth_mouseover_link_icon] | img_url: 'original' }}" />
+                {% endif %}
+                <span>{{ section.settings[bluetooth_sub_link_text] }}</span>
+              </a>
+
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+
+        </li>
+        <li class="grid-item one-half  medium-down--one-whole">
+
+           <ul class="left-inner">
+            <li>
+
+              <h3>{{ section.settings.gps_menu_title }}</h3>
+              <p>{{ section.settings.gps_menu_text }}</p>
+              {% unless section.settings.gps_menu_learn_text == empty %}
+              <a href="{{ section.settings.gps_menu_learn_link }}" class="learn-link green-btn btn">{{ section.settings.gps_menu_learn_text }}</a>
+              {% endunless %}
+
+            </li>
+          </ul>
+
+          <ul  class="right-inner right-second-menu">
+            {% for i in (1..6) %}
+            {% capture gps_sub_link %}gps_sub_link_{{ i }}_show{% endcapture %}
+            {% capture gps_sub_link_icon %}gps_sub_link_{{ i }}_icon{% endcapture %}
+            {% capture gps_sub_mouseover_link_icon %}gps_sub_mouseover_link_{{ i }}_icon{% endcapture %}
+            {% capture gps_sub_link_text %}gps_sub_link_{{ i }}_text{% endcapture %}
+            {% capture gps_sub_link_url %}gps_sub_link_{{ i }}_url{% endcapture %}
+            {% if section.settings[gps_sub_link] %} 
+            <li {% if section.settings[gps_sub_link_url].active %}class="active-url"{% endif %}>
+              <a href="{{ section.settings[gps_sub_link_url] }}">
+                {% if section.settings[gps_sub_link_icon] %} 
+                <img src="{{ section.settings[gps_sub_link_icon] | img_url: 'original' }}" />
+                {% endif %}
+                {% if section.settings[gps_sub_mouseover_link_icon] %} 
+                <img src="{{ section.settings[gps_sub_mouseover_link_icon] | img_url: 'original' }}" />
+                {% endif %}
+                <span>{{ section.settings[gps_sub_link_text] }}</span>
+              </a>
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </li>
+        {% comment %}
+        {% for childlink in linklists[child_list_handle].links %}
+        <li {% if childlink.active %}class="site-nav--active"{% endif %}><a href="{{ childlink.url }}">{{ childlink.title | escape }}</a></li>
+        {% endfor %}
+        {% endcomment %}
+      </ul>
+    </div>
+    {% endif %}
+  </li>
+  {% else %}
+  <li {% if link.active %}class="site-nav--active"{% endif %}>
+    <a href="{{ link.url }}">{{ link.title }}</a>
+  </li>
+  {% endif %}
+  {% endfor %}
+
+  {% if shop.customer_accounts_enabled %}
+  {% if customer %}
+  <li class="customer-navlink large--hide"><a href="/account">{{ 'layout.customer.view_account' | t }}</a></li>
+  <li class="customer-navlink large--hide">{{ 'layout.customer.log_out' | t | customer_logout_link }}</li>
+  {% else %}
+  <li class="customer-navlink large--hide">{{ 'layout.customer.sign_in' | t | customer_login_link }}</li>
+  <li class="customer-navlink large--hide">{{ 'layout.customer.create_account' | t | customer_register_link }}</li>
+  {% endif %}
+  {% endif %}
+</ul>

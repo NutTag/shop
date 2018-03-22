@@ -1,0 +1,79 @@
+<div class="parallax-wrapper"> 
+  <div class="grid-uniform1 text-center section-{{ section.id }} featured-parallax jarallax" data-jarallax='{"speed": 0.2}' style="background-image:url('{{ section.settings.featured_parallax_image | img_url: 'original' }}')">
+    {% if section.settings.featured_parallax_heading != blank %}
+    <h3 class="wow fadeInDown" data-wow-delay="0.1s">{{ section.settings.featured_parallax_heading }}</h3>
+    {% endif %} 
+    {% if section.settings.featured_parallax_text != blank %}
+    <p class="wow fadeInDown" data-wow-delay="0.2s">{{ section.settings.featured_parallax_text }}</p>
+    {% endif %}       
+
+      {% if section.settings.learn_more_button != "" %}
+        <a href="{{ section.settings.learn_more_button_link }}" class="learn_more btn green-btn">
+          {{ section.settings.learn_more_button }}
+        </a>
+      {% endif %}
+    
+  </div>
+</div>
+
+<style>
+
+  .featured-parallax-section .parallax-wrapper .green-btn{
+    color: white;
+    border-color: white;
+  }
+  .featured-parallax-section .parallax-wrapper .green-btn:hover{
+    color: white;
+    border-color: #01c19e;
+  }
+
+</style>
+
+{% schema %}
+{    
+  "name": "GPS - Featured parallax",
+  "class": "featured-parallax-section",
+  "presets": [
+  {
+    "name": "Featured parallax",
+    "category": "Featured"
+  }],
+  "settings": [
+  {
+    "type": "image_picker",
+    "id": "featured_parallax_image",
+    "label": "Parallax image",
+    "info": "1500x500px"
+  },
+  {
+    "type": "text",
+    "id": "featured_parallax_heading",
+    "label": "Heading"
+  },
+  {
+    "type": "text",
+    "id": "featured_parallax_text",
+    "label": "Sub-text"
+  },
+  {
+    "type": "text",
+    "id": "learn_more_button",
+    "label": "Button text"
+  },
+  {
+    "type": "url",
+    "id": "learn_more_button_link",
+    "label": "Button link"
+  }
+]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+ 
+

@@ -1,0 +1,73 @@
+<div class="wrapper">
+  {% paginate blog.articles by 5 %}
+
+  {% include 'breadcrumb' %}
+
+  <div class="grid grid-border blog-section">
+    <div class="display-table">
+      <div class="grid-item large--four-fifths  display-table-cell medium-down--one-whole">
+        <div class="grid">
+          <div class="grid-item blog-left">
+            {% if current_tags %}
+            <h1>{{ blog.title | link_to: blog.url }} &mdash; {{ current_tags.first }}</h1>
+            {% else %}
+            <h1>{{ blog.title }}</h1>
+            {% endif %}
+            {% for article in blog.articles %}
+            <div class="grid article-grid">
+              {% if article.image %}
+              {% assign image_alt = article.title | escape %}
+              <div class="grid-item one-third small--one-whole">
+                {{ article | img_url: '1024x1024' | img_tag: image_alt, 'article__image' | link_to: article.url }}
+              </div>
+              {% endif %}
+              <div class="grid-item two-thirds small--one-whole">
+                <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+               <!-- <p class="text-light">
+                  {% capture date %}<strong><time pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time></strong>{% endcapture %}
+                  {% capture author %}<strong>{{ article.author }}</strong>{% endcapture %}
+                  {{ 'blogs.article.author_on_date_html' | t: author: author, date: date }}
+                </p>-->
+                <br />
+                <div class="rte">         
+                  {% if article.excerpt.size > 0 %}
+                  {{ article.excerpt }}
+                  {% else %}
+                  <p>{{ article.content | strip_html | truncatewords: 100 }}</p>
+                  {% endif %}
+                </div>
+                <ul>
+                  {% if blog.comments_enabled? %}
+                  <li>
+                    <a href="{{ article.url }}#comments">
+                      {{ 'blogs.comments.with_count' | t: count: article.comments_count }}
+                    </a>
+                  </li>
+                  {% endif %}
+
+                  {% include 'tags-article' %}
+                </ul>
+                <p><a href="{{ article.url }}" class="read_more">{{ 'blogs.article.read_more' | t }} →</a></p>
+              </div>
+            </div>
+            {% endfor %}
+
+            {% if paginate.pages > 1 %}
+            <hr>
+            <div class="text-center">
+              {% include 'pagination-custom' %}
+            </div>
+            {% endif %}
+
+
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar grid-item large--one-fifth grid-border--left  display-table-cell  medium-down--one-whole">
+        {% include 'blog-sidebar' %}
+      </aside>
+    </div>
+  </div>
+  {% endpaginate %}
+</div>

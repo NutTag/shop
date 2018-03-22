@@ -1,0 +1,136 @@
+<div class="wrapper"> 
+  <div class="grid-uniform text-center section-{{ section.id }} featured-blocks">
+    {% for block in section.blocks %}
+    <div class="grid-item one-half medium-down--one-whole">
+      <div class="block-setion-rel wow zoomIn">
+        {% if block.settings.block_image != blank %}
+        {% if block.settings.block_link != blank %}
+        <a href="{{ block.settings.block_link }}">
+          {% endif %}
+          <img src="{{ block.settings.block_image | img_url: 'original' }}" alt="{{ block.settings.block_image.alt }}">
+          {% if block.settings.block_title != blank %}
+        <div class="overlay-content">
+          <span><h3>{{ block.settings.block_title }}</h3></span>
+        </div>
+        {% endif %}
+          {% if block.settings.block_link != blank %}
+        </a>
+        {% endif %}
+
+        {% endif %}    
+      </div>
+    </div>
+    {% endfor %}
+
+    {% if section.settings.block_text != blank %}
+    <p class="block-text">{{ section.settings.block_text }}</p>
+    {% endif %}  
+    <div class="compare-popup" id="compare-popup" style="display: none;">
+    <div class="text-center">
+      <h1 class="dark-text37">Product Uses & Comparison</h1>
+      <h3 class="text19">Use the NutTag appp to track your Bluetooth and GPS products.</h3>
+    </div>
+       <div class="grid popup-content">
+    
+          <div class="grid-item one-quarter   text-left right-seek medium-down--one-whole popup-content">
+            <h2 >Bluetooth Tracker</h2>
+            <h4 class="text19">Nut3, Nut Pro, Kids Keyring</h4>
+            <p class="text19 text-medium"> <br /> Save time and money by keeping your every-day items safe. Use separation alert to ensure they are not left behind and last known location if they are.</p>
+            <ul class="text19 text-medium">
+              <li>Keys</li>
+              <li>Wallet</li>
+              <li>Handbabg</li>
+              <li>Ipad</li>
+              <li>Laptop</li>
+              <li>Travel</li>
+              <li>Bikes</li>
+              <li>Corporate gifts</li>
+            </ul>
+            <div class="button-area">
+             <a href="/pages/bluetooth-lp" class=" btn green-btn">Learn More</a>
+             </div>
+          </div>
+      
+          <div class="grid-item five-twelfths center-section text-center  medium-down--one-whole " style="margin-top: 8%;" >
+            
+            <div class="center-image">
+               <img src="https://cdn.shopify.com/s/files/1/1801/4767/files/hand-phone.jpg?11819260092173401199" alt="Comparison Chart Image" />
+            </div>
+            
+          </div>
+          
+          <div class="grid-item one-quarter medium-down--one-whole  text-left right-seek popup-content">
+            <h2>GPS Tracker</h2>
+            <h4 class="text19">Seek Nutale</h4>
+            <p class="text19 text-medium"> <br /> Protect your valuables and loved ones by keeping track of their real-time location via your app. Set a safety region on your map to enable risk alerts.</p>
+            <ul class="text19 text-medium">
+              <li>Kids</li>
+              <li>Elderly</li>
+              <li>Pets</li>
+              <li>Vehicles</li>
+              <li>Boats</li>
+              <li>Adventures</li>
+              <li>Company Assets</li>
+              <br /> 
+            </ul>
+            <div class="button-area">
+             <a href="#" class=" btn green-btn">Learn More</a>
+             </div>
+          </div>
+       </div>
+
+    </div>
+  </div>
+  <hr>
+</div>
+
+{% schema %}
+{
+"name": "Featured blocks",
+"class": "featured-blocks-section",
+"max_blocks": 2,
+"presets": [
+{
+"name": "Featured blocks",
+"category": "Featured"
+}
+],
+"blocks" : [
+{
+"type": "image",
+"name": "Image",
+"settings": [
+{
+"type": "image_picker",
+"id": "block_image",
+"label": "Image"
+},
+{
+"type": "text",
+"id": "block_title",
+"label": "Title"
+},
+{
+"type": "text",
+"id": "block_link",
+"label": "Link"
+}
+]
+} 
+],
+
+"settings": [
+{
+"type": "html",
+"id": "block_text",
+"label": "Block text"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,18 @@
+{% if collection.image %}
+  {% assign collection_image = collection.image %}
+{% else %}
+  {% assign collection_image = collection.products.first.featured_image %}
+{% endif %}
+
+<div class="list-collections__item collection tile" {{ block.shopify_attributes }}>
+  <a href="{{ collection.url }}" class="collection__link">
+    <img class="collection__image item"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+         data-src="{{ collection_image | img_url: '1000x' }}"
+         alt="{{ collection_image.alt | escape }}">
+
+    <div class="collection__overlay">
+      <h3 class="collection__title">{{ collection.title }}</h3>
+    </div>
+  </a>
+</div>

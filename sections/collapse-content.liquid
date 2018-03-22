@@ -1,0 +1,74 @@
+<div class="wrapper"> 
+    
+    <h3 class="wow fadeInDown animated" data-wow-delay="0.1s" style="visibility: visible;-webkit-animation-delay: 0.1s; -moz-animation-delay: 0.1s; animation-delay: 0.1s;">{{ section.settings.heading }}</h3>
+    <a data-target="#collapse-content-{{ section.id }}" href="#collapse-content-{{ section.id }}" class="icon icon-more">{{ section.settings.button_text }}</a>    
+
+    <div id="collapse-content-{{ section.id }}" class="collapse-content">
+    {{ section.settings.collapse_html }}
+    </div>
+
+</div>
+
+
+{% schema %}
+{
+    "name": "Collapse Content",
+    "class": "collapse-content-section",
+    "presets": [
+    {
+        "name": "Collapse Content",
+        "category": "Home"
+    }],
+    "settings": [
+    {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading"
+    },
+    {
+        "type": "html",
+        "id": "collapse_html",
+        "label": "HTML",
+        "info": "e.g. The collapsed content"
+    },
+    {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button text",
+        "info": "e.g. Learn more"
+    }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+
+var initCollapseContentSection = function()
+{
+  $(document).on('click', '.collapse-content-section a[data-target]', function(e)
+  {
+    var $self = $(e.currentTarget);
+
+    debugger;
+    var targetId = $self.data('target');
+    if (targetId == undefined || targetId.length == 0)
+        return false;
+
+    var $target = $(targetId);
+    if ($target.length){
+        
+        $self.hide();
+        $target.slideDown();
+    }
+    return false;
+  });
+}
+
+$(document).ready(function() 
+{
+  initCollapseContentSection();
+});
+
+{% endjavascript %}

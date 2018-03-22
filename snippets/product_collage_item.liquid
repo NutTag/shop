@@ -1,0 +1,18 @@
+<div class="collection__item product-tile tile">
+  <a href="{{ product.url | within: collection }}" class="product-tile__link">
+    <img class="product-tile__image item"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+         data-src="{{ product.featured_image | img_url: '500x', scale: 2 }}"
+         alt="{{ product.featured_image.alt | escape }}">
+
+    <div class="product-tile__overlay">
+      {% include 'product_meta', show_vendor: section.settings.show_vendor %}
+
+      {% if product.available and show_quick_shop %}
+        <button class="product-tile__quick-shop button button--primary button--large" data-action="open-quick-shop" data-quick-shop-url="{{ product.url | append: '?view=quick_shop' }}">
+          {% include 'icon' with 'cart-empty' %}{{ 'product.labels.quick_shop' | t }}
+        </button>
+      {% endif %}
+    </div>
+  </a>
+</div>

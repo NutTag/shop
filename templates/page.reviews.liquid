@@ -1,0 +1,29 @@
+
+
+<div class="wrapper">
+{% include 'breadcrumb' %}
+
+<div class="grid">
+
+  <div class="grid-item large--one-whole">
+
+    <h1>{{ page.title }}</h1>
+
+    <div class="rte">
+      {{ page.content }}
+
+
+<div class="yotpo yotpo-main-widget"
+ data-product-id="{{ product.id }}"
+ data-name="{{ product.title | escape }}"
+ data-url="{{ shop.url }}{{ product.url }}"
+ data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}"
+ data-description="{{ product.description | escape }}">
+</div>
+    
+    </div>
+
+  </div>
+
+</div>
+</div>

@@ -1,0 +1,37 @@
+<section class="shipping-estimator">
+  <div class="inner">
+    <h3 class="shipping-estimator__title">{{ 'cart.shipping_estimator.title' | t }}</h3>
+
+    <div class="shipping-estimator__form">
+      <div class="form__control">
+        <label class="form__label" for="address_country">{{ 'cart.shipping_estimator.country' | t }}</label>
+
+        <div class="styled-select">
+          {% include 'icon' with 'dropdown-arrow' %}
+          <select id="address_country" name="shipping_address[country]" data-default="{% if shop.customer_accounts_enabled and customer %}{{ customer.default_address.country }}{% elsif section.settings.shipping_estimator_default_country != '' %}{{ section.settings.shipping_estimator_default_country }}{% endif %}">{{ country_option_tags }}</select>
+        </div>
+      </div>
+
+      <div class="form__control" id="address_province_container" style="display: none;">
+        <label class="form__label" for="address_province" id="address_province_label">{{ 'cart.shipping_estimator.province' | t }}</label>
+
+        <div class="styled-select">
+          {% include 'icon' with 'dropdown-arrow' %}
+          <select id="address_province" name="shipping_address[province]" data-default="{% if shop.customer_accounts_enabled and customer and customer.default_address.province != '' %}{{ customer.default_address.province }}{% endif %}"></select>
+        </div>
+      </div>
+
+      <div class="form__control form__control--zip">
+        <label class="form__label" for="address_zip">{{ 'cart.shipping_estimator.zip' | t }}</label>
+        <input type="text" id="address_zip" name="shipping_address[zip]"{% if shop.customer_accounts_enabled and customer %} value="{{ customer.default_address.zip }}"{% endif %} required="required">
+      </div>
+
+      <button type="submit" class="button button--secondary shipping-estimator__submit">{{ 'cart.shipping_estimator.submit' | t }}</button>
+    </div>
+
+    <div class="shipping-estimator__results" style="display: none">
+      <h4 class="shipping-estimator__results-title"></h4>
+      <ul class="shipping-estimator__list"></ul>
+    </div>
+  </div>
+</section>

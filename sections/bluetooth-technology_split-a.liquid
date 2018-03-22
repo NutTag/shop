@@ -1,0 +1,61 @@
+<div class="wrapper"> 
+  <div class="grid-uniform section-{{ section.id }} bluetooth-technology">     
+    <div class="grid-item small--one-whole medium--two-sixths large--two-sixths wow fadeInUp">
+  
+      {% if section.settings.image != blank %}
+      <img src="{{ section.settings.image | img_url: 'original' }}" alt="{{ section.settings.image.alt }}"/>
+      {% endif %}
+
+    </div>
+    <div class="grid-item small--one-whole medium--four-sixths large--four-sixths wow fadeInUp">
+
+      {% if section.settings.heading != blank %}
+      <h3 class="dark-text37 wow fadeInDown">{{ section.settings.heading }}</h3>
+      {% endif %}
+
+      {% if section.settings.html_content_mobile != blank %}
+      <div class="medium-down text19 wow fadeInDown">{{ section.settings.html_content_mobile }}</div>
+      {% endif %}
+
+      {% if section.settings.html_content_desktop != blank %}
+      <div class="medium-up text19 wow fadeInDown">{{ section.settings.html_content_desktop }}</div>
+      {% endif %}
+
+    </div>      
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bluetooth - Technology",
+  "class": "bluetooth-technology-section",
+  "settings": [
+  {
+    "type": "text",
+    "id": "heading",
+    "label": "Heading"
+  },
+  {
+    "type": "html",
+    "id": "html_content_mobile",
+    "label": "Html Content (Mobile)"
+  },
+  {
+    "type": "html",
+    "id": "html_content_desktop",
+    "label": "Html Content (Desktop)"
+  },
+  {
+    "type": "image_picker",
+    "id": "image",
+    "label": "Image"
+  }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

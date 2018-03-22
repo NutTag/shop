@@ -1,0 +1,33 @@
+<!doctype html>
+<html class="no-touch no-js">
+<head>
+
+  <title>{{ page_title }}</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {{ '//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js' | script_tag }}
+
+  {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+  {% include 'google-fonts' %} 
+  <script src="https://use.fontawesome.com/75c33a5e46.js"></script>
+
+  <script>
+    window.mlvedaShopCurrency = "{{ shop.currency }}";
+    window.shopCurrency = "{{ shop.currency }}";
+    window.supported_currencies = "{{ settings.supported_currencies }}";
+  </script>
+
+  {{ content_for_header }}
+
+</head>
+
+<body id="{{ page_title | handle }}" class="layout-blank" >
+  
+  {{ content_for_layout }}
+
+</body>
+</html>

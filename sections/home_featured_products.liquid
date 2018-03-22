@@ -1,0 +1,188 @@
+{% if section.settings.grid_remove_spacing %}
+  {% if section.settings.title == blank %}
+    {% assign section_classes = '' %}
+  {% else %}
+    {% assign section_classes = 'section--padded section--no-bottom-padding' %}
+  {% endif %}
+{% else %}
+  {% assign section_classes = 'section--padded' %}
+{% endif %}
+
+<section class="index-module section {{ section_classes }} {% if section.settings.use_secondary_background %}section--secondary{% endif %}">
+  <div {% unless section.settings.grid_remove_spacing %}class="inner"{% endunless %}>
+    {% if section.settings.title != blank %}
+      <h2 class="section__title">{{ section.settings.title | escape }}</h2>
+    {% endif %}
+
+    {% if section.settings.layout_mode == 'collage' %}
+      <div class="collection collection--collage ftg">
+        <div class="ftg-items">
+          {% assign collection = collections[section.settings.collection] %}
+
+          {% for product in collection.products %}
+            {% include 'product_collage_item', show_vendor: section.settings.show_vendor, show_quick_shop: section.settings.show_quick_shop %}
+          {% else %}
+            {% for i in (1..6) %}
+              <div class="collection__item product-tile tile">
+                <a href="#" class="product-tile__link">
+                  {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                  {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg product-tile__image item' | replace: '<svg', '<svg width="500" height="500"' }}
+
+                  <div class="product-tile__overlay">
+                    <div class="product-meta product-meta--desktop">
+                      {% if section.settings.show_vendor %}
+                        <h2 class="product-meta__vendor" >{{ 'home_page.onboarding.brand_title' | t }}</h2>
+                      {% endif %}
+
+                      <h1 class="product-meta__title">{{ 'home_page.onboarding.product_title' | t }}</h1>
+
+                      <div class="product-meta__prices">
+                        <span class="product-meta__price" data-money-convertible>{{ 1990 | money }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+    {% else %}
+      <div class="collection collection--grid {% if section.settings.title == blank %}collection--grid-no-border{% endif %} grid {% if section.settings.grid_remove_spacing %}grid--flush{% else %}grid--gallery grid--middle{% endif %}">
+        {% assign grid_items_per_row = section.settings.grid_items_per_row %}
+        {% assign collection = collections[section.settings.collection] %}
+
+        {% for product in collection.products %}
+          {% include 'product_grid_item', show_vendor: section.settings.show_vendor, show_quick_shop: section.settings.show_quick_shop %}
+        {% else %}
+          {% assign two_rows_count = grid_items_per_row | times: 2 %}
+
+          {% for i in (1..two_rows_count) %}
+            <div class="collection__item product-item grid__cell 1/{{ settings.mobile_grid_items_per_row }} 1/{{ settings.tablet_grid_items_per_row }}--handheld 1/{{ grid_items_per_row }}--lap-and-up">
+              <div class="product-item__inner">
+                <a href="{{ product.url }}" class="product-item__image">
+                  {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                  {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                </a>
+
+                <div class="product-item__info">
+                  {% if section.settings.show_vendor %}
+                    <h3 class="product-item__vendor">{{ 'home_page.onboarding.brand_title' | t }}</h3>
+                  {% endif %}
+
+                  <h2 class="product-item__title">
+                    <a href="#">{{ 'home_page.onboarding.product_title' | t }}</a>
+                  </h2>
+
+                  <span class="product-item__price" data-money-convertible>{{ 1990 | money }}</span>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured products",
+  "class": "shopify-section__featured-products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_shop",
+      "label": "Show quick shop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "use_secondary_background",
+      "label": "Use secondary background",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "layout_mode",
+      "label": "Layout mode",
+      "options": [
+        {
+          "value": "collage",
+          "label": "Collage"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Grid",
+      "info": "Those settings are only used if the grid layout is selected."
+    },
+    {
+      "type": "checkbox",
+      "id": "grid_remove_spacing",
+      "label": "Remove spacing between grid items",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "grid_items_per_row",
+      "label": "Items per row",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "4"
+    }
+  ],
+  "presets": [
+    {
+      "category": "Collection",
+      "name": "Featured collection",
+      "settings": {
+        "layout_mode": "grid",
+        "collection": "frontpage"
+      }
+    }
+  ]
+}
+{% endschema %}

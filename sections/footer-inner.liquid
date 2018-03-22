@@ -1,0 +1,258 @@
+{% capture theme_settings_link %}<a href="/admin/themes/{{ theme.id }}/settings">{{ 'layout.footer.theme_settings' | t }}</a>{% endcapture %}
+<footer class="site-footer small--text-center" role="contentinfo">
+  <div class="wrapper">
+    <div class="grid">
+      <div class="grid-item one-quarter">
+       
+          <ul class="footer-inner-btm-logo">
+            {% if section.settings.foo_img1 != blank %}
+            <li>
+              <a href="{{ section.settings.foo_img1_link }}"><img src="{{ section.settings.foo_img1 | img_url:"original" }}"/></a>
+            </li>
+            {% endif %}
+            {% if section.settings.foo_img2 != blank %}
+            <li>
+              <a href="{{ section.settings.foo_img2_link }}"><img src="{{ section.settings.foo_img2 | img_url:"original" }}"/></a>
+            </li>
+            {% endif %}
+            {% if section.settings.foo_img3 != blank %}
+            <li>
+              <a href="{{ section.settings.foo_img3_link }}"><img src="{{ section.settings.foo_img3 | img_url:"original" }}"/></a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+       <div class="grid-item one-half">
+        {% for block in section.blocks %}      
+
+        <div class="need-help">
+          {% if block.settings.title %}
+          <h3>{{ block.settings.title }}</h3>
+          {% endif %}
+
+          {% case block.type %}
+
+          {% when 'menu' %}
+          <ul>
+            {% for link in linklists[block.settings.menu].links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% else %}
+            {% capture theme_settings_footer_linklist_path %}<strong>Footer</strong> > <strong>Quick links link list</strong>{% endcapture %}
+            {{ 'layout.footer.instructions_for_linklist_html' | t: theme_settings_link: theme_settings_link, theme_settings_footer_linklist_path: theme_settings_footer_linklist_path }}
+            {% endfor %}
+          </ul>
+
+          {% when 'text' %}
+
+          {% if block.settings.richtext != blank %}
+          {{ block.settings.richtext }}
+          {% else %}
+          <p>{{ 'layout.footer.instructions_for_text_content_html' | t: theme_settings_link: theme_settings_link }}</p>
+          {% endif %}
+
+          {% endcase %}
+
+        </div>
+        {% endfor %}
+      </div>
+      <div class="grid-item one-quarter">
+        <div class="right-logo">
+          <ul class="footer-inner-btm-logo">
+            {% if section.settings.foo_img4 != blank %}
+            <li>
+              <a href="{{ section.settings.foo_img4_link }}"><img src="{{ section.settings.foo_img4 | img_url:"original" }}"/></a>
+            </li>
+            {% endif %}            
+          </ul>
+        </div>
+      </div>   
+    </div>
+  </div>
+  <hr class="hr--small">
+
+  <div class="wrapper">
+    <div class="grid google-play-section">
+
+      {% if section.settings.foo_img5 != blank %}
+      <div class="grid-item large--one-half large--text-left medium--one-half">
+        <a href="{{ section.settings.foo_img5_link }}" target="_blank"><img src="{{ section.settings.foo_img5 | img_url:"original" }}"/></a>
+        <a href="{{ section.settings.foo_img6_link }}" target="_blank"><img src="{{ section.settings.foo_img6 | img_url:"original" }}"/></a>
+      </div>
+      {% endif %}
+
+      {% unless shop.enabled_payment_types == empty %}
+      <div class="grid-item large--one-half text-right medium--one-half small--text-center">
+        {% assign payment_icons_available = 'master,visa,american_express,paypal' | split: ',' %}
+        <ul class="inline-list payment-icons">
+          {% for type in payment_icons_available %}
+          {% if payment_icons_available contains type %}
+          <li>
+            <span class="icon-fallback-text">
+              <span class="icon icon-{{ type }}" aria-hidden="true"></span>
+              <span class="fallback-text">{{ type | replace: '_',' ' }}</span>
+            </span>
+          </li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      {% endunless %}
+    </div>
+  </div>
+  <hr class="hr--small">
+  <div class="wrapper">
+    <div class="grid">
+      <div class="grid-item large--one-whole text-center">
+        <ul class="legal-links">
+          {% if section.settings.foo_img7 != blank %}
+          <li>
+            <a href="{{ section.settings.foo_img7_link }}"><img src="{{ section.settings.foo_img7 | img_url:"original" }}"/></a>
+          </li>
+          {% endif %}
+          <li>&copy; <a title="" href="/"> NutTag Australia PTY LTD</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</footer>
+
+{% schema %}
+{
+"name": "Footer inner",
+"class": "footer-inner-section",
+"settings": [
+{
+"type": "image_picker",
+"id": "foo_img1",
+"label": "Footer image 1"
+},
+{
+"type": "url",
+"id": "foo_img1_link",
+"label": "Footer image 1 link"
+},
+{
+"type": "image_picker",
+"id": "foo_img2",
+"label": "Footer image 2"
+},
+{
+"type": "url",
+"id": "foo_img2_link",
+"label": "Footer image 2 link"
+},
+{
+"type": "image_picker",
+"id": "foo_img3",
+"label": "Footer image 3"
+},
+{
+"type": "url",
+"id": "foo_img3_link",
+"label": "Footer image 3 link"
+},
+{
+"type": "image_picker",
+"id": "foo_img4",
+"label": "Footer image 4"
+},
+{
+"type": "url",
+"id": "foo_img4_link",
+"label": "Footer image 4 link"
+},
+{
+"type": "image_picker",
+"id": "foo_img5",
+"label": "Footer image 5"
+},
+{
+"type": "url",
+"id": "foo_img5_link",
+"label": "Footer image 5 link"
+},
+{
+"type": "image_picker",
+"id": "foo_img6",
+"label": "Footer image 6"
+},
+{
+"type": "url",
+"id": "foo_img6_link",
+"label": "Footer image 6 link"
+},
+{
+"type": "image_picker",
+"id": "foo_img7",
+"label": "Footer image 7"
+},
+{
+"type": "url",
+"id": "foo_img7_link",
+"label": "Footer image 7 link"
+},
+{
+"type": "link_list",
+"id": "legal_menu",
+"label": "Legal menu"
+}
+],
+"max_blocks": 9,
+"blocks": [
+{
+"type": "menu",
+"name": "Menu",
+"settings": [
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "Quick links"
+},
+{
+"type": "link_list",
+"id": "menu",
+"label": "Menu"
+}
+]
+},
+{
+"type": "text",
+"name": "Rich text",
+"settings": [
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "Get in touch"
+},
+{
+"type": "html",
+"id": "richtext",
+"label": "Text",
+"default": "<p>Use this text to share information about your brand with your customers.</p>"
+}
+]
+},
+{
+"type": "newsletter",
+"name": "Newsletter signup",
+"limit": 1,
+"settings": [
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "Newsletter"
+},
+{
+"type": "paragraph",
+"content": "Any customers who sign up will have an account created for them in Shopify. [View customers](/admin/customers?query=&accepts_marketing=1)"
+}
+]
+}
+]
+}
+{% endschema %}

@@ -1,0 +1,24 @@
+<div class="mini-cart">
+  <header class="mini-cart__header">
+    <div class="mini-cart__header-item">
+      <div class="cart-icon-wrapper cart-icon-wrapper--has-items" {% if cart.item_count == 0 %}style="display: none"{% endif %}>
+        <span class="cart-icon-wrapper__count">{{ cart.item_count }}</span>
+        {% include 'icon' with 'cart-full' %}
+      </div>
+
+      <div class="cart-icon-wrapper cart-icon-wrapper--empty" {% unless cart.item_count == 0 %}style="display: none"{% endunless %}>
+        {% include 'icon' with 'cart-empty' %}
+      </div>
+
+      <h4 class="mini-cart__header-title">{{ 'cart.general.title' | t }}</h4>
+    </div>
+
+    <a href="#" class="mini-cart__close mini-cart__header-item" data-action="close-mini-cart">
+      {% include 'icon' with 'close-thin' %}
+    </a>
+  </header>
+
+  <section class="mini-cart__content">
+    {% include 'mini_cart_content' %}
+  </section>
+</div>

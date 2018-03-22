@@ -1,0 +1,35 @@
+{% if settings.marketing_popup_enabled %}
+  {% unless settings.marketing_popup_only_on_index and template != 'index' %}
+    {% unless settings.marketing_popup_only_visitors and customer %}
+      <div class="remodal modal modal--centered marketing-popup" data-remodal-id="popup">
+        <a href="#" class="modal__close" data-remodal-action="close">
+          {% include 'icon' with 'close-thin' %}
+        </a>
+
+        {% if settings.marketing_popup_heading != blank %}
+          <h4 class="modal__title">{{ settings.marketing_popup_heading }}</h4>
+        {% endif %}
+
+        {% if settings.marketing_popup_content != blank %}
+          <div class="modal__body rte">
+            {{ settings.marketing_popup_content }}
+          </div>
+        {% endif %}
+
+        {% if settings.marketing_popup_show_newsletter %}
+          <section class="modal__newsletter">
+            {%- form 'customer', action: '/contact#popup', class: 'modal__form' -%}
+              {%- if form.posted_successfully? -%}
+                <p class="alert alert--success">{{ 'layout.promotions.newsletter_success' | t }}</p>
+              {%- else -%}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <input type="email" name="contact[email]" aria-label="{{ 'layout.promotions.email_placeholder' | t }}" placeholder="{{ 'layout.promotions.email_placeholder' | t }}">
+                <input type="submit" class="button button--primary" value="{{ 'layout.promotions.submit' | t }}">
+              {%- endif -%}
+            {%- endform -%}
+          </section>
+        {% endif %}
+      </div>
+    {% endunless %}
+  {% endunless %}
+{% endif %}

@@ -1,0 +1,49 @@
+<header class="page__header" style="margin-bottom: 0;">
+  {% include 'breadcrumb' %}
+
+  <div class="page__header-wrapper">
+    <div class="container">
+      <h1 class="page__title">{{ page.title }}</h1>
+    </div>
+  </div>
+</header>
+
+<section class="page__faq">
+  {% for block in section.blocks %}
+    <div class="faq__item" {{ block.shopify_attributes }}>
+      <h2 class="faq__question">{{ block.settings.title | escape }}</h2>
+      <div class="faq__answer rte">{{ block.settings.answer }}</div>
+    </div>
+  {% endfor %}
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    $('body').on('click', '.faq__question', function() {
+      $(this).next('.faq__answer').slideToggle(250);
+    });
+  });
+</script>

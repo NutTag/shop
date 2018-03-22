@@ -1,0 +1,28 @@
+{%- assign collection_name = settings.collection_name -%}
+{%- assign collection = collections[collection_name] -%}
+{% for product in collection.products limit: 4 %}
+<div class="grid-item one-quarter">
+  {% include 'cart-items-grid' %}
+</div>
+{% endfor %}
+
+{{ 'jquery.cookie.js' | asset_url | script_tag }}
+<script>
+
+  $(document).ready(function(){ 
+  /* MWEB: Wait to page is loaded, Use latest Cookies script - incorrect version was used for jQuery we are using 3.1 */
+
+    $('.cart-ajax .addToCart').click(function(){
+      Cookies.set("product", "added"); 
+    })
+
+    if(Cookies.get('product') == 'added' ){
+      Cookies.set("product", ""); 
+      setTimeout(function(){
+        jQuery('.cart-toggle').trigger('click');
+      },1500)
+    }
+
+  });
+
+</script>

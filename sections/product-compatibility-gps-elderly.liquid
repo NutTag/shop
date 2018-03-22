@@ -1,0 +1,67 @@
+<div class="wrapper"> 
+  <div class="grid section-{{ section.id }} product-compatibility">
+    
+    {% if section.settings.heading != blank %}
+    <h3 class="grid-item dark-text37 text-center wow fadeInDown">{{ section.settings.heading }}</h3>
+    {% endif %}
+    
+    <div class="compatibility-section">
+    {% for block in section.blocks %}    
+      <div class="grid-item one-half">
+        <div class="display-table">
+          <div class="display-table-cell one-eighth">
+          {% if block.settings.block_image != blank %}
+          <img class="featured-img  wow zoomIn" src="{{ block.settings.block_image | img_url: 'original' }}" alt="{{ block.settings.block_image.alt }}">
+          {% endif %} 
+          </div>
+          <div class="display-table-cell seven-eighths">
+          {% if block.settings.block_text != blank %}
+          <div class="feature-text  wow zoomIn">
+            <p>{{ block.settings.block_text }}</p>
+          </div>
+          {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+   </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Product compatibility",
+    "class": "product-compatibility-section",
+    "settings": [
+{
+"type": "text",
+"id": "heading",
+"label": "Heading"
+}
+],
+"blocks" : [
+{
+"type": "text",
+"name": "Text",
+"settings": [
+{
+"type": "image_picker",
+"id": "block_image",
+"label": "Image"
+},
+{
+"type": "html",
+"id": "block_text",
+"label": "Text"
+}
+]
+} 
+]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

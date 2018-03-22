@@ -1,0 +1,83 @@
+{% case grid_items_per_row %}
+  {% when '2' or 2 %}
+    {% assign image_size = '800x' %}
+
+  {% when '3' or 3 %}
+    {% assign image_size = '700x' %}
+
+  {% when '4' or 4 %}
+    {% assign image_size = '600x' %}
+
+  {% when '5' or 5 %}
+    {% assign image_size = '500x' %}
+
+  {% when '6' or 6 %}
+    {% assign image_size = '400x' %}
+{% endcase %}
+
+{% if product.first_available_variant.compare_at_price > product.first_available_variant.price %}
+  {% assign product_on_sale = true %}
+{% else %}
+  {% assign product_on_sale = false %}
+{% endif %}
+
+<div class="collection__item product-item {% unless product.available %}product-item--sold-out{% endunless %} grid__cell 1/{{ settings.mobile_grid_items_per_row }} 1/{{ settings.tablet_grid_items_per_row }}--handheld 1/{{ grid_items_per_row }}--lap-and-up">
+  <div class="product-item__inner">
+    <div class="product-item__labels">
+      {% if product.available and show_quick_shop %}
+        <div class="product-item__label product-item__label--hidden">
+          <button class="label label--quick-shop" data-action="open-quick-shop" data-quick-shop-url="{{ product.url | append: '?view=quick_shop' }}">
+            {% include 'icon' with 'cart-empty' %}{{ 'product.labels.quick_shop' | t }}
+          </button>
+        </div>
+      {% endif %}
+
+      {% for tag in product.tags %}
+        {% if tag contains '__label' %}
+          <div class="product-item__label">
+            <span class="label label--custom">{{ tag | split: '__label:' | last }}</span>
+          </div>
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% if product_on_sale %}
+        <div class="product-item__label">
+          <span class="label label--on-sale">{{ 'product.labels.on_sale' | t }}</span>
+        </div>
+      {% elsif product.available == false %}
+        <div class="product-item__label">
+          <span class="label label--sold-out">{{ 'product.labels.sold_out' | t }}</span>
+        </div>
+      {% endif %}
+    </div>
+
+    <a href="{{ product.url | within: collection }}" class="product-item__image">
+      <div class="product-item__image-wrapper">
+        <img src="{{ product.featured_image | img_url: image_size }}" alt="{{ product.featured_image.alt }}">
+      </div>
+    </a>
+
+    <div class="product-item__info">
+      {% if show_vendor and product.vendor != blank %}
+        <h3 class="product-item__vendor">
+          <a href="{{ product.vendor | url_for_vendor }}">{{ product.vendor }}</a>
+        </h3>
+      {% endif %}
+
+      <h2 class="product-item__title">
+        <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+      </h2>
+
+      {% if product_on_sale %}
+        <span class="product-item__price product-item__price--new" data-money-convertible>{{ product.first_available_variant.price | money }}</span>
+        <span class="product-item__price product-item__price--old" data-money-convertible>{{ product.first_available_variant.compare_at_price | money }}</span>
+      {% elsif product.price_varies %}
+        {% assign formatted_min_price = product.price_min | money %}
+        <span class="product-item__price">{{ 'collection.product.from_price_html' | t: price: formatted_min_price }}</span>
+      {% else %}
+        <span class="product-item__price" data-money-convertible>{{ product.first_available_variant.price | default: product.price | money }}</span>
+      {% endif %}
+    </div>
+  </div>
+</div>

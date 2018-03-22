@@ -1,0 +1,65 @@
+        <div class="wrapper1"> 
+  <div class="grid-uniform section-{{ section.id }} corporate-footer-banner-inner  featured-slider-section">
+    <div class="grid-item">
+      <div class="grid1">
+        <div class="corporate-footer-banner bluetooth-tab">   
+          <div class="bl-slides">
+            {% if section.settings.banner_bg_image != blank %}
+            <div class="display-table"  style="background-image:url({{ section.settings.banner_bg_image | img_url: 'original' }})">
+              <div class="slide-text grid-item two-fifths display-table-cell wow fadeInLeft blue-slider-left text-right">
+                {% if section.settings.banner_front_image != blank %}
+                <img src="{{ section.settings.banner_front_image | img_url: 'original' }}" alt="{{ section.settings.banner_front_image.alt }}">
+                {% endif %}           
+              </div>
+              
+              <div class="slide-image grid-item three-fifths text-left display-table-cell blue-slider-right">
+                <div class="slider-img wow zoomIn">
+                  {% if section.settings.banner_title != blank or block.settings.banner_text != blank%}
+                  <h3>{{ section.settings.banner_title }}</h3>
+                  <p>{{ section.settings.banner_text }}</p>
+                  {% endif %}
+                </div>
+              </div> 
+            </div>
+            {% endif %}
+          </div>    
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+"name": "Corporate - Footer banner",
+"class": "corporate-footer-banner  bluetooth-tab-slider",
+"settings": [
+{
+"type": "image_picker",
+"id": "banner_bg_image",
+"label": "BG image"
+},
+{
+"type": "image_picker",
+"id": "banner_front_image",
+"label": "Front image"
+},
+{
+"type": "text",
+"id": "banner_title",
+"label": "Banner title"
+},
+{
+"type": "html",
+"id": "banner_text",
+"label": "Banner text"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

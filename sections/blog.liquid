@@ -1,0 +1,82 @@
+<header class="page__header">
+  {% include 'breadcrumb' %}
+
+  {% if section.settings.show_rss %}
+    <div class="blog__rss">
+      <div class="inner">
+        <a href="{{ blog.url }}.atom">
+          {{ 'blog.general.rss' | t }} {% include 'icon' with 'rss' %}
+        </a>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="page__header-wrapper">
+    <div class="container">
+      <h1 class="page__title">{{ blog.title }}</h1>
+    </div>
+  </div>
+
+  {% if section.settings.show_tags and blog.all_tags.size > 0 %}
+    <div class="blog__tags">
+      <div class="container">
+        {% for tag in blog.all_tags %}
+          {% if current_tags contains tag %}
+            {% assign url_to_remove = tag | link_to_remove_tag: tag | split: 'href="' | last %}
+            {% assign url_to_remove = url_to_remove | split: '">' %}
+
+            <a class="blog__tag blog__tag--active" href="{{ url_to_remove | first }}">
+              {{ tag }}
+
+              <span class="icon-cross-container">
+                {% include 'icon' with 'close' %}
+              </span>
+            </a>
+          {% else %}
+            {{ tag | link_to_add_tag: tag | replace: 'title=', 'class="blog__tag" title=' }}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</header>
+
+{% paginate blog.articles by 9 %}
+  <div class="page__content">
+    <div class="inner">
+      <div class="grid grid--large grid--gallery grid--gallery-large">
+        {% for article in blog.articles %}
+          {% include 'article_preview', show_author: section.settings.show_author %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {% include 'pagination' %}
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Blog page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author name",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rss",
+      "label": "Show RSS feed",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show blog filter",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
