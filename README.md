@@ -1,4 +1,5 @@
 # shop
+
 NutTag Shopify Theme https://nuttag.com.au
 
 Using Theme Kit for developmen:
