@@ -102,7 +102,7 @@
           "logo": "shopify:\/\/shop_images\/NutLogo.png",
           "logo_max_width": "129",
           "cart_logo": "shopify:\/\/shop_images\/cart.png",
-          "header_message": "<p>Easter SALE + FREE Delivery Aus!\n<\/p>",
+          "header_message": "<p>FREE Delivery*\n<\/p>",
           "menu": "main-menu",
           "buy_now_text": "Buy now",
           "buy_now_link": "https:\/\/nuttag.com.au\/collections\/nuttag-pro",
@@ -248,7 +248,7 @@
             "settings": {
               "slide_bg": "shopify:\/\/shop_images\/NewProSlider.png",
               "align_slider_text": "left",
-              "main_text": "Easter SALE!<br>New and improved Pro! \n<span>Better Range, Battery Life + More.<\/span>",
+              "main_text": "New and improved Pro! \n<span>Better Range, Battery Life + More.<\/span>",
               "sub_text": "Never again lose your <span>phone, wallet, keys - anything!<br> Attach your tiny tracker to anything and locate it via the app.<\/span>",
               "buy_now_text": "Buy Now",
               "buy_now_link": "\/collections\/nuttag-pro",
@@ -696,7 +696,7 @@
             "settings": {
               "slide_bg": "shopify:\/\/shop_images\/NewProSlider.png",
               "align_slider_text": "left",
-              "main_text": "<font color=\"black\">Easter SALE! <br><span>New and improved - PRO<\/span>\n<\/font>",
+              "main_text": "<font color=\"black\">New and improved <br><span>- NutTAG PRO<\/span>\n<\/font>",
               "sub_text": "<font color=\"black\">The Black PRO has better Range and Battery Life + More.<\/font>",
               "buy_now_text": "Shop Now",
               "buy_now_link": "https:\/\/nuttag.com.au\/collections\/nuttag-pro",
@@ -1481,7 +1481,7 @@
         "type": "custom-collection",
         "settings": {
           "product_star_rating_html": "<span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star-half\"><\/i><\/span>",
-          "product_lead_text": "Easily attach NutTag to your valuables and use the app to locate them in seconds. Great for keys, wallets, bags – anything! <br><b>Easter SALE:<\/b> Don't miss out on our huge Easter Sale!",
+          "product_lead_text": "Easily attach NutTag to your valuables and use the app to locate them in seconds. Great for keys, wallets, bags – anything!",
           "product_compare_link_text": "Compare Find 3 and PRO unit specifications",
           "product_price_notes": "+ Free Shipping",
           "product_show_compare_at_price": true,
@@ -1807,9 +1807,9 @@
         "type": "corporate-footer-banner",
         "settings": {
           "banner_bg_image": "shopify:\/\/shop_images\/car.jpg",
-          "banner_front_image": "",
-          "banner_title": "The Perfect Branded Gift!",
-          "banner_text": "Corporate orders have commenced - current turnaround time for custom branding and packaging is 8-14 weeks. Please get orders in early to avoid disappointment!"
+          "banner_front_image": "shopify:\/\/shop_images\/nut-tag_679bcef6-4004-4df5-834b-0e788b38cc4e.png",
+          "banner_title": "GPS is a practical gift for those who are on the go - cycle, travel, drive...",
+          "banner_text": "SEEK GPS units can be individually branded for your special occasion. Give a cool techy gift that offers security and piece of mind - you'll find it!"
         }
       },
       "corporate-personalised": {
@@ -2341,7 +2341,7 @@
         "type": "custom-collections-pro",
         "settings": {
           "product_star_rating_html": "<span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star-half\"><\/i><\/span>",
-          "product_lead_text": "<b>Easter SALE!<\/b> Easily attach NutTag to your valuables and use the app to locate them in seconds. Great for keys, wallets, bags – anything! <br><b>Note:<\/b> Android users please consult Live Chat or Support about your phone model",
+          "product_lead_text": "Easily attach NutTAG to your valuables and use the app to locate them in seconds. Great for keys, wallets, bags – anything! <br><b>Note:<\/b> Android users please consult Live Chat or Support about your phone model",
           "product_compare_link_text": "Compare Find 3 and PRO unit specifications",
           "product_price_notes": "+ Free Shipping",
           "product_show_compare_at_price": true,
