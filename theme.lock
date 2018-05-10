@@ -258,7 +258,7 @@ layout/minimal.liquid:
 layout/password.liquid:
   development: 2017-11-23T11:48:30+11:00   2f35bca5edd0cebaf877010d309736a4
 layout/theme.liquid:
-  development: 2017-11-23T12:05:40+11:00   b3dbec8746f2b247b8cebe26951384fd
+  development: 2018-05-10T12:17:46+10:00   9d8e98312336df24d19cff4cf561259f
 locales/de.json:
   development: 2017-11-23T11:48:30+11:00   ffba11cb83b8f8d742b68a59679bfe88
 locales/en.default.json:
