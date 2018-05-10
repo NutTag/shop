@@ -1,0 +1,31 @@
+ <div class="grid-uniform text-center section-{{ section.id }} featured-image">
+
+    <div class="grid-item one-whole medium-down--one-whole">
+      <div class="block-setion-rel wow zoomIn">
+        {% if section.settings.featured_image != blank %}        
+          <img src="{{ section.settings.featured_image | img_url: '1280x287' }}" alt="{{ section.settings.featured_image.alt }}">          
+        {% endif %}    
+      </div>
+    </div>
+
+  </div>  
+
+{% schema %}
+{
+"name": "Featured image",
+"class": "featured-image-section",
+"settings": [
+{
+"type": "image_picker",
+"id": "featured_image",
+"label": "Featured image"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

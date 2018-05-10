@@ -1,0 +1,129 @@
+{% unless image_size %}
+{%- assign image_size = '600x600' -%}
+{% endunless %}
+
+{% unless current_collection %}
+{% assign current_collection = collection %}
+{% endunless %}
+
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available  %}
+{% assign sold_out = false %}
+{% endif %}
+{% assign variant = product.selected_or_first_available_variant %}
+
+<div class="product--{{ forloop.index }} grid-item{% if sold_out %} sold-out{% endif %}{% if on_sale %} on-sale{% endif %}">
+  <div class="grid">
+    <div class="p_image product-image--{{ forloop.index }} {% if forloop.first %}p_current{% else %}not-p_current{% endif %} grid-item one-half text-center  medium-down--one-whole">
+      <div class="p_image-left">
+        <div class="product-gallery-{{ forloop.index }}" id="product-gallery-{{ product.id }}">
+          {% if product.images.size > 1 %}
+          {% for image in product.images %}
+          <div class="product-photo-container">          
+            <img class="full-image" src="{{ image.src | img_url: 'large' }}" alt="{{ image.alt | escape }}">
+          </div>
+          {% endfor %}
+          {% else %}    
+          <div class="product-photo-container">
+            {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+            <img class="full-image" id="productPhotoImg" src="{{ featured_image | img_url: 'large' }}" alt="{{ featured_image.alt | escape }}">
+          </div>
+          {% endif %}
+        </div>
+
+        {% if product.images.size > 1 %}
+        <div class="product-thumb-gallery-{{ forloop.index }}" id="product-thumb-{{ product.id }}">
+          {% for image in product.images %}
+          <div class="product-thumbs">          
+            <img id="productPhotoThumb" src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% comment %}
+      {% if product.images.size > 1 %}
+      <ul class="product-photo-thumbs grid-uniform" id="productThumbs-{{ section.id }}">
+
+        {% for image in product.images %}
+        <li class="grid-item medium-down--one-quarter large--one-quarter">
+          <a href="{{ image.src | img_url: 'large' }}" class="product-photo-thumb product-photo-thumb-{{ section.id }}" data-image-id="{{ image.id }}">
+            <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
+          </a>
+        </li>
+        {% endfor %}
+
+      </ul>
+      {% endif %}
+      {% endcomment %}
+
+    </div>
+
+    <div class="p_title product-title--{{ forloop.index }} {% if forloop.first %}t_current{% else %}not-t_current push--large--one-half{% endif %} grid-item one-half  medium-down--one-whole">
+      <ul>
+        <li class="display-table">
+          <div class="inner-section-header  display-table-cell text-left">
+            <h1 class="h2 product-title" itemprop="name">{{ product.title }}</h1>
+          </div>
+          <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="inner-section-content display-table-cell text-right"> 
+
+            {% assign variant = product.selected_or_first_available_variant %}
+
+            <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+            <meta itemprop="price" content="{{ variant.price | divided_by: 100.00 }}">
+            
+            <div class="product-now-price">
+
+              <span class="product-price">{{ product.price | money }}</span>
+              {% if product.compare_at_price > product.price and section.settings.product_show_compare_at_price %}
+              <span class="compared-price">{{ product.compare_at_price | money }}</span> 
+              {% endif %}
+              {% if product.compare_at_price > product.price and section.settings.product_show_saved_amount %}
+              <span class="saved-amount">save {{ product.compare_at_price | minus: product.price | money }}</span>
+              {% endif %}
+              {% if section.settings.product_price_notes %}
+              <span class="price-notes">{{section.settings.product_price_notes}}</span>
+              {% endif %}
+
+              <form action="/cart/add" method="post" enctype="multipart/form-data" id="addToCartForm" class="addToCartForm">
+              {% if product.available and product.variants.size > 1 %}
+                <label>Select Your Colour</label>
+                 {% endif %}
+                <select name="id" id="productSelect-{{ section.id }}" class="product-variants product-variants-{{ section.id }}">
+                  {% for variant in product.variants %}
+                  {% if variant.available %}
+
+                  <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }}</option>
+
+                  {% else %}
+                  <option disabled="disabled">
+                    {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                  </option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+
+                {% if product.available and product.variants.size > 1 %}
+                {% include 'swatch' with 'Color' %}
+                {% endif %}
+
+                <button type="submit" name="add" id="addToCart" class="btn addToCart {% if forloop.first %}active-button{% endif %}">
+                  <span class="icon icon-cart"></span>
+                  <span id="addToCartText-{{ section.id }}">{{ 'products.product.add_to_cart' | t }}</span>
+                </button>
+              </form>
+              
+            </div>
+            <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="parallax-wrapper jarallax text-center"  style="background-image: url('{{ section.settings.bg_image | img_url: 'original' }}')" data-jarallax='{"speed": 0.2}'> 
+  <div class="text-center section-{{ section.id }} bluetooth-collection"> 
+    <div class="wrapper">
+      {% if section.settings.heading != blank %}
+      <h3 class="block-heading dark-text37">{{ section.settings.heading }}</h3>
+      {% endif %}
+      {% if section.settings.sub_text != blank %}
+      <p class="text24">{{ section.settings.sub_text }}</p>
+      {% endif %}
+
+      {% if section.settings.button_text != "" %}
+      <a href="{{ section.settings.button_link }}" class="buy_now btn">
+        {{ section.settings.button_text }}
+      </a>
+      {% endif %}
+    </div>
+  </div> 
+</div>
+
+{% schema %}
+{
+"name": "Bluetooth - Collection",
+"class": "bluetooth-collection-section",
+"settings": [
+{
+"type": "text",
+"id": "heading",
+"label": "Heading"
+},
+{
+"type": "text",
+"id": "sub_text",
+"label": "Sub text"
+},
+{
+"type": "image_picker",
+"id": "bg_image",
+"label": "BG image"
+},
+{
+"type": "text",
+"id": "button_text",
+"label": "Button text"
+},
+{
+"type": "url",
+"id": "button_link",
+"label": "Button link"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,58 @@
+<div class="banner corporate-customer" id="corporate--{{ section.id }}" data-section-id="{{ section.id }}">
+
+    <div class="banner-img" style="background-image:url({{ section.settings.banner_bg | img_url: '1550x505' }})">
+      <div class="banner-center text-center">
+        <div class="wrapper">
+        {% if section.settings.main_text != "" %}
+        <h1>{{ section.settings.main_text }}</h1>
+        {% endif %}
+
+        {% if section.settings.sub_text != "" %}
+        <h3 class="light-text20">{{ section.settings.sub_text }}</h3>
+        {% endif %}
+
+        {% if section.settings.button_text != "" %}
+        <a href="{{ section.settings.button_link }}" class="btn green-btn">
+          {{ section.settings.button_text }}
+        </a>
+        {% endif %}
+
+      </div>
+      </div>
+    </div>
+  
+</div>
+
+{% schema %}
+{
+"name": "Corporate customer banner",
+"class": "corporate-customer-banner",
+"settings": [
+{
+"type": "image_picker",
+"id": "banner_bg",
+"label": "BG Image"
+},
+{
+"type": "text",
+"id": "main_text",
+"label": "Main text"
+},
+{
+"type": "html",
+"id": "sub_text",
+"label": "Sub text"
+},
+{
+"type": "text",
+"id": "button_text",
+"label": "Button Text"
+},
+{
+"type": "url",
+"id": "button_link",
+"label": "Button Link"
+}
+]
+}
+{% endschema %}

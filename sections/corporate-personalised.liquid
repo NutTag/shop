@@ -1,0 +1,73 @@
+<div class="wrapper1"> 
+  <div class="grid-uniform text-left section-{{ section.id }} corporate-personalised">
+    <div class="wrapper">
+      <div class="display-flex one-whole align-{{ section.settings.align_text }}">
+         {% if section.settings.block_image != blank %}   
+        <div class="grid-item one-half flex-item2 medium--one-whole large--hide">
+          <span class="bluetooth-img">
+            <img src="{{ section.settings.block_image | img_url: 'original' }}" alt="{{ section.settings.block_image.alt }}"></span>
+        </div>
+        {% endif %}
+        {% if section.settings.block_title != blank or section.settings.block_text != blank %}
+        <div class="grid-item one-half flex-item1 medium--one-whole">
+          <div class="feature-block wow">
+            <h3 class="dark-text37">{{ section.settings.block_title }}</h3>
+            <p class="text19">{{ section.settings.block_text }}</p>
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.block_image != blank %}   
+        <div class="grid-item one-half flex-item2 medium--one-whole medium--hide small--hide">
+          <span class="bluetooth-img">
+            <img src="{{ section.settings.block_image | img_url: 'original' }}" alt="{{ section.settings.block_image.alt }}"></span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+"name": "Corporate - Personalised",
+"class": "corporate-personalised-section",
+"settings": [
+{
+"type": "select",
+"id": "align_text",
+"label": "Text alignment",
+"options": [
+{
+"value": "left",
+"label": "Left"
+},
+{
+"value": "right",
+"label": "Right"
+}
+]
+},
+{
+"type": "image_picker",
+"id": "block_image",
+"label": "Image"
+},
+{
+"type": "text",
+"id": "block_title",
+"label": "Title"
+},
+{
+"type": "html",
+"id": "block_text",
+"label": "Text"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

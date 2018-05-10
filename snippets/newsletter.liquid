@@ -1,0 +1,32 @@
+<section class="newsletter">
+  <div class="container">
+    {% assign form_posted_successfully = false %}
+    {% capture newsletter_form_action %}/contact#shopify-section-{{ section.id }}{% endcapture %}
+
+    {%- capture newsletter_form -%}
+      {%- form 'customer', action: newsletter_form_action -%}
+        {% if form.posted_successfully? %}
+          {% assign form_posted_successfully = true %}
+        {% endif %}
+
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input class="newsletter__email" type="email" name="contact[email]" aria-label="{{ 'layout.newsletter.input_placeholder' | t }}" placeholder="{{ 'layout.newsletter.input_placeholder' | t }}">
+        <input class="newsletter__submit button" type="submit" value="{{ 'layout.newsletter.submit' | t }}">
+      {%- endform -%}
+    {%- endcapture -%}
+
+    {% if form_posted_successfully %}
+      <h2 class="newsletter__title">{{ 'layout.newsletter.title_success' | t }}</h2>
+      <h3 class="newsletter__subtitle">{{ 'layout.newsletter.subtitle_success' | t }}</h3>
+    {% else %}
+      <h2 class="newsletter__title">{{ 'layout.newsletter.title' | t }}</h2>
+      <h3 class="newsletter__subtitle">{{ 'layout.newsletter.subtitle' | t }}</h3>
+    {% endif %}
+
+    {% unless form_posted_successfully %}
+      <div class="newsletter__form">
+        {{ newsletter_form }}
+      </div>
+    {% endunless %}
+  </div>
+</section>

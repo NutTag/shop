@@ -1,0 +1,188 @@
+<div class="wrapper"> 
+  <div class="text-center section-{{ section.id }} bluetooth-video-map">
+
+    {% if section.settings.heading != blank %}
+    <h3 class="block-heading dark-text37">{{ section.settings.heading }}</h3>
+    {% endif %}
+    {% if section.settings.sub_heading != blank %}
+    <p class="block-text text19">{{ section.settings.sub_heading }}</p>
+    {% endif %}
+
+    <div class="video-wrapper">
+
+      {% if section.settings.video_url == blank %}
+      {% if section.settings.custom_video_url != blank  %}      
+      <video class="custom-video medium-down--hide" autoplay loop>
+      <source src="{{ section.settings.custom_video_url }}" type="video/mp4">
+      </video>
+      {% endif %}
+      <div class="custom-gif mobile large--hide">
+       <img src="{{ section.settings.custom_gif }}" alt= "custom_gif" />
+      </div>
+      {% else %}
+
+      {% if section.settings.video_url.type == "youtube" %}
+      <iframe src="//www.youtube.com/embed/{{ section.settings.video_url.id }}?rel=0&showinfo=0&vq=720" width="850" height="480" frameborder="0" allowfullscreen></iframe>
+      {% endif %}
+
+      {% if section.settings.video_url.type == "vimeo" %}
+      <iframe src="//player.vimeo.com/video/{{ section.settings.video_url.id }}?byline=0&portrait=0&badge=0" width="850" height="480" frameborder="0" allowfullscreen></iframe>
+      {% endif %}
+
+      {% endif %}
+      {% if section.settings.link_text != blank %}
+      <a class="video-link-text text-left" href="{{ section.settings.link_url }}">{{ section.settings.link_text }}</a>
+      {% endif %}
+    </div>
+
+    <div class="grid video-bottom-text">
+
+      {% if section.settings.foot_heading != blank %}
+      <h3 class="grid-item block-heading dark-text37">{{ section.settings.foot_heading }}</h3>
+      {% endif %}
+
+      {% if section.settings.foot_lead != blank %}
+      <div class="grid-item one-whole">
+        <p class="text19 lead-heading">{{ section.settings.foot_lead }}</p>
+        {% if section.settings.foot_html_visible == false %}
+        <p><a id="bluetooth-video-map-show-foot-button" class="feature-link-lg icon icon-slideDown" href="#bluetooth-video-map-foot-html">More Info</a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {% if section.settings.foot_left_html != blank or section.settings.foot_right_html != blank %}
+      <div id="bluetooth-video-map-foot-html" class="grid video-bottom-text" {% if section.settings.foot_html_visible == false %}style="display:none;"{% endif %}>      
+      <div class="grid-item one-half">
+       <div class="block-text text-left text19">
+          {{ section.settings.foot_left_html }}
+        </div>
+      </div>
+      <div class="grid-item one-half">
+       <div class="block-text text-left text19">
+          {{ section.settings.foot_right_html }}
+        </div>
+      </div>
+      </div>
+      {% endif %}
+
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "GPS - Video Map",
+  "class":"Bluetooth-video-map",
+  "settings": [
+  {
+    "type": "text",
+    "id": "heading",
+    "label": "Heading"
+  },
+  {
+    "type": "html",
+    "id": "sub_heading",
+    "label": "Sub Heading"
+  },
+  {
+    "type": "text",
+    "id": "link_text",
+    "label": "Link text"
+  },
+  {
+    "type": "url",
+    "id": "link_url",
+    "label": "Link url"
+  },
+  {
+    "type": "header",
+    "content": "Map Image / Video"
+  },
+  {
+    "type": "image_picker",
+    "id": "image",
+    "label": "Image"
+  },
+  {
+    "type": "video_url",
+    "id": "video_url",
+    "label": "YouTube or Vimeo link",
+    "accept": ["youtube", "vimeo"]
+  },
+  {
+    "type": "url",
+    "id": "custom_video_url",
+    "label": "Custom link"
+  },
+  {
+    "type": "url",
+    "id": "custom_gif",
+    "label": "Custom gif link"
+  },
+  {
+    "type": "header",
+    "content": "Foot Section"
+  },
+  {
+    "type": "text",
+    "id": "foot_heading",
+    "label": "Foot heading"
+  },
+  {
+    "type": "checkbox",
+    "id": "foot_html_visible",
+    "label": "Show Foot Html (By Default)"
+  },
+  {
+    "type": "text",
+    "id": "foot_show_button_text",
+    "label": "Show Button Text"
+  },
+  {
+    "type": "html",
+    "id": "foot_lead",
+    "label": "Foot Lead Text"
+  },
+  {
+    "type": "html",
+    "id": "foot_left_html",
+    "label": "Foot Left Html"
+  },
+  {
+    "type": "html",
+    "id": "foot_right_html",
+    "label": "Foot Right Html"
+  }]      
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+
+  $(document).ready(function () {
+
+    $(document).off('click.bluetooth-video-map-show-foot-button').on('click.bluetooth-video-map-show-foot-button', '#bluetooth-video-map-show-foot-button', function(e)
+    {
+      var $self = $(e.target);
+      var targetId = $self.get(0).hash;
+      if (typeof targetId === 'undefined' || targetId === null || targetId.length === 0)
+          return false;
+
+      if (!targetId.startsWith('#'))
+          targetId = '#' + targetId;
+
+      var $target = $(targetId);
+      if ($target.length)
+      {   
+        $self.hide();
+        $target.slideDown();
+      }
+      return false;
+    });
+
+  });
+
+{% endjavascript %}

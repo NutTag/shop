@@ -1,0 +1,26 @@
+<header class="article__header">
+  <div class="article__meta">
+    <time datetime="{{ article.published_at | date: '%Y-%m-%dT%T' }}" class="article__date">{{ article.published_at | date: format: 'month_day_year' }}</time>
+
+    {% if show_author %}
+      <span class="article__separator">•</span>
+      <span class="article__author">{{ article.author }}</span>
+    {% endif %}
+
+    {% if blog.comments_enabled? %}
+      {% if template contains 'blog' or template contains 'index' %}
+        <a href="{{ article.url }}#comments-list" class="article__comments">{{ article.comments_count }}{% include 'icon' with 'comments' %}</a>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  {% unless template == 'article' %}
+  <h2 class="article__title">
+    <a href="{{ article.url }}">{{ article.title }}</a>
+  </h2>
+  {% else %}
+  <h1 class="article__title">
+    {{ article.title }}
+  </h1>
+  {% endunless %}
+</header>

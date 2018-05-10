@@ -1,0 +1,57 @@
+<div class="wrapper"> 
+<div class="grid">
+  <div class="grid__item large--one-half push--large--one-half">    
+    
+      <div class="grid-uniform text-center section-{{ section.id }} product-services section-bluetooth-features bluetooth-features">
+      {% for block in section.blocks %}    
+        <div class="grid-item bluetooth-feature-item large--one-half medium--one-half small--one">
+          
+          <div>
+            {% if block.settings.block_image != blank %}
+            <img class="featured-img" src="{{ block.settings.block_image | img_url: 'master' }}" alt="{{ block.settings.block_image.alt }}">
+            {% endif %}          
+            {% if block.settings.block_title != blank %}
+            <h5 class="feature-title">{{ block.settings.block_title }}</h5>
+            {% endif %}
+          </div>
+
+        </div >
+      {% endfor %}
+      </div>    
+    
+  </div>  
+</div>
+</div>
+
+
+{% schema %}
+{
+"name": "Product services",
+"class": "product-services-section bluetooth-features-section",
+"max_blocks": 4,
+"blocks" : [
+{
+"type": "image",
+"name": "Image",
+"settings": [
+{
+"type": "image_picker",
+"id": "block_image",
+"label": "Image"
+},
+{
+"type": "html",
+"id": "block_title",
+"label": "Title"
+}
+]
+} 
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

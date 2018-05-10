@@ -1,0 +1,92 @@
+<div class="parallax-wrapper"> 
+  <div class="grid-uniform1  section-{{ section.id }} product-parallax" style="background-image:url('{{ section.settings.featured_parallax_image | img_url: 'original' }}')">
+    <div class="wrapper product-parallax-section1">
+      <div class="grid">
+      <div class="grid-item one-half medium-down--one-whole">
+        {% if section.settings.featured_parallax_text != blank %}
+        <p class="wow fadeInDown" data-wow-delay="0.2s">{{ section.settings.featured_parallax_text }}</p>
+        {% endif %} 
+
+        {% if section.settings.featured_parallax_heading != blank %}
+        <h3 class="wow fadeInDown" data-wow-delay="0.1s">{{ section.settings.featured_parallax_heading }}</h3>
+        {% endif %}           
+
+        {% if section.settings.app_store_icon != blank %}
+        <a href="{{ section.settings.app_store_link }}" class="app-store-icon wow fadeInUp" target="_blank">
+          <img class="featured-icons" src="{{ section.settings.app_store_icon | img_url: 'original' }}" alt="{{ section.settings.app_store_icon.alt }}">
+        </a>
+        {% endif %}
+        {% if section.settings.google_play_icon != blank %}
+        <a href="{{ section.settings.google_play_link }}" class="google-play-icon wow fadeInUp" target="_blank">
+          <img class="featured-icons" src="{{ section.settings.google_play_icon | img_url: 'original' }}" alt="{{ section.settings.google_play_icon.alt }}">
+        </a>
+        {% endif %}
+      </div>
+      <div class="grid-item one-half second-right medium-down--one-whole">
+        {% if section.settings.featured_image != blank %}
+        <img class="featured-icons" src="{{ section.settings.featured_image | img_url: 'original' }}" alt="{{ section.settings.featured_image.alt }}">
+        {% endif %}
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{    
+"name": "Product parallax",
+"class": "product-parallax-section",
+"settings": [
+{
+"type": "image_picker",
+"id": "featured_parallax_image",
+"label": "Parallax image",
+"info": "1500x500px"
+},
+{
+"type": "image_picker",
+"id": "featured_image",
+"label": "Image"
+},
+{
+"type": "text",
+"id": "featured_parallax_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "featured_parallax_text",
+"label": "Sub-text"
+},
+{
+"type": "image_picker",
+"id": "app_store_icon",
+"label": "App store icon"
+},
+{
+"type": "url",
+"id": "app_store_link",
+"label": "App store link"
+},
+{
+"type": "image_picker",
+"id": "google_play_icon",
+"label": "Google play icon"
+},
+{
+"type": "url",
+"id": "google_play_link",
+"label": "Google play link"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+
+

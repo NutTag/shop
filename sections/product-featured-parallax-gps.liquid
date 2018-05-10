@@ -1,0 +1,83 @@
+<div class="parallax-wrapper"> 
+  <div class="grid-uniform1 text-center section-{{ section.id }} featured-parallax jarallax" data-jarallax='{"speed": 0.2}' style="background-image:url('{{ section.settings.featured_parallax_image | img_url: 'master' }}')">
+
+    {% if section.settings.featured_parallax_heading != blank %}
+    <h3 class="wow fadeInDown" data-wow-delay="0.1s">{{ section.settings.featured_parallax_heading }}</h3>
+    {% endif %} 
+    
+    {% if section.settings.featured_parallax_text != blank %}
+    <p class="wow fadeInDown" data-wow-delay="0.2s">{{ section.settings.featured_parallax_text }}</p>
+    {% endif %}       
+
+    {% if section.settings.download_brochure_text != blank and section.settings.download_brochure_jotformid != blank %}
+    <a class="learn_more btn green-btn" data-fancybox-type="iframe" href="https://form.jotform.co/{{ section.settings.download_brochure_jotformid }}" target="_blank">{{ section.settings.download_brochure_text }}</a>
+    {% endif %}   
+
+    {% if section.settings.watch_more_button != "" %}
+    <a target="_blank" href="{{ section.settings.watch_more_button_link }}" class="fancybox fancybox.iframe btn green-btn"><i class="fa fa-fw fa-play"></i>{{ section.settings.watch_more_button }}</a>
+    {% endif %}
+    
+  </div>
+</div>
+
+
+{% schema %}
+{    
+  "name": "Product featured parallax",
+  "class": "featured-parallax-section",
+  "presets":[
+  {
+    "name": "Product featured parallax",
+    "category": "Featured"
+  }],
+  "settings": [
+  {
+    "type": "image_picker",
+    "id": "featured_parallax_image",
+    "label": "Parallax image",
+    "info": "1500x500px"
+  },
+  {
+    "type": "text",
+    "id": "featured_parallax_heading",
+    "label": "Heading"
+  },
+  {
+    "type": "text",
+    "id": "featured_parallax_text",
+    "label": "Sub-text"
+  },
+  {
+    "type": "text",
+    "id": "download_brochure_text",
+    "label": "Download Brochure Text",
+    "default": "Download Brochure"      
+  },
+  {
+    "type": "text",
+    "id": "download_brochure_jotformid",
+    "label": "Download Brochure JotFormId",
+    "default": "72428729033862",
+    "info": "The form id provided by JotForms"
+  },
+  {
+    "type": "text",
+    "id": "watch_more_button",
+    "label": "Button text"
+  },
+  {
+    "type": "url",
+    "id": "watch_more_button_link",
+    "label": "Button link"
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+ 
+

@@ -1,0 +1,54 @@
+{% layout none %}
+
+<div class="product" id="product-{{ product.id }}">
+  <a href="#" class="modal__close" data-remodal-action="close">
+    {% include 'icon' with 'close-thin' %}
+  </a>
+
+  <div class="grid grid--flush">
+    <ul class="quick-shop__slideshow grid__cell 2/5--handheld-and-up">
+      {% for image in product.images %}
+        {% if image.alt contains 'youtube.com/embed' or image.alt contains 'player.vimeo.com' %}
+          {% continue %}
+        {% endif %}
+
+        <li class="product__slideshow-slide" data-type="image" data-index="{{ forloop.index0 }}" data-image-id="{{ image.id }}" {% unless forloop.first %}style="display: none;"{% endunless %}>
+          <img class="product__slideshow-image" src="{{ image | img_url: '800x' }}" alt="{{ image.alt | escape }}">
+        </li>
+      {% endfor %}
+    </ul>
+
+    <div class="grid__cell 3/5--handheld-and-up">
+      <div class="quick-shop__info">
+        {% include 'product_meta', show_vendor: false %}
+
+        {% if product.description != blank %}
+          <p class="quick-shop__short-description">{{ product.description | strip_html | truncatewords: 20 }}</p>
+        {% endif %}
+
+        <a href="{{ product.url }}" class="quick-shop__view-details link link--primary">{{ 'product.general.view_details' | t }} {% include 'icon' with 'arrow-right' %}</a>
+
+        {% include 'product_form' %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // First, create the slideshow
+  $('.quick-shop__slideshow').slick({
+    autoplay: false,
+    adaptiveHeight: false,
+    arrows: false,
+    dots: true,
+    mobileFirst: true,
+    touchThreshold: 4
+  });
+
+  $('#product-{{ product.id }}').product({
+    product: {{ product | json }},
+    selectedVariantId: {% if product.selected_variant %}{{ product.selected_variant.id }}{% else %}null{% endif %},
+    context: 'quick-shop',
+    enableHistoryState: false
+  });
+</script>

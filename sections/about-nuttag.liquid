@@ -1,0 +1,37 @@
+ <div class="grid-uniform text-center section-{{ section.id }} about-nuttag">
+
+    <div class="grid-item one-whole medium-down--one-whole">
+      <h3 class="dark-text37 text-center wow fadeInDown" data-wow-delay="0.15s">{{ section.settings.about_text_heading }}</h3>
+      <div class="block-setion-rel wow zoomIn">
+        {% if section.settings.about_text != blank %}        
+        <p>{{ section.settings.about_text }}</p>
+        {% endif %}    
+      </div>
+    </div>
+
+  </div>  
+
+{% schema %}
+{
+"name": "About NutTag",
+"class": "about-nuttag-section",
+"settings": [
+{
+"type": "text",
+"id": "about_text_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "about_text",
+"label": "Text"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,43 @@
+{% if product.selected_or_first_available_variant.image %}
+  {% assign initial_image_position = product.selected_or_first_available_variant.image.position | minus: 1 %}
+{% else %}
+  {% assign initial_image_position = 0 %}
+{% endif %}
+
+<div class="product__showcase grid__cell {{ product_showcase_grid_class }}">
+  <ul class="product__slideshow"
+      data-initial-slide="{{ initial_image_position }}"
+      data-rotation-effect="{{ section.settings.showcase_rotation_effect }}"
+      data-zoom-enabled="{{ section.settings.showcase_zoom_enabled }}"
+      data-zoom-magnification="{{ section.settings.showcase_zoom_magnification }}">
+    {% if product.images.size == 0 %}
+      <li class="product__slideshow-slide" data-type="image" data-image-large-url="{{ product.featured_image | img_url: '1500x' }}">
+        <img class="product__slideshow-image" src="{{ product.featured_image | img_url: '1000x' }}" alt="{{ product.featured_image.alt | escape }}">
+      </li>
+    {% else %}
+      {% for image in product.images %}
+        {% if image.alt contains 'youtube.com/embed' or image.alt contains 'player.vimeo.com' %}
+          <li class="product__slideshow-slide" data-type="video" data-index="{{ forloop.index0 }}" {% unless forloop.first %}style="display: none;"{% endunless %}>
+            <div class="product__video-wrapper video__wrapper">
+              <iframe class="product__slideshow-video video__element" width="560" height="349" src="{{ image.alt }}" frameborder="0" allowfullscreen=""></iframe>
+            </div>
+          </li>
+        {% else %}
+          <li class="product__slideshow-slide" data-type="image" data-index="{{ forloop.index0 }}" data-image-id="{{ image.id }}" data-image-large-url="{{ image | img_url: '1500x' }}" {% unless forloop.first %}style="display: none;"{% endunless %}>
+            <img class="product__slideshow-image" src="{{ image | img_url: '1000x' }}" alt="{{ image.alt | escape }}">
+          </li>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </ul>
+
+  {% if section.settings.showcase_show_thumbnails %}
+    <ul class="product__thumbnails">
+      {% for image in product.images %}
+        <li class="product__thumbnail" data-index="{{ forloop.index0 }}">
+          <img src="{{ image.src | img_url: '200x' }}" alt="{{ image.alt | escape }}">
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>

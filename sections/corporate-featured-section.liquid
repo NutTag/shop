@@ -1,0 +1,85 @@
+<div class="wrapper"> 
+  <div class="text-left section-{{ section.id }} featured-blocks corporate-featured">
+        
+    <div class="grid-uniform">
+    <div class="grid-item three-fifths left-section text-left  medium-down--one-whole">
+      <ul>
+      {% for block in section.blocks %}    
+        <li class="wow fadeInLight">
+          {% if block.settings.block_icon %}
+          <div class="img-section">
+          <img src="{{ block.settings.block_icon | img_url: 'original' }}" />
+          </div>
+          {% endif %}
+          <div class="section-right-content">
+          <h3>{{ block.settings.block_heading }}</h3>
+          <p>{{ block.settings.block_text }}</p>
+          </div>
+        </li>
+      {% endfor %}
+      </ul> 
+    </div>
+      
+    
+    <div class="grid-item two-fifths right-section text-right medium-down--one-whole medium-down--text-center">
+      <div class="featured-image">
+        <span class="featured1">
+        {% if section.settings.featured_image != blank %}
+            <img src="{{ section.settings.featured_image | img_url: 'original' }}" alt="{{ section.settings.featured_image.alt }}">
+        {% endif %}    
+        </span>
+      </div>            
+    </div>  
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+"name": "Corporate featured",
+"class": "corporate-featured-section",
+"blocks" : [
+{
+"type": "text",
+"name": "Text",
+"settings": [
+{
+"type": "header",
+"content": "Right text blocks"
+},
+{
+"type": "text",
+"id": "block_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "block_text",
+"label": "Text"
+},
+{
+"type": "image_picker",
+"id": "block_icon",
+"label": "Icon"
+}
+]
+}
+],
+"settings": [
+{
+"type": "header",
+"content": "Left text blocks"
+},
+{
+"type": "image_picker",
+"id": "featured_image",
+"label": "Image"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

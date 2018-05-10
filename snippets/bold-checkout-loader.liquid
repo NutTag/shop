@@ -1,0 +1,246 @@
+{{ 'bold-checkout-options.js' | asset_url | script_tag }}
+<script type="application/javascript">
+    if (typeof Object.assign != 'function') {
+        // Must be writable: true, enumerable: false, configurable: true
+        Object.defineProperty(Object, "assign", {
+            value: function assign(target, varArgs) { // .length of function is 2
+                'use strict';
+                if (target == null) { // TypeError if undefined or null
+                    throw new TypeError('Cannot convert undefined or null to object');
+                }
+                var to = Object(target);
+                for (var index = 1; index < arguments.length; index++) {
+                    var nextSource = arguments[index];
+                    if (nextSource != null) { // Skip over if undefined or null
+                        for (var nextKey in nextSource) {
+                            // Avoid bugs when hasOwnProperty is shadowed
+                            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                                to[nextKey] = nextSource[nextKey];
+                            }
+                        }
+                    }
+                }
+                return to;
+            },
+            writable: true,
+            configurable: true
+        });
+    }
+    if (!Object.keys) {
+        Object.keys = (function () {
+            'use strict';
+            var hasOwnProperty = Object.prototype.hasOwnProperty,
+                hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString'),
+                dontEnums = [
+                    'toString',
+                    'toLocaleString',
+                    'valueOf',
+                    'hasOwnProperty',
+                    'isPrototypeOf',
+                    'propertyIsEnumerable',
+                    'constructor'
+                ],
+                dontEnumsLength = dontEnums.length;
+
+            return function (obj) {
+                if (typeof obj !== 'function' && (typeof obj !== 'object' || obj === null)) {
+                    throw new TypeError('Object.keys called on non-object');
+                }
+                var result = [], prop, i;
+                for (prop in obj) {
+                    if (hasOwnProperty.call(obj, prop)) {
+                        result.push(prop);
+                    }
+                }
+                if (hasDontEnumBug) {
+                    for (i = 0; i < dontEnumsLength; i++) {
+                        if (hasOwnProperty.call(obj, dontEnums[i])) {
+                            result.push(dontEnums[i]);
+                        }
+                    }
+                }
+                return result;
+            };
+        }());
+    }
+
+    var QS = function () {
+        var query_string = {};
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (typeof query_string[pair[0]] === "undefined") {
+                query_string[pair[0]] = decodeURIComponent(pair[1]);
+            } else if (typeof query_string[pair[0]] === "string") {
+                var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+                query_string[pair[0]] = arr;
+            } else {
+                query_string[pair[0]].push(decodeURIComponent(pair[1]));
+            }
+        }
+        return query_string;
+    }();
+
+    function stringifyParams(params) {
+        var result = '';
+        Object.keys(params).forEach(function (k) {
+            result += k + '=' + params[k] + '&';
+        });
+        result = result.slice(0, -1);
+        return result;
+    }
+
+    function googleAnalyticsGetParamString(otherParams) {
+        var allowedParams = {
+            utm_source: true,
+            utm_medium: true,
+            utm_term: true,
+            utm_content: true,
+            utm_campaign: true,
+            _ga: true,
+            _conv_s: true,
+            _conv_v: true
+        };
+
+        var filteredSearch = {};
+
+        Object.keys(QS).forEach(function (k) {
+            if (allowedParams[k]) {
+                filteredSearch[k] = QS[k];
+            }
+        });
+
+        // Force linker
+        if (typeof window.ga === 'function' && filteredSearch['_ga'] === undefined) {
+            window.ga(function (tracker) {
+                var linkerParam = tracker.get('linkerParam');
+                if (linkerParam.length > 0) {
+                    filteredSearch['_ga'] = linkerParam.split('=')[1];
+                }
+            });
+        }
+
+        Object.assign(filteredSearch, otherParams);
+
+        var getParamString = stringifyParams(filteredSearch);
+
+        if (getParamString.length > 0) {
+            getParamString = '?' + getParamString;
+        }
+
+        return getParamString;
+    }
+
+    if (typeof BOLD === 'undefined') {
+        BOLD = {};
+    }
+    BOLD.checkout = {
+        getCookie: function getCookie(name) {
+            var value = '; ' + document.cookie;
+            var parts = value.split('; ' + name + '=');
+            if (parts.length === 2) {
+                return parts.pop().split(';').shift();
+            }
+        },
+        getPath: function getPath(url) {
+            var parser = document.createElement('a');
+            parser.href = url;
+            return parser.pathname;
+        },
+        isFormButtonOrChild: function isFormButtonOrChild(elem) {
+            //note, do we need to handle the Anchor tag?
+            return elem.matches('form button, form button *, form input[type=submit], form input[type=submit] *');
+        },
+        isCheckoutForm: function isCheckoutForm(action) {
+            var path = BOLD.checkout.getPath(action);
+            return action.search(/^\/checkout\b/) !== -1 || path.search(/^\/checkout\b/) !== -1;
+        },
+        isCartForm: function isCartForm(action) {
+            var path = BOLD.checkout.getPath(action);
+            return action.search(/^\/cart\b/) !== -1 || path.search(/^\/cart\b/) !== -1 || action.search(/\/cart\b/) !== -1 || path.search(/\/cart\b/) !== -1;
+        },
+        getForm: function getForm(elem, depth) {
+            depth = typeof depth !== 'undefined' ? depth : 0;
+
+            var maxSearchDepth = 3;
+            if (typeof elem.form === 'undefined' && depth < maxSearchDepth) {
+                return BOLD.checkout.getForm(elem.parentNode, depth + 1);
+            } else {
+                return elem.form;
+            }
+        },
+        isCheckoutButtonOrChild: function isCheckoutButtonOrChild(elem) {
+            return elem.matches('form [name=checkout], form [name=checkout] *');
+        },
+        isCheckoutButton: function isCheckoutButton(elem) {
+            if (!BOLD.checkout.isFormButtonOrChild(elem)) {
+                return false;
+            }
+
+            var form = BOLD.checkout.getForm(elem);
+            if (form) {
+                var action = form.getAttribute('action');
+                if (BOLD.checkout.isCheckoutForm(action)) {
+                    return true;
+                }
+                if (BOLD.checkout.isCartForm(action) && BOLD.checkout.isCheckoutButtonOrChild(elem)) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        isFeatureRequired: function isFeatureRequired() {
+            if (typeof BOLD.checkout_features_defaults === 'undefined'){
+                return true;
+            }
+            for (i = 0; i < BOLD.checkout_features_defaults.length; i++){
+              if (BOLD.checkout_features_defaults[i].require === true){
+                return true;
+              }
+            }
+            return false;
+        },
+        listenerFn: function listenerFn(event) {
+            if (BOLD.checkout.isCheckoutButton(event.target) && BOLD.checkout.isFeatureRequired()) {
+                var form = BOLD.checkout.getForm(event.target);
+                form.action = '/apps/checkout/begin-checkout' + googleAnalyticsGetParamString({});
+                var cartCookie = BOLD.checkout.getCookie('cart');
+                var element = document.createElement('INPUT');
+                element.type = 'HIDDEN';
+                element.name = 'cart_id';
+                element.value = cartCookie;
+                form.appendChild(element);
+
+                if (BOLD && BOLD.common && typeof BOLD.common.eventEmitter === 'object' && typeof BOLDCURRENCY !== 'undefined') {
+                    BOLD.common.eventEmitter.emit('BOLD_CASHIER_checkout', {target: form});
+                }
+            }
+        },
+        enable: function enable() {
+            document.addEventListener('click', BOLD.checkout.listenerFn);
+        },
+        disable: function disable() {
+            document.removeEventListener('click', BOLD.checkout.listenerFn);
+        }
+    };
+    (function () {
+        BOLD.checkout.enable();
+    })();
+
+    if (!Element.prototype.matches) { //polyfill per MDN
+        Element.prototype.matches =
+            Element.prototype.matchesSelector ||
+            Element.prototype.mozMatchesSelector ||
+            Element.prototype.msMatchesSelector ||
+            Element.prototype.oMatchesSelector ||
+            Element.prototype.webkitMatchesSelector ||
+            function (s) {
+                var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+                    i = matches.length;
+                while (--i >= 0 && matches.item(i) !== this) {
+                }
+                return i > -1;
+            };
+    }
+</script>

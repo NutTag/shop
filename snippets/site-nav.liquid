@@ -1,0 +1,113 @@
+<ul class="site-nav" id="accessibleNav">
+
+  {% unless linklists[section.settings.menu].links.first.url == '/' %}
+  <li class="large--hide">
+    <a href="/">{{ 'general.breadcrumbs.home' | t }}</a>
+  </li>
+  {% endunless %}
+
+  {% for link in linklists[section.settings.menu].links %}
+  {% assign child_list_handle = link.title | handleize %}
+  {% if linklists[child_list_handle].links != blank %}
+  <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
+
+    <a href="{{ link.url }}">
+      {{ link.title }}
+      <span class="icon-fallback-text">
+        <span class="icon icon-arrow-down" aria-hidden="true"></span>
+      </span>
+    </a>
+
+    <div class="site-nav--dropdown">
+      <ul class="site-nav--dropdown-list wrapper">
+        <li class="grid__item large--seven-twelfths seven-twelfths medium-down--one-whole bluetooth-site-nav-item">
+
+
+            <div class="site-nav--dropdown-header site-nav--dropdown-content">
+
+              <h3>Bluetooth trackers</h3>
+              <p class="lead">Never loose your every-day items</p>
+              <hr />
+
+            </div>
+
+            <div class="site-nav--dropdown-inner">
+            <ul class="site-nav--dropdown-inner-list">
+              <li>
+
+                <div><img src="//cdn.shopify.com/s/files/1/1801/4767/files/bluetooth-trackers-nuttag-pro-nav-image.png?12061380052329101168" alt="NutTAG Pro" /></div>
+                
+                <a href="{{ collections['nuttag-pro'].url }}" class="title">NutTAG Pro</a>
+                <p>Stylish with detachable chain for keys, wallets, bags</p>
+
+                {% assign sortedProducts = collections['nuttag-pro'].products | sort: 'price' %}
+                <p class="price-desc">Starting from {{ sortedProducts[0].price_min | money }}</p>
+
+              </li>
+              <li>
+
+                <div><img src="//cdn.shopify.com/s/files/1/1801/4767/files/bluetooth-trackers-nuttag-find3-nav-image.png?12061380052329101168" alt="NutTAG Find 3" /></div>
+
+                <a href="{{ collections['nuttag-find-3'].url }}" class="title">NutTAG Find 3</a>
+                <p>Includes nylon lanyard for keys, wallets, bags</p>
+
+                {% assign sortedProducts = collections['nuttag-find-3'].products | sort: 'price' %}
+                <p class="price-desc">Starting from {{ sortedProducts[0].price_min | money }}</p>
+
+              </li>                  
+            </ul>
+            </div>
+
+            <p class="site-nav--dropdown-content red"><a href="{{ pages['bluetooth-trackers'].url }}">See comparison</a></p>
+
+           
+        </li>        
+        <li class="grid__item large--five-twelfths five-twelfths medium-down--one-whole gps-site-nav-item">
+
+
+            <div class="site-nav--dropdown-header site-nav--dropdown-content">
+
+              <h3>GPS Real-time tracker</h3>
+              <p class="lead">Advanced yet simple with international range</p>
+              <hr /> 
+
+            </div>        
+
+            <div class="site-nav--dropdown-inner">
+            
+              <div><img src="//cdn.shopify.com/s/files/1/1801/4767/files/gps-realtime-tracker-nav-image.png?9427484577486932031" alt="GPS Real-time trackers" /></div>
+              <ul class="site-nav--dropdown-inner-list">
+                <li><a href="{{ pages['seek-gps-trackers-kids'].url }}" class="title">GPS for Kids</a></li>
+                <li><a href="{{ pages['seek-gps-trackers-elderly-alzheimers-dementia'].url }}" class="title">Elderly</a></li>
+                <li><a href="{{ pages['seek-gps-trackers-pets-dogs-cats'].url }}" class="title">Pets</a></li>
+                <li><a href="{{ pages['seek-gps-trackers-travel-luggage-bags'].url }}" class="title">Travel</a></li>
+                <li><a href="{{ pages['seek-gps-trackers-vehicle-car-bike'].url }}" class="title">Vehicles</a></li>
+              </ul>
+              
+            </div>
+
+            <p class="price-desc site-nav--dropdown-content">Starting from $199+SIM</p>
+
+
+        </li>
+      </ul>
+    </div>
+    
+  </li>
+  {% else %}
+  <li {% if link.active %}class="site-nav--active"{% endif %}>
+    <a href="{{ link.url }}">{{ link.title }}</a>
+  </li>
+  {% endif %}
+  {% endfor %}
+
+  {% if shop.customer_accounts_enabled %}
+  {% if customer %}
+  <li class="customer-navlink large--hide"><a href="/account">{{ 'layout.customer.view_account' | t }}</a></li>
+  <li class="customer-navlink large--hide">{{ 'layout.customer.log_out' | t | customer_logout_link }}</li>
+  {% else %}
+  <li class="customer-navlink large--hide">{{ 'layout.customer.sign_in' | t | customer_login_link }}</li>
+  <li class="customer-navlink large--hide">{{ 'layout.customer.create_account' | t | customer_register_link }}</li>
+  {% endif %}
+  {% endif %}
+</ul>

@@ -1,0 +1,84 @@
+{% assign blog = blogs[section.settings.blog] %}
+
+<section class="index-module section section--padded index-module__blog {% if section.settings.use_secondary_background %}section--secondary{% endif %}">
+  <div class="inner">
+    {% if section.settings.title != blank %}
+      <h2 class="section__title">{{ section.settings.title | escape }}</h2>
+    {% endif %}
+
+    <div class="grid grid--large grid--gallery grid--gallery-large">
+      {% for article in blog.articles limit: 3 %}
+        {% include 'article_preview', show_author: section.settings.show_author %}
+      {% else %}
+        {% for i in (1..3) %}
+          <article class="grid__cell 1/3--handheld-and-up article article--preview">
+            <div class="article__inner">
+              <header class="article__header">
+                <div class="article__meta">
+                  <time datetime="2016-09-08T11:31:00" class="article__date">{{ 'now' | date: format: 'month_day_year' }}</time>
+
+                  {% if section.settings.show_author %}
+                    <span class="article__separator">•</span>
+                    <span class="article__author">{{ 'home_page.onboarding.blog_author' | t }}</span>
+                  {% endif %}
+                </div>
+
+                <h2 class="article__title">
+                  <a href="#">{{ 'home_page.onboarding.article_name' | t }}</a>
+                </h2>
+              </header>
+
+              <p class="article__excerpt">{{ 'home_page.onboarding.blog_excerpt' | t }}</p>
+
+              <a class="article__read-more" href="#">
+                {{ 'blog.article.read_more' | t }}
+                {% include 'icon' with 'arrow-right' %}
+              </a>
+            </div>
+          </article>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured blog",
+  "class": "shopify-section__featured-blog",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured blog"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_secondary_background",
+      "label": "Use secondary background",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author name",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "category": "Blog",
+      "name": "Blog posts",
+      "settings": {
+        "blog": "news"
+      }
+    }
+  ]
+}
+{% endschema %}

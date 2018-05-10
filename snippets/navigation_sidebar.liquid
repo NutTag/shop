@@ -1,0 +1,59 @@
+<nav class="navigation-sidebar" role="navigation">
+  {% comment %}
+  The first level is a bit special because it is the one containing the cross to close the menu. Next levels are
+  just recursive
+  {% endcomment %}
+
+  {% assign handle = settings.navigation_menu | default: 'main-menu' %}
+  {% assign handles_already_iterated = '' %}
+  {% assign nav_depth_level = 0 %}
+
+  <header class="navigation-sidebar__header">
+    <div class="navigation-sidebar__top">
+      <a href="#" class="navigation-sidebar__close" data-action="close-navigation-sidebar">
+        {% include 'icon' with 'close-thin' %}
+      </a>
+
+      <a href="#" data-action="rewind-navigation-sidebar" style="display: none">
+        {% include 'icon' with 'arrow-left' %}
+      </a>
+
+      <span class="navigation-sidebar__current">
+        <span class="navigation-sidebar__current-title"></span>
+      </span>
+    </div>
+
+    {% if settings.navigation_sidebar_image %}
+      <div class="navigation-sidebar__image">
+        <img src="{{ settings.navigation_sidebar_image | img_url: '650x300' }}" alt="{{ shop.name | escape }}">
+      </div>
+    {% endif %}
+
+    <div class="navigation-sidebar__search--mobile">
+      {% include 'icon' with 'search' %}
+
+      <form class="navigation-sidebar__search-form" action="/search" method="GET" role="search">
+        <input type="hidden" name="type" value="{{ settings.search_mode }}">
+        <input type="search" name="q" class="search__input" autocomplete="off" autocorrect="off" aria-label="{{ 'layout.navigation.search_placeholder' | t }}" placeholder="{{ 'layout.navigation.search_placeholder' | t }}" value="{{ search.terms | escape }}">
+      </form>
+    </div>
+  </header>
+
+  {% comment %}
+  We need to flatten the hierarchy list, so we do a first iteration that basically iterate, and then we render them
+  {% endcomment %}
+
+  {% assign handles_accumulator = '' | split: '' %}
+  {% assign handle = settings.navigation_menu | default: 'main-menu' %}
+  {% include 'navigation_accumulator' %}
+
+  {% comment %}
+  Now we can split the handles and render them individually
+  {% endcomment %}
+
+  <div class="navigation-sidebar__lists">
+    {% for handle in handles_accumulator %}
+      {% include 'navigation_list', list_index: forloop.index0 %}
+    {% endfor %}
+  </div>
+</nav>

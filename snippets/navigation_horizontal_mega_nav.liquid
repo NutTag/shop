@@ -1,0 +1,47 @@
+{% comment %}
+Mega nav uses nested linklists to build multi-column layouts
+{% endcomment %}
+
+{% if settings.navigation_horizontal_image %}
+  {% assign mega_nav_has_image = true %}
+{% else %}
+  {% assign mega_nav_has_image = false %}
+{% endif %}
+
+<ul class="navigation-horizontal__dropdown navigation-horizontal__dropdown--mega {% if mega_nav_has_image %}navigation-horizontal__dropdown--mega-with-image{% endif %}">
+  {% if mega_nav_has_image %}
+    <li class="navigation-horizontal__image-container">
+      <img class="navigation-horizontal__image" src="{{ settings.navigation_horizontal_image | img_url: '350x350', crop: 'center' }}">
+    </li>
+  {% endif %}
+
+  {% for link in mega_nav.links %}
+    {% comment %}We ignore the sub-linklist if it does not have children{% endcomment %}
+
+    {% if linklists[link.handle].links.size == 0 %}
+      {% continue %}
+    {% endif %}
+
+    <li class="navigation-horizontal__dropdown-column dropdown-column">
+      <h2 class="dropdown-column__title"><a href="{{ link.url }}">{{ link.title }}</a></h2>
+
+      <ul class="dropdown-column__list">
+        {% for sub_link in linklists[link.handle].links %}
+          {% assign sub_link_image = '' %}
+
+          {% if mega_nav_has_image and settings.navigation_horizontal_switch_image %}
+            {% if sub_link.type == 'collection_link' and sub_link.object.image %}
+              {% assign sub_link_image = sub_link.object.image %}
+            {% elsif sub_link.type == 'product_link' and sub_link.object.featured_image %}
+              {% assign sub_link_image = sub_link.object.featured_image %}
+            {% endif %}
+          {% endif %}
+
+          <li class="dropdown-column__list-item">
+            <a href="{{ sub_link.url }}" class="dropdown-column__list-link" {% if sub_link_image != blank %}data-src="{{ sub_link_image | img_url: '350x350', crop: 'center' }}"{% endif %}>{{ sub_link.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endfor %}
+</ul>

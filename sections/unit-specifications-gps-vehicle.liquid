@@ -1,0 +1,241 @@
+<div class="wrapper"> 
+  <div class="section-{{ section.id }} unit-specifications">
+    {% if section.settings.heading != blank %}
+    <h3 class="dark-text37 text-center wow fadeInDown" data-wow-delay="0.15s">{{ section.settings.heading }}</h3>
+    {% endif %}
+
+    <div class="grid">
+      <!--------------Left-block-------------->
+      <div class="grid-item one-quarter  medium-down--one-whole medium--text-center">
+        <ul> 
+          {% for i in (1..3) %}
+          {% capture left_block_title %}left_block_title_{{ i }}{% endcapture %}
+          {% capture left_block_text %}left_block_text_{{ i }}{% endcapture %}
+          {% capture left_block_icon %}left_block_icon_{{ i }}{% endcapture %}     
+          <li class="wow fadeInLeft" data-wow-delay="0.1s">          
+            <div class="section-right-content">
+              <h3>{{ section.settings[left_block_title] }}</h3>
+              {% if section.settings[left_block_icon] %}
+              <div class="img-section">
+                <img src="{{ section.settings[left_block_icon] | img_url: 'original' }}" />
+              </div>
+              {% endif %}
+
+              <p>{{ section.settings[left_block_text] }}</p>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>      
+
+      </div>
+
+      <!------------Center-block-------------->
+      {% if section.settings.center_block_image != blank %}
+      <div class="grid-item five-twelfths center-section text-center wow fadeInUp">      
+        <div class="center-image">
+          <img src="{{ section.settings.center_block_image | img_url: 'original' }}" /> 
+        </div>
+      </div>
+      {% endif %}
+
+      <!------------Right-block-------------->
+      <div class="grid-item three-tenths  medium-down--one-whole medium--text-center">
+        <ul>      
+          <li class="wow fadeInRight" data-wow-delay="0.1s">
+
+            <div class="section-right-content">
+              <h3>{{ section.settings.right_block_title_1 }}</h3>
+              <ul>
+                <li>
+                  {% if section.settings.right_block_icon_1 %}
+                  <div class="img-section">
+                    <img src="{{ section.settings.right_block_icon_1 | img_url: 'original' }}" />
+                  </div>
+                  {% endif %}
+                  <p>{{ section.settings.right_block_text_1 }}</p>
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  {% if section.settings.right_block_icon_1_2 %}
+                  <div class="img-section">
+                    <img src="{{ section.settings.right_block_icon_1_2 | img_url: 'original' }}" />
+                  </div>
+                  {% endif %}<p>{{ section.settings.right_block_text_1_2 }}</p>
+
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="wow fadeInRight" data-wow-delay="0.1s">          
+
+            <div class="section-right-content">
+
+              <h3>{{ section.settings.right_block_title_2 }}</h3>
+              <ul>
+                <li>
+                  {% if section.settings.right_block_icon_2 %}
+                  <div class="img-section">
+                    <img src="{{ section.settings.right_block_icon_2 | img_url: 'original' }}" />
+                  </div>
+                  {% endif %}
+                  <p>{{ section.settings.right_block_text_2 }}</p>
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  {% if section.settings.right_block_icon_2_2 %}
+                  <div class="img-section">
+                    <img src="{{ section.settings.right_block_icon_2_2 | img_url: 'original' }}" />
+                  </div>
+                  {% endif %}<p>{{ section.settings.right_block_text_2_2 }}</p>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul> 
+      </div>
+    </div>  
+
+  </div>
+</div>
+
+{% schema %}
+{
+"name": "Unit specifications",
+"class": "unit-specifications-section",
+"settings": [
+{
+"type": "text",
+"id": "heading",
+"label": "Heading"
+},
+{
+"type": "header",
+"content": "Left block"
+},
+{
+"type": "text",
+"id": "left_block_title_1",
+"label": "Title 1"
+},
+{
+"type": "image_picker",
+"id": "left_block_icon_1",
+"label": "Icon 1"
+},
+{
+"type": "html",
+"id": "left_block_text_1",
+"label": "Text 1"
+},
+{
+"type": "text",
+"id": "left_block_title_2",
+"label": "Title 2"
+},
+{
+"type": "image_picker",
+"id": "left_block_icon_2",
+"label": "Icon 2"
+},
+{
+"type": "html",
+"id": "left_block_text_2",
+"label": "Text 2"
+},
+{
+"type": "text",
+"id": "left_block_title_3",
+"label": "Title 3"
+},
+{
+"type": "image_picker",
+"id": "left_block_icon_3",
+"label": "Icon 3"
+},
+{
+"type": "html",
+"id": "left_block_text_3",
+"label": "Text 3"
+},
+{
+"type": "header",
+"content": "Center block"
+},
+{
+"type": "image_picker",
+"id": "center_block_image",
+"label": "Center image"
+},
+{
+"type": "header",
+"content": "Right block"
+},
+{
+"type": "header",
+"content": "Right block 1"
+},
+{
+"type": "text",
+"id": "right_block_title_1",
+"label": "Title 1"
+},
+{
+"type": "image_picker",
+"id": "right_block_icon_1",
+"label": "Icon 1"
+},
+{
+"type": "html",
+"id": "right_block_text_1",
+"label": "Text 1"
+},
+{
+"type": "image_picker",
+"id": "right_block_icon_1_2",
+"label": "Icon 2"
+},
+{
+"type": "html",
+"id": "right_block_text_1_2",
+"label": "Text 2"
+},
+{
+"type": "header",
+"content": "Right block 2"
+},
+{
+"type": "text",
+"id": "right_block_title_2",
+"label": "Title 2"
+},
+{
+"type": "image_picker",
+"id": "right_block_icon_2",
+"label": "Icon 1"
+},
+{
+"type": "html",
+"id": "right_block_text_2",
+"label": "Text 1"
+},
+{
+"type": "image_picker",
+"id": "right_block_icon_2_2",
+"label": "Icon 2"
+},
+{
+"type": "html",
+"id": "right_block_text_2_2",
+"label": "Text 2"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

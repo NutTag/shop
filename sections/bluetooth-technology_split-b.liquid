@@ -1,0 +1,72 @@
+<div class="wrapper"> 
+  <div class="grid-uniform text-center section-{{ section.id }} bluetooth-logo">
+     
+    {% if section.settings.heading != blank %}
+    <h3 class="grid-item one-whole block-heading dark-text37 wow fadeInDown">{{ section.settings.heading }}</h3>
+    {% endif %}
+
+    {% if section.settings.sub_text != blank %}
+    <p class="grid-item block-text text19">{{ section.settings.sub_text }}</p>
+    {% endif %}
+    
+    <div class="display-table">
+    {% for block in section.blocks %}
+      <div class="grid-item one-sixth display-table-cell wow fadeInUp">          
+      {% if block.settings.block_image != blank %}   
+        <img src="{{ block.settings.block_image | img_url: 'original' }}" alt="{{ block.settings.block_image.alt }}">
+      {% endif %}          
+      </div>
+    {% endfor %}    
+    </div>
+  
+    {% if section.settings.made_with_icon != blank %}
+    <div class="grid-item one-whole bottom-img wow fadeInDown">
+      <img src="{{ section.settings.made_with_icon | img_url: 'original' }}" alt="{{ section.settings.made_with_icon.alt }}"/>
+    </div>
+    {% endif %}
+    
+</div>
+</div>
+
+{% schema %}
+{
+  "name": "Bluetooth - Technology",
+  "class": "bluetooth-technology-section",
+  "settings": [
+  {
+    "type": "text",
+    "id": "heading",
+    "label": "Heading"
+  },
+  {
+    "type": "html",
+    "id": "sub_text",
+    "label": "Sub text"
+  },
+  {
+    "type": "image_picker",
+    "id": "made_with_icon",
+    "label": "Made with love"
+  }
+  ],
+  "blocks" : [
+  {
+    "type": "image",
+    "name": "Image",
+    "settings": [
+    {
+      "type": "image_picker",
+      "id": "block_image",
+      "label": "Image"
+    }
+    ]
+  } 
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

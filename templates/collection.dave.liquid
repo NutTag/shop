@@ -1,0 +1,295 @@
+{% unless template contains '.infinite-scroll' %}
+  <header class="page__header page__header--no-border">
+    {% include 'breadcrumb' %}
+
+    <div class="page__header-wrapper">
+      <div class="container">
+        <h1 class="page__title">{{ collection.title }}</h1>
+
+        {% if collection.description != blank and collection.all_products_count > 0 %}
+          <div class="page__description rte">
+            {{ collection.description }}
+          </div>
+        {% endif %}
+
+        {% if collection.all_products_count == 0 %}
+          <div class="page__description page__description--centered">
+            <p class="rte">{{ 'collection.general.empty' | t }}</p>
+
+            <div class="page__header-actions">
+              <a href="{{ shop.url }}" class="button button--primary">{{ 'collection.general.lets_shop' | t }}</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  {% capture collection_filters %}
+    {% if section.settings.enable_tag_filters and collection.all_tags.size > 1 %}
+      <div class="styled-select collection-filter collection-filter--tag">
+        {% include 'icon' with 'dropdown-arrow' %}
+        <select>
+          <option value="/collections/{{ collection.handle }}" {% if current_tags.size == 0 %}selected="selected"{% endif %}>{{ 'collection.filters.no_tag_selected' | t }}</option>
+
+          {% for tag in collection.all_tags %}
+            {% unless tag contains '__' %}
+            {% assign tag_url = tag | link_to_tag: tag | split: 'href=' %}
+            {% assign to_remove = '>' | append: tag %}
+            <option value={{ tag_url[1] | remove: to_remove | strip_html }} {% if current_tags contains tag %}selected="selected"{% endif %}>{{ tag }}</option>
+            {% endunless %}
+          {% endfor %}
+        </select>
+      </div>
+    {% endif %}
+
+    {% if section.settings.enable_type_filters and collections.all.all_types.size > 1 %}
+      <div class="styled-select collection-filter collection-filter--type">
+        {% include 'icon' with 'dropdown-arrow' %}
+        <select>
+          <option value="/collections/all" {% if collection.current_type == blank %}selected="selected"{% endif %}>{{ 'collection.filters.no_type_selected' | t }}</option>
+
+          {% for type in collections.all.all_types %}
+            <option value="{{ type | url_for_type }}" {% if collection.current_type == type %}selected="selected"{% endif %}>{{ type }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endif %}
+
+    {% if section.settings.enable_vendor_filters and collections.all.all_vendors.size > 1 %}
+      <div class="styled-select collection-filter collection-filter--vendor">
+        {% include 'icon' with 'dropdown-arrow' %}
+        <select>
+          <option value="/collections/all" {% if collection.current_vendor == blank %}selected="selected"{% endif %}>{{ 'collection.filters.no_vendor_selected' | t }}</option>
+
+          {% for vendor in collections.all.all_vendors %}
+            <option value="{{ vendor | url_for_vendor }}" {% if collection.current_vendor == vendor %}selected="selected"{% endif %}>{{ vendor }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endif %}
+
+    {% if section.settings.enable_sort_by %}
+      <div class="styled-select collection-filter collection-filter--sorter">
+        {% include 'icon' with 'dropdown-arrow' %}
+        <select id="sort-by">
+          <option value="manual" {% if collection.sort_by == 'manual' %}selected="selected"{% endif %}>{{ 'collection.sorting.featured' | t }}</option>
+                   <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected="selected"{% endif %}>{{ 'collection.sorting.az' | t }}</option>
+          <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected="selected"{% endif %}>{{ 'collection.sorting.za' | t }}</option>
+          <option value="created-ascending" {% if collection.sort_by == 'created-ascending' %}selected="selected"{% endif %}>{{ 'collection.sorting.date_ascending' | t }}</option>
+          <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected="selected"{% endif %}>{{ 'collection.sorting.date_descending' | t }}</option>
+          
+        </select>
+      </div>
+    {% endif %}
+  {% endcapture %}
+
+  {% if collection.all_products_count > 0 and collection_filters != blank %}
+    <div {% unless section.settings.grid_remove_spacing %}class="inner"{% endunless %}>
+      <div class="collection__filters">
+        {{ collection_filters }}
+      </div>
+    </div>
+  {% endif %}
+{% endunless %}
+
+{% if collection.template_suffix == 'collage' %}
+  {% assign layout_mode = 'collage' %}
+{% elsif collection.template_suffix == 'grid' %}
+  {% assign layout_mode = 'grid' %}
+{% elsif section.settings.layout_mode == 'collage' %}
+  {% assign layout_mode = 'collage' %}
+{% else %}
+  {% assign layout_mode = 'grid' %}
+{% endif %}
+
+{% if layout_mode == 'collage' %}
+  {% assign products_per_page = 20 %}
+{% else %}
+  {% assign grid_items_per_row = section.settings.grid_items_per_row %}
+  {% assign products_per_page = grid_items_per_row | times: section.settings.number_of_rows %}
+{% endif %}
+
+{% if collection.all_products_count > 0 %}
+  {% paginate collection.products by products_per_page %}
+    <section {% unless section.settings.grid_remove_spacing %}class="inner"{% endunless %}>
+      {% if layout_mode == 'collage' %}
+        <div class="collection collection--collage ftg" {% if section.settings.pagination_mode == 'infinite_scrolling' %}data-infinite-scroll-url="{{ paginate.next.url }}&view=infinite-scroll"{% endif %}>
+          <div class="ftg-items">
+            {% for product in collection.products %}
+              {% include 'product_collage_item', show_vendor: section.settings.show_vendor, show_quick_shop: section.settings.show_quick_shop %}
+            {% endfor %}
+          </div>
+        </div>
+      {% else %}
+        <div class="collection collection--grid grid {% if section.settings.grid_remove_spacing %}grid--flush{% else %}grid--gallery grid--middle{% endif %}">
+          {% for product in collection.products %}
+            {% include 'product_grid_item', show_vendor: section.settings.show_vendor, show_quick_shop: section.settings.show_quick_shop %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+
+    {% if section.settings.pagination_mode == 'pagination' %}
+      {% include 'pagination' %}
+    {% elsif paginate.pages > 1 %}
+      <div class="collection__loader spinner-container" data-next-page="{{ paginate.next.url }}&view=infinite-scroll">
+        <div class="spinner spinner--circle"></div>
+      </div>
+    {% endif %}
+  {% endpaginate %}
+{% endif %}
+
+
+{
+  "name": "Collection",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout_mode",
+      "label": "Layout mode",
+      "options": [
+        {
+          "value": "collage",
+          "label": "Collage"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "radio",
+      "id": "pagination_mode",
+      "label": "Pagination mode",
+      "options": [
+        {
+          "value": "pagination",
+          "label": "Standard pagination"
+        },
+        {
+          "value": "infinite_scrolling",
+          "label": "Infinite scrolling"
+        }
+      ],
+      "default": "pagination"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_tag_filters",
+      "label": "Enable filtering by product tag",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sort_by",
+      "label": "Enable collection sorting",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_type_filters",
+      "label": "Enable filtering by product type",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_vendor_filters",
+      "label": "Enable filtering by product vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_shop",
+      "label": "Show quick shop",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Grid",
+      "info": "Those settings are only used if the grid layout is selected."
+    },
+    {
+      "type": "checkbox",
+      "id": "grid_remove_spacing",
+      "label": "Remove spacing between grid items",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "grid_items_per_row",
+      "label": "Items per row",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "number_of_rows",
+      "label": "Number of rows",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "7",
+          "label": "7"
+        },
+        {
+          "value": "8",
+          "label": "8"
+        }
+      ],
+      "default": "3"
+    }
+  ]
+}

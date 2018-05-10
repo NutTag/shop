@@ -1,0 +1,81 @@
+{% comment %}
+If there is no active collection, we choose the "all" collection so that we still display related products
+{% endcomment %}
+
+{% if section.settings.related_products_enabled %}
+  {% unless collection %}
+    {% assign collection = collections.all %}
+  {% endunless %}
+
+  {% comment %}
+  All our themes come with a native integration with our SuperFields metafield app. If the product has the hand-picked choosen, then we display the
+  hand-picked products instead
+  {% endcomment %}
+
+  {% if product.metafields.sf_related_products.enabled == 1 %}
+    {% assign grid_items_per_row = 4 %}
+    {% assign grid_number_of_rows = 1 %}
+    {% assign total_number_of_related_products = grid_items_per_row | times: grid_number_of_rows %}
+  {% else %}
+    {% assign grid_items_per_row = section.settings.related_products_grid_items_per_row %}
+    {% assign grid_number_of_rows = section.settings.related_products_number_of_rows %}
+    {% assign total_number_of_related_products = grid_items_per_row | times: grid_number_of_rows %}
+  {% endif %}
+
+  {% case grid_items_per_row %}
+    {% when '2' or 2 %}
+      {% assign image_size = '800x' %}
+
+    {% when '3' or 3 %}
+      {% assign image_size = '600x' %}
+
+    {% when '4' or 4 %}
+      {% assign image_size = '500x' %}
+
+    {% when '5' or 5 %}
+      {% assign image_size = '300x' %}
+
+    {% when '6' or 6 %}
+      {% assign image_size = '250x' %}
+  {% endcase %}
+
+  <aside class="section section--padded related-products" data-products-count="{{ total_number_of_related_products }}">
+    <div class="inner">
+      <h3 class="section__title">{{ 'product.general.related_products' | t }}</h3>
+
+      <div class="grid grid--gallery grid--center grid--middle">
+        {% if product.metafields.sf_related_products.enabled == 1 %}
+          {% for i in (1..4) %}
+            {% capture related_product_option %}product_{{ i }}{% endcapture %}
+            {% assign related_product = all_products[product.metafields.sf_related_products[related_product_option]] %}
+
+            {% unless related_product.empty? %}
+              <div class="related-products__item grid__cell 1/2 1/{{ settings.tablet_grid_items_per_row }}--handheld 1/{{ grid_items_per_row }}--lap-and-up">
+                <a href="{{ related_product.url | within: collection }}">
+                  <img data-src="{{ related_product.featured_image | img_url: image_size }}" alt="{{ related_product.alt }}">
+                </a>
+              </div>
+            {% endunless %}
+          {% endfor %}
+        {% else %}
+          {% for related_product in collection.products limit: 25 %}
+            {% if related_product.id == product.id %}
+              {% continue %}
+            {% endif %}
+
+            {% comment %}
+            Performance note: we set the src in the data attribute, to prevent loading of all images, as some items will be removed by the related product
+            JavaScript picker
+            {% endcomment %}
+
+            <div class="related-products__item grid__cell 1/2 1/{{ settings.tablet_grid_items_per_row }}--handheld 1/{{ grid_items_per_row }}--lap-and-up">
+              <a href="{{ related_product.url | within: collection }}">
+                <img data-src="{{ related_product.featured_image | img_url: image_size }}" alt="{{ related_product.alt }}">
+              </a>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </aside>
+{% endif %}

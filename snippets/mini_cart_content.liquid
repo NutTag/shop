@@ -1,0 +1,44 @@
+{% if cart.item_count == 0 %}
+  <div class="mini-cart__empty" data-item-count="{{ cart.item_count }}">
+    <h4 class="mini-cart__empty-title">{{ 'cart.mini_cart.empty_title' | t }}</h4>
+    <p class="mini-cart__empty-subtitle">{{ 'cart.mini_cart.empty_subtitle' | t }}</p>
+
+    <a href="#" class="button button--primary" data-action="close-mini-cart">{{ 'cart.mini_cart.empty_button' | t }}</a>
+  </div>
+{% else %}
+  <div class="mini-cart__full" data-item-count="{{ cart.item_count }}">
+    <ul class="mini-cart__items">
+      {% for line_item in cart.items %}
+        <li class="mini-cart__item" data-index="{{ forloop.index }}">
+          <div class="mini-cart__image-container">
+            <a href="#" class="mini-cart__remove icon-cross-container" data-action="remove-product">
+              {% include 'icon' with 'close' %}
+            </a>
+
+            <img class="mini-cart__image" src="{{ line_item.image | img_url: '180x' }}" alt="{{ line_item.image.alt | escape }}">
+          </div>
+
+          <div class="product-meta">
+            {% if line_item.product.vendor != blank %}
+              <h3 class="product-meta__vendor">{{ line_item.product.vendor }}</h3>
+            {% endif %}
+
+            <h2 class="product-meta__title"><a href="{{ line_item.url }}">{{ line_item.quantity }} x {{ line_item.title }}</a></h2>
+            <span class="product-meta__price" data-money-convertible>{{ line_item.price | money }}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <footer class="mini-cart__footer">
+      <div class="mini-cart__total">
+        <span class="mini-cart__total-label">{{ 'cart.items.total' | t }}</span>
+        <span class="mini-cart__total-price" data-money-convertible>{{ cart.total_price | money }}</span>
+      </div>
+
+      <form action="/cart" method="POST">
+        <a href="/cart" class="button button--full button--primary">{{ 'cart.mini_cart.continue_to_checkout' | t }}</a>
+      </form>
+    </footer>
+  </div>
+{% endif %}

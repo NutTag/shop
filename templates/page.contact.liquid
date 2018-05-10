@@ -1,0 +1,67 @@
+<div class="grid contact-page">
+  <div class="grid-item large--one-whole text-center">
+    <!--<div class="wrapper"><h2 class="page-title dark-text37">{{ page.title }}</h2></div>
+    {% section 'page-featured-image' %}-->
+    <div class="banner-img banner-img--dark" style="margin-bottom:40px;background-image:url(//cdn.shopify.com/s/files/1/1801/4767/files/about-banner.jpg?9944138862738684183)">
+      
+      <ul> 
+       <li class="banner-list">
+        <div class="banner-left">
+          <div class="banner-left-inner">
+            <div class="wrapper wow fadeInLeft animated" style="visibility: visible;">
+            <h2>{{ page.title }}</h2>
+           </div>
+          </div>
+        </div>
+      </li>
+     </ul>
+    </div>
+    <div class="wrapper">      
+      {% section 'contact-blocks' %}
+    </div>
+    <div class="wrapper">
+      <div class="grid">
+        <div class="grid-item large--three-fifths push--large--one-fifth">
+          {% form 'contact' %}
+
+          {% if form.posted_successfully? %}
+          <p class="note form-success">
+            {{ 'contact.form.post_success' | t }}
+          </p>
+          {% endif %}
+
+          {% include 'form-errors-custom' %}
+
+          <div id="contactFormWrapper">
+            <label for="contactFormName" class="hidden-label">{{ 'contact.form.name' | t }}</label>
+            <input type="text" id="contactFormName" name="contact[name]" placeholder="{{ 'contact.form.name' | t }}" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" class="text19">
+
+            <label for="contactFormEmail" class="hidden-label">{{ 'contact.form.email' | t }}</label>
+            <input  class="text19" type="email" id="contactFormEmail" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+
+            <label for="contactFormPhone" class="hidden-label">{{ 'contact.form.phone' | t }}</label>
+            <input class="text19" type="tel" id="contactFormPhone" name="contact[phone]" placeholder="{{ 'contact.form.phone' | t }}" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+
+            <label for="contactFormMessage" class="hidden-label">{{ 'contact.form.message' | t }}</label>
+            <textarea class="text19" rows="10" id="contactFormMessage" name="contact[body]" placeholder="{{ 'contact.form.message' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+            <input type="submit" class="btn green-btn" value="{{ 'contact.form.send' | t }}">
+          </div>
+
+          {% endform %}
+        </div>
+      </div>
+    </div>
+    <div class="contact_page_description">
+      <div class="wrapper">
+        {{ page.content }}
+      </div>
+    </div>
+    <div class="contact_page_featured_blocks">
+      {% section 'featured-blocks' %}
+    </div>
+
+    {% section 'featured-parallax' %}
+  </div>
+
+</div>

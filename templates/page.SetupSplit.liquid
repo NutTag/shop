@@ -1,0 +1,64 @@
+<div class="grid guide-page">
+  <div class="grid-item large--one-whole text-center">
+
+    <div class="banner-img banner-img--dark" style="background-image:url(//cdn.shopify.com/s/files/1/1801/4767/files/about-banner.jpg?9944138862738684183)">
+      
+      <ul> 
+       <li class="banner-list">
+        <div class="banner-left">
+          <div class="banner-left-inner">
+            <div class="wrapper wow fadeInLeft animated" style="visibility: visible;">
+            <h2>{{ blog.title }}</h2>
+           </div>
+          </div>
+        </div>
+      </li>
+     </ul>
+    </div>
+
+   <!-- {% section "guide-topics" %}-->
+
+    <div class="wrapper">
+      <div class="grid">
+        <div class="grid-item large--one-whole text-left ">
+          {% include 'breadcrumb' %}
+        </div>
+      </div>
+      <div class="grid">
+        <div class="grid-item large--one-fifth text-left ">
+          <aside class="content-area">
+          <h3>Topic</h3>
+          <nav>
+            <ul>
+            {% for article in blog.articles  %}
+             <li><a href="{{ article.url }}">{{ article.title }}</a></li>
+             {% endfor %}
+            </ul>
+          </nav>
+          </aside>
+        </div>
+        <div class="grid-item large--four-fifths side-border text-left">
+            <div class="content-area">
+              
+                <h1>{{ article.title }}</h1>
+                <div class="rte text19">  
+                  {{ article.content }}
+                </div>
+          </div>
+      
+        </div>
+      </div>
+    </div>
+   
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  $(".content-area a").each(function(){
+    if(window.location.pathname==$(this).attr('href')){
+      $(this).css('color', '#51be95' );
+    }
+  });
+  
+</script>

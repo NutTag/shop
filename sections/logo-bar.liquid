@@ -1,0 +1,56 @@
+  <div class="grid-uniform1 text-center section-{{ section.id }} logo-bar">
+    <ul class="logo-list inline-list">
+    {% for block in section.blocks %}
+    <li class="logo-item text-center">
+    {% if block.settings.logo != blank %}
+      {% if block.settings.logo_link != blank %}
+      <a href="{{ block.settings.logo_link }}">
+      {% endif %}
+      <img src="{{ block.settings.logo | img_url: 'original' }}" alt="{{ block.settings.logo.alt }}">
+    {% if block.settings.logo_link != blank %}
+      </a>
+      {% endif %}
+        {% endif %}
+      </li>
+    {% endfor %}
+      </ul>
+    </div>
+
+{% schema %}
+  {
+    "name": "Logo bar",
+    "class": "logo-bar-section",
+"max_blocks": 12,
+"presets": [
+    {
+      "name": "Logo bar",
+      "category": "Logo bar"
+    }
+],
+"blocks" : [
+      {
+        "type": "image",
+        "name": "Image",
+    "settings": [
+      {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo image"
+      },
+      {
+            "type": "url",
+            "id": "logo_link",
+            "label": "Logo link"
+      }
+        ]
+      } 
+        ]
+  }
+    
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

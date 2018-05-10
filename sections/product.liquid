@@ -1,0 +1,279 @@
+{% comment %}In order to check if the product has reviews enabled, we iterate through all blocks{% endcomment %}
+{% assign product_reviews_enabled = false %}
+{% for block in section.blocks %}
+  {% if block.type == 'reviews' %}
+    {% assign product_reviews_enabled = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% include 'breadcrumb' %}
+
+<div class="product" id="product-{{ product.id }}" data-product="{{ product.id }}">
+  {% include 'product_details' %}
+  {% include 'product_tabs' %}
+</div>
+
+{% include 'related_products' %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    $('#product-{{ product.id }}').product({
+      product: {{ product | json }},
+      selectedVariantId: {% if product.selected_variant %}{{ product.selected_variant.id }}{% else %}null{% endif %},
+      context: 'main',
+      enableHistoryState: true
+    });
+
+    Shopify.Image.preload({{ product.images | json }}, '1500x');
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "always_show_description",
+      "label": "Show description on the right",
+      "info": "If enabled, description will be duplicated on the right",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "form_position",
+      "label": "Show \"add to cart\"...",
+      "options": [
+        {
+          "value": "before_description",
+          "label": "Before description"
+        },
+        {
+          "value": "after_description",
+          "label": "After description"
+        }
+      ],
+      "default": "after_description"
+    },
+    {
+      "type": "header",
+      "content": "Image slideshow"
+    },
+    {
+      "type": "select",
+      "id": "showcase_size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "big",
+          "label": "Big"
+        }
+      ],
+      "default": "big"
+    },
+    {
+      "type": "select",
+      "id": "showcase_rotation_effect",
+      "label": "Rotation effect",
+      "options": [
+        {
+          "value": "fade",
+          "label": "Fade"
+        },
+        {
+          "value": "slide",
+          "label": "Slide"
+        }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "checkbox",
+      "id": "showcase_show_thumbnails",
+      "label": "Show thumbnails",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "showcase_zoom_enabled",
+      "label": "Enable image zoom",
+      "info": "This is disabled on mobile.",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "showcase_zoom_magnification",
+      "label": "Zoom magnification (if enabled)",
+      "options": [
+        {
+          "value": "0.5",
+          "label": "50%"
+        },
+        {
+          "value": "1",
+          "label": "100%"
+        },
+        {
+          "value": "1.5",
+          "label": "150%"
+        },
+        {
+          "value": "2",
+          "label": "200%"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Related products"
+    },
+    {
+      "type": "paragraph",
+      "content": "Are you looking for hand-picked related products? You can do it now with our app SuperFields. [Learn more here](http://support.maestrooo.com/article/117-product-choosing-hand-picked-related-products)."
+    },
+    {
+      "type": "checkbox",
+      "id": "related_products_enabled",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "related_products_grid_items_per_row",
+      "label": "Products per row",
+      "options": [
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "related_products_number_of_rows",
+      "label": "Number of rows",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gallery",
+      "name": "Gallery",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Product's images will be inserted in this tab."
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Product's description will be inserted in this tab."
+        }
+      ]
+    },
+    {
+      "type": "reviews",
+      "name": "Reviews",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Make sure that you have installed [Shopify's free Product Reviews](https://apps.shopify.com/product-reviews) app before adding this tab."
+        }
+      ]
+    },
+    {
+      "type": "global_tab",
+      "name": "Global tab",
+      "settings": [
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page",
+          "info": "The title and content of the page will be used for the tab"
+        }
+      ]
+    },
+    {
+      "type": "unique_tab_1",
+      "name": "Unique tab 1",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "You can add a unique tab for a product using tags and page ([learn more about this feature here](http://support.maestrooo.com/article/83-product-adding-different-tabs-per-product)). Alternatively, you can avoid creating pages and pollute your admin by using metafields ([learn more about this feature here](http://support.maestrooo.com/article/84-product-using-our-app-superfields-to-add-unique-tabs-per-product))."
+        }
+      ]
+    },
+    {
+      "type": "unique_tab_2",
+      "name": "Unique tab 2",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "You can add a unique tab for a product using tags and page ([learn more about this feature here](http://support.maestrooo.com/article/83-product-adding-different-tabs-per-product)). Alternatively, you can avoid creating pages and pollute your admin by using metafields ([learn more about this feature here](http://support.maestrooo.com/article/84-product-using-our-app-superfields-to-add-unique-tabs-per-product))."
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "gallery",
+        "settings": {}
+      },
+      {
+        "type": "description",
+        "settings": {}
+      }
+    ]
+  }
+}
+{% endschema %}

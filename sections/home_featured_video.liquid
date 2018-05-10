@@ -1,0 +1,51 @@
+<section class="index-module section section--padded {% if section.settings.use_secondary_background %}section--secondary{% endif %} index-module__video">
+  <div class="container">
+    {% if section.settings.title != blank %}
+      <h2 class="section__title">{{ section.settings.title | escape }}</h2>
+    {% endif %}
+
+    <div class="rte">
+      <div class="video-wrapper">
+        {% if section.settings.video_url.type == 'youtube' %}
+          <iframe src="//www.youtube.com/embed/{{ section.settings.video_url.id }}?autoplay=0&showinfo=0&controls=0&rel=0" frameborder="0" allowfullscreen></iframe>
+        {% elsif section.settings.video_url.type == 'vimeo' %}
+          <iframe src="//player.vimeo.com/video/{{ section.settings.video_url.id }}?portrait=0&byline=0&color={{ settings.accent_color | remove_first: '#' }}" frameborder="0"></iframe>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video",
+  "class": "shopify-section__featured-video",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Your video"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_secondary_background",
+      "label": "Use secondary background",
+      "default": false
+    },
+    {
+      "type": "video_url",
+      "accept": ["vimeo", "youtube"],
+      "id": "video_url",
+      "label": "Video URL",
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+    }
+  ],
+  "presets": [
+    {
+      "category": "Video",
+      "name": "Featured video"
+    }
+  ]
+}
+{% endschema %}

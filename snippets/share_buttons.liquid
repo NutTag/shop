@@ -1,0 +1,31 @@
+<div class="share-buttons">
+  <span class="share-buttons__label">{{ 'general.social.share' | t }}</span>
+
+  <ul class="share-buttons__list">
+    {% if template contains 'product' %}
+      {% assign share_url = shop.url | append: product.url %}
+      {% assign twitter_text = product.title %}
+      {% assign pinterest_description = product.description | strip_html | truncatewords: 15 | url_param_escape %}
+      {% assign pinterest_image = product.featured_image | img_url: 'large' | prepend: 'https:' %}
+    {% elsif template contains 'article' %}
+      {% assign share_url = shop.url | append: article.url %}
+      {% assign twitter_text = article.title %}
+      {% assign pinterest_description = article.excerpt_or_content | strip_html | truncatewords: 15 | url_param_escape %}
+      {% assign pinterest_image = article.image | img_url: 'large' | prepend: 'https:' %}
+    {% else %}
+      {% assign share_url = shop.url %}
+    {% endif %}
+
+    <li class="share-buttons__item">
+      <a href="https://www.facebook.com/sharer.php?u={{ share_url }}" target="_blank">{% include 'icon' with 'facebook' %}</a>
+    </li>
+
+    <li class="share-buttons__item">
+      <a href="https://twitter.com/share?{% if twitter_text != blank %}text={{twitter_text}}&{% endif %}url={{ share_url }}" target="_blank">{% include 'icon' with 'twitter' %}</a>
+    </li>
+
+    <li class="share-buttons__item">
+      <a href="https://pinterest.com/pin/create/button/?url={{ share_url }}{% if pinterest_image != blank %}&media={{ pinterest_image }}{% endif %}&description={{ pinterest_description }}" target="_blank">{% include 'icon' with 'pinterest' %}</a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,43 @@
+<section class="account__address {% if template == 'customers/account' %}account__address--main{% endif %}">
+  {% if customer.addresses.size == 0 %}
+    <h3 class="customer__name">{{ customer.name }} {% if is_billing %}({{ 'customer.order.billing_address' | t }}){% elsif is_shipping %}({{ 'customer.order.shipping_address' | t }}){% endif %}</h3>
+  {% else %}
+    <h3 class="customer__name">{{ address.name }} {% if is_billing %}({{ 'customer.order.billing_address' | t }}){% elsif is_shipping %}({{ 'customer.order.shipping_address' | t }}){% endif %}</h3>
+  {% endif %}
+
+  {% if address != nil %}
+    <div class="address">
+      <p class="address__address1">{{ address.address1 }}</p>
+
+      {% if address.address2 != blank %}
+        <p class="address__address2">{{ address.address2 }}</p>
+      {% endif %}
+
+      <p class="address__details">{{ address.city }}, {% if address.province_code != blank %}{{ address.province_code }}, {% endif %}{{ address.country }}</p>
+
+      {% if address.zip != blank %}
+        <p class="address__zip">{{ address.zip | upcase }}</p>
+      {% endif %}
+
+      {% if address.phone != blank %}
+        <p class="address__phone">{{ address.phone }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if template == 'customers/account' %}
+    <a href="/account/addresses" class="link link--primary">{{ 'customer.account.manage_addresses' | t }} ({{ customer.addresses_count }})</a>
+  {% endif %}
+
+  {% if template == 'customers/addresses' %}
+    <div class="address__actions button-group">
+      <a href="#" data-action="open-edit-address-modal" data-address="{{ address.id }}" class="button button--primary">
+        {{ 'customer.addresses.edit' | t }}
+      </a>
+
+      <a href="#" onclick="Shopify.CustomerAddress.destroy({{ address.id }}); return false;" class="button button--secondary">
+        {{ 'customer.addresses.delete' | t }}
+      </a>
+    </div>
+  {% endif %}
+</section>

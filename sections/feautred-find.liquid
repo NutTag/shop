@@ -1,0 +1,309 @@
+<div class="wrapper"> 
+  <div class="text-center section-{{ section.id }} featured-blocks featured-find">
+    
+    {% if section.settings.find_heading != blank %}
+    <h1 class="wow fadeInDown">{{ section.settings.find_heading }}</h1>
+    {% endif %} 
+    {% if section.settings.find_sub_heading != blank %}
+    <h3 class="wow fadeInDown">{{ section.settings.find_sub_heading }}</h3>
+    {% endif %} 
+    {% if section.settings.find_text != blank %}
+    <p class="wow fadeInDown">{{ section.settings.find_text }}</p>
+    {% endif %} 
+    <div class="grid-uniform">
+    <div class="grid-item one-half left-section text-center  medium-down--one-whole">
+      
+      <div class="regular slider" data-speed="{{ section.settings.slider_home_rate }}" data-autoplay="{{ section.settings.slider_home_auto }}">
+    {% for block in section.blocks %}    
+      <div class="block-slides" data-color ="{{ block.settings.slide_color }}">
+        {% if block.settings.slide_image != blank %}
+            <img src="{{ block.settings.slide_image | img_url: 'original' }}" alt="{{ block.settings.slide_image.alt }}">
+        {% endif %}    
+      </div>
+    {% endfor %}      
+      </div>
+
+      {% if section.settings.made_with_icon != blank %}
+      <div class="made-with">
+      <img src="{{ section.settings.made_with_icon | img_url: 'original' }}" alt="{{ section.settings.made_with_icon.alt }}">
+      </div>
+      {% endif %}
+      
+    </div>
+      
+    
+    <div class="grid-item one-half right-section text-left medium-down--one-whole medium-down--text-center">
+      <ul>
+      {% for i in (1..4) %}
+      {% capture r_block %}block_{{ i }}_enable{% endcapture %}
+      {% capture r_block_heading %}block_{{ i }}_heading{% endcapture %}
+      {% capture r_block_text %}block_{{ i }}_text{% endcapture %}
+      {% capture r_block_icon %}block_{{ i }}_icon{% endcapture %}
+      {% if section.settings[r_block] %}      
+        <li class="wow fadeInRight">
+          {% if section.settings[r_block_icon] %}
+          <div class="img-section">
+          <img src="{{ section.settings[r_block_icon] | img_url: 'original' }}" />
+          </div>
+          {% endif %}
+          <div class="section-right-content">
+          <h3>{{ section.settings[r_block_heading] }}</h3>
+          <p>{{ section.settings[r_block_text] }}</p>
+          </div>
+        </li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+      
+      {% if section.settings.learn_more_text != "" %}
+        <a href="{{ section.settings.learn_more_link }}" class="learn_more btn green-btn">
+          {{ section.settings.learn_more_text }}
+        </a>
+        {% endif %}
+
+        {% if section.settings.video_text != "" %}
+        <a href="{{ section.settings.video_code }}" class="fancybox fancybox.iframe play_video_find btn black-btn">
+          {{ section.settings.video_text }}
+        </a>
+        {% endif %}
+
+    </div>  
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Featured find",
+"class": "featured-find-section",
+"presets": [
+{
+"name": "Featured find",
+"category": "Featured"
+}
+],
+"blocks" : [
+{
+"type": "image",
+"name": "Image",
+"settings": [
+{
+"type": "image_picker",
+"id": "slide_image",
+"label": "Image"
+},
+{
+"type": "select",
+"id": "slide_color",
+"label": "Choose color",
+"options": [
+{
+"value": "black",
+"label": "Black"
+},
+{
+"value": "white",
+"label": "White"
+},
+{
+"value": "grey",
+"label": "Grey"
+},
+{
+"value": "pink",
+"label": "Pink"
+},
+{
+"value": "green",
+"label": "Green"
+},
+{
+"value": "red",
+"label": "Red"
+},
+{
+"value": "blue",
+"label": "Blue"
+}
+]
+}
+]
+} 
+],
+"settings": [
+{
+"type": "checkbox",
+"id": "slider_home_auto",
+"label": "Auto-rotate slides"
+},
+{
+"type": "select",
+"id": "slider_home_rate",
+"label": "Transition time",
+"options": [
+{
+"value": "3000",
+"label": "3 seconds"
+},
+{
+"value": "4000",
+"label": "4 seconds"
+},
+{
+"value": "5000",
+"label": "5 seconds"
+},
+{
+"value": "7000",
+"label": "7 seconds"
+},
+{
+"value": "10000",
+"label": "10 seconds"
+},
+{
+"value": "15000",
+"label": "15 seconds"
+}
+]
+},
+{
+"type": "text",
+"id": "find_heading",
+"label": "Heading"
+},
+{
+"type": "text",
+"id": "find_sub_heading",
+"label": "Sub heading"
+},
+{
+"type": "html",
+"id": "find_text",
+"label": "Text"
+},
+{
+"type": "header",
+"content": "Right text blocks"
+},
+{
+"type": "checkbox",
+"id": "block_1_enable",
+"label": "Block 1"
+},
+{
+"type": "text",
+"id": "block_1_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "block_1_text",
+"label": "Text"
+},
+{
+"type": "image_picker",
+"id": "block_1_icon",
+"label": "Icon"
+},
+{
+"type": "checkbox",
+"id": "block_2_enable",
+"label": "Block 2"
+},
+{
+"type": "text",
+"id": "block_2_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "block_2_text",
+"label": "Text"
+},
+{
+"type": "image_picker",
+"id": "block_2_icon",
+"label": "Icon"
+},
+{
+"type": "checkbox",
+"id": "block_3_enable",
+"label": "Block 3"
+},
+{
+"type": "text",
+"id": "block_3_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "block_3_text",
+"label": "Text"
+},
+{
+"type": "image_picker",
+"id": "block_3_icon",
+"label": "Icon"
+},
+{
+"type": "checkbox",
+"id": "block_4_enable",
+"label": "Block 4"
+},
+{
+"type": "text",
+"id": "block_4_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "block_4_text",
+"label": "Text"
+},
+{
+"type": "image_picker",
+"id": "block_4_icon",
+"label": "Icon"
+},
+{
+"type": "header",
+"content": "Buttons"
+},
+{
+"type": "text",
+"id": "learn_more_text",
+"label": "Learn More Text"
+},
+{
+"type": "url",
+"id": "learn_more_link",
+"label": "Learn More Link"
+},
+{
+"type": "text",
+"id": "video_text",
+"label": "Video Text"
+},
+{
+"type": "html",
+"id": "video_code",
+"label": "Video Code"
+},
+{
+"type": "header",
+"content": "Left image blocks"
+},
+{
+"type": "image_picker",
+"id": "made_with_icon",
+"label": "Made with love"
+}
+]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

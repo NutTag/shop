@@ -1,0 +1,69 @@
+{% unless image_size %}
+{%- assign image_size = '600x600' -%}
+{% endunless %}
+
+{% unless current_collection %}
+{% assign current_collection = collection %}
+{% endunless %}
+
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available  %}
+{% assign sold_out = false %}
+{% endif %}
+{% assign variant = product.selected_or_first_available_variant %}
+
+<div class="product--{{ forloop.index }}{% if sold_out %} sold-out{% endif %}{% if on_sale %} on-sale{% endif %}"> 
+  <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="inner-section-content">
+
+    {% assign variant = product.selected_or_first_available_variant %}
+    <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+    <meta itemprop="price" content="{{ variant.price | divided_by: 100.00 }}">
+    <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+    <form action="/cart/add" method="post" enctype="multipart/form-data" class="addToCartForm">
+            
+      <div class="container container-padded container-bordered">
+      <h2 class="product-title" itemprop="name">{{ product.title }}</h2>
+      <div class="product-now-price">
+
+        <span class="product-price">{{ product.price | money }}</span>
+        <span class="compared-price"><s>{{ product.compare_at_price | money }}</s></span> 
+        <span class="price-notes">+ Free Shipping</span>
+
+      </div>
+      
+      {% if product.available and product.variants.size > 1 %}
+        <label>Select Your Colour</label>
+      {% endif %}
+        <select name="id" id="productSelect-{{ section.id }}" class="product-variants product-variants-{{ section.id }}">
+          {% for variant in product.variants %}
+          {% if variant.available %}
+          <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }}</option>
+          {% else %}
+          <option disabled="disabled">
+            {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+          </option>
+          {% endif %}
+          {% endfor %}
+        </select>
+
+        {% if product.available and product.variants.size > 1 %}
+        {% include 'swatch' with 'Color' %}
+        {% endif %}
+
+      </div>
+
+      <button type="submit" name="add" id="addToCart" class="btn addToCart {% if forloop.first %}active-button{% endif %}">
+        <span class="icon icon-cart"></span>
+        <span id="addToCartText-{{ section.id }}">{{ 'products.product.add_to_cart' | t }}</span>
+      </button>
+      
+    </form>
+
+  </div>
+</div>

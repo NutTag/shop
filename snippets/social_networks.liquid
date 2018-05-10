@@ -1,0 +1,61 @@
+{% capture social_media %}
+  {% if settings.social_facebook != blank %}
+    <li class="social-media__item">
+      <a href="{{ settings.social_facebook }}" target="_blank">{% include 'icon' with 'facebook', title: 'Facebook' %}{% if show_social_name %}Facebook{% endif %}</a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_twitter != blank %}
+    <li class="social-media__item">
+      <a href="{{ settings.social_twitter }}" target="_blank">{% include 'icon' with 'twitter', title: 'Twitter' %}{% if show_social_name %}Twitter{% endif %}</a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_instagram != blank %}
+    <li class="social-media__item">
+      <a href="{{ settings.social_instagram }}" target="_blank">{% include 'icon' with 'instagram', title: 'Instagram' %}{% if show_social_name %}Instagram{% endif %}</a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_pinterest != blank %}
+    <li class="social-media__item">
+      <a href="{{ settings.social_pinterest }}" target="_blank">{% include 'icon' with 'pinterest', title: 'Pinterest' %}{% if show_social_name %}Pinterest{% endif %}</a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_youtube != blank %}
+    <li class="social-media__item">
+      <a href="{{ settings.social_youtube }}" target="_blank">{% include 'icon' with 'youtube', title: 'YouTube' %}{% if show_social_name %}YouTube{% endif %}</a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_vimeo != blank %}
+    <li class="social-media__item">
+      <a href="{{ settings.social_vimeo }}" target="_blank">{% include 'icon' with 'vimeo', title: 'Vimeo' %}{% if show_social_name %}Vimeo{% endif %}</a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_tumblr != blank %}
+    <li class="social-media__item">
+      <a href="{{ settings.social_tumblr }}" target="_blank">{% include 'icon' with 'tumblr', title: 'Tumblr' %}{% if show_social_name %}Tumblr{% endif %}</a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_google_plus != blank %}
+    <li class="social-media__item">
+      <a href="{{ settings.social_google_plus }}" target="_blank">{% include 'icon' with 'google-plus', title: 'Google+' %}{% if show_social_name %}Google+{% endif %}</a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_fancy != blank %}
+    <li class="social-media__item">
+      <a href="{{ settings.social_fancy }}" target="_blank">{% include 'icon' with 'fancy', title: 'Fancy' %}{% if show_social_name %}Fancy{% endif %}</a>
+    </li>
+  {% endif %}
+{% endcapture %}
+
+{% if social_media != blank %}
+  <ul class="social-media {% unless show_social_name %}social-media--inline{% else %}social-media--vertical{% endunless %}">
+    {{ social_media }}
+  </ul>
+{% endif %}

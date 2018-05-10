@@ -1,0 +1,232 @@
+<div class="wrapper"> 
+  <div class="text-center section-{{ section.id }} featured-blocks featured-seek">
+    {% if section.settings.seek_heading != blank %}
+    <h1 class="wow fadeInDown" data-wow-delay="0.1s">{{ section.settings.seek_heading }}</h1>
+    {% endif %} 
+    {% if section.settings.seek_sub_heading != blank %}
+    <h3 class="wow fadeInDown" data-wow-delay="0.15s">{{ section.settings.seek_sub_heading }}</h3>
+    {% endif %} 
+    {% if section.settings.seek_text != blank %}
+    <p class="wow fadeInDown" data-wow-delay="0.19s">{{ section.settings.seek_text }}</p>
+    {% endif %} 
+    <div class="grid-uniform">
+    <!--------------Left-block-------------->
+    <div class="grid-item {% if section.settings.center_block_enable %}one-quarter {% else %}one-half{% endif %} right-section text-right left-seek medium-down--one-whole">
+      <ul> 
+      {% for i in (1..2) %}
+      {% capture left_block %}left_block_{{ i }}_enable{% endcapture %}
+      {% capture left_block_heading %}left_block_{{ i }}_heading{% endcapture %}
+      {% capture left_block_text %}left_block_{{ i }}_text{% endcapture %}
+      {% capture left_block_icon %}left_block_{{ i }}_icon{% endcapture %}
+      {% if section.settings[left_block] %}      
+        <li class="wow fadeInLeft" data-wow-delay="0.1s">
+          {% if section.settings[left_block_icon] %}
+          <div class="img-section">
+          <img src="{{ section.settings[left_block_icon] | img_url: 'original' }}" />
+          </div>
+          {% endif %}
+          <div class="section-right-content">
+          <h3>{{ section.settings[left_block_heading] }}</h3>
+          <p>{{ section.settings[left_block_text] }}</p>
+          </div>
+        </li>
+        {% endif %}
+      {% endfor %}
+      </ul>      
+      
+    </div>
+    
+    <!------------Center-block-------------->
+    {% if section.settings.center_block_enable %}
+    <div class="grid-item five-twelfths center-section text-center wow fadeInUp  medium-down--one-whole">
+      
+      {% if section.settings.center_block_image != blank %}
+      <div class="center-image">
+        <img src="{{ section.settings.center_block_image | img_url: 'original' }}" /> 
+      </div>
+      {% endif %}
+      
+      {% if section.settings.learn_more_text != "" %}
+        <a href="{{ section.settings.learn_more_link }}" class="learn_more btn green-btn">
+          {{ section.settings.learn_more_text }}
+        </a>
+      {% endif %}
+    </div>
+    {% endif %}
+    
+    <!------------Right-block-------------->
+    <div class="grid-item {% if section.settings.center_block_enable %}one-quarter {% else %}one-half{% endif %} right-section text-left right-seek">
+      <ul>
+      {% for i in (1..2) %}
+      {% capture right_block %}right_block_{{ i }}_enable{% endcapture %}
+      {% capture right_block_heading %}right_block_{{ i }}_heading{% endcapture %}
+      {% capture right_block_text %}right_block_{{ i }}_text{% endcapture %}
+      {% capture right_block_icon %}right_block_{{ i }}_icon{% endcapture %}
+      {% if section.settings[right_block] %}      
+        <li class="wow fadeInRight" data-wow-delay="0.1s">
+          {% if section.settings[right_block_icon] %}
+          <div class="img-section">
+          <img src="{{ section.settings[right_block_icon] | img_url: 'original' }}" />
+          </div>
+          {% endif %}
+          <div class="section-right-content">
+          <h3>{{ section.settings[right_block_heading] }}</h3>
+          <p>{{ section.settings[right_block_text] }}</p>
+          </div>
+        </li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+      </div>
+    </div>  
+
+  </div>
+</div>
+
+{% schema %}
+  {
+"name": "Featured seek",
+"class": "featured-seek-section",
+"presets": [
+{
+"name": "Featured seek",
+"category": "Featured"
+}
+],
+"settings": [
+{
+"type": "text",
+"id": "seek_heading",
+"label": "Heading"
+},
+{
+"type": "text",
+"id": "seek_sub_heading",
+"label": "Sub heading"
+},
+{
+"type": "html",
+"id": "seek_text",
+"label": "Text"
+},
+{
+"type": "header",
+"content": "Left text blocks"
+},
+{
+"type": "checkbox",
+"id": "left_block_1_enable",
+"label": "Block 1"
+},
+{
+"type": "text",
+"id": "left_block_1_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "left_block_1_text",
+"label": "Text"
+},
+{
+"type": "image_picker",
+"id": "left_block_1_icon",
+"label": "Icon"
+},
+{
+"type": "checkbox",
+"id": "left_block_2_enable",
+"label": "Block 2"
+},
+{
+"type": "text",
+"id": "left_block_2_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "left_block_2_text",
+"label": "Text"
+},
+{
+"type": "image_picker",
+"id": "left_block_2_icon",
+"label": "Icon"
+},
+{
+"type": "header",
+"content": "Center block"
+},
+{
+"type": "checkbox",
+"id": "center_block_enable",
+"label": "Center Block"
+},
+{
+"type": "image_picker",
+"id": "center_block_image",
+"label": "Center Block"
+},
+{
+"type": "text",
+"id": "learn_more_text",
+"label": "Learn More Text"
+},
+{
+"type": "url",
+"id": "learn_more_link",
+"label": "Learn More Link"
+},
+{
+"type": "header",
+"content": "Right text blocks"
+},
+{
+"type": "checkbox",
+"id": "right_block_1_enable",
+"label": "Block 1"
+},
+{
+"type": "text",
+"id": "right_block_1_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "right_block_1_text",
+"label": "Text"
+},
+{
+"type": "image_picker",
+"id": "right_block_1_icon",
+"label": "Icon"
+},
+{
+"type": "checkbox",
+"id": "right_block_2_enable",
+"label": "Block 2"
+},
+{
+"type": "text",
+"id": "right_block_2_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "right_block_2_text",
+"label": "Text"
+},
+{
+"type": "image_picker",
+"id": "right_block_2_icon",
+"label": "Icon"
+}
+]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

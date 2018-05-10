@@ -1,0 +1,190 @@
+<div class="wrapper">
+  {% paginate blog.articles by 5 %}
+
+  {% include 'breadcrumb' %}
+
+  <div class="grid grid-border blog-section">
+    <div class="display-table">
+      <div class="grid-item large--four-fifths  display-table-cell medium-down--one-whole">
+        <div class="grid">
+          <div class="grid-item blog-left">
+            {% if current_tags %}
+            <h1>{{ blog.title | link_to: blog.url }} &mdash; {{ current_tags.first }}</h1>
+            {% else %}
+            <h1>{{ blog.title }}</h1>
+            {% endif %}
+            {% for article in blog.articles %}
+            <div class="grid article-grid">
+              {% if article.image %}
+              {% assign image_alt = article.title | escape %}
+              <div class="grid-item one-third small--one-whole">
+                {{ article | img_url: '1024x1024' | img_tag: image_alt, 'article__image' | link_to: article.url }}
+              </div>
+              {% endif %}
+              <div class="grid-item two-thirds small--one-whole">
+                <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+               <!-- <p class="text-light">
+                  {% capture date %}<strong><time pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time></strong>{% endcapture %}
+                  {% capture author %}<strong>{{ article.author }}</strong>{% endcapture %}
+                  {{ 'blogs.article.author_on_date_html' | t: author: author, date: date }}
+                </p>-->
+                <div class="rte">         
+                  {% if article.excerpt.size > 0 %}
+                  {{ article.excerpt }}
+                  {% else %}
+                  <p>{{ article.content | strip_html | truncatewords: 100 }}</p>
+                  {% endif %}
+                </div>
+                <ul>
+                  {% if blog.comments_enabled? %}
+                  <li>
+                    <a href="{{ article.url }}#comments">
+                      {{ 'blogs.comments.with_count' | t: count: article.comments_count }}
+                    </a>
+                  </li>
+                  {% endif %}
+
+                  {% include 'tags-article' %}
+                </ul>
+                <p><a href="{{ article.url }}" class="read_more">{{ 'blogs.article.read_more' | t }} →</a></p>
+              </div>
+            </div>
+            {% endfor %}
+
+            {% if paginate.pages > 1 %}
+            <hr>
+            <div class="text-center">
+              {% include 'pagination-custom' %}
+            </div>
+            {% endif %}
+
+
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar grid-item large--one-fifth grid-border--left  display-table-cell  medium-down--one-whole">
+        {% include 'blog-sidebar' %}
+      </aside>
+    </div>
+  </div>
+  {% endpaginate %}
+</div>
+
+
+
+
+<div class="grid guide-page">
+  <div class="grid-item large--one-whole text-center">
+
+    <div class="banner-img banner-img--dark" style="background-image:url(//cdn.shopify.com/s/files/1/1801/4767/files/about-banner.jpg?9944138862738684183)">
+      
+      <ul> 
+       <li class="banner-list">
+        <div class="banner-left">
+          <div class="banner-left-inner">
+            <div class="wrapper wow fadeInLeft animated" style="visibility: visible;">
+            <h2>{{ page.title }}</h2>
+           </div>
+          </div>
+        </div>
+      </li>
+     </ul>
+    </div>
+
+    <div class="wrapper">
+      <div class="grid">
+        <div class="grid-item large--one-whole text-left ">
+          {% include 'breadcrumb' %}
+        </div>
+      </div>
+      <div class="grid">
+        <aside class="grid-item large--one-fifth text-left ">
+          <div class="content-area">
+          <h3>Topic</h3>
+          <nav>
+            {% include 'blog-sidebar' %}
+          </nav>
+          </div>
+        </aside>
+        <div class="grid-item large--four-fifths side-border text-left">
+            <div class="content-area">
+              {% case topic %}
+                {% when 'download-setup' %}
+                   <h1>Download and get setup</h1>
+                   <div class="text19">
+                     Secret offer- see bottom of this page. Secrte offer - see bottom of this page. 
+                     Secret offer- see bottom of this page. Secrte offer - see bottom of this page. 
+                     Secret offer- see bottom of this page. Secrte offer - see bottom of this page. 
+                     Secret offer- see bottom of this page. Secrte offer - see bottom of this page. 
+                     Secret offer- see bottom of this page. Secrte offer - see bottom of this page. 
+                     <div class="step-section">
+
+                      <h4>
+                        Step 1 
+                      </h4>
+                      <p>
+                        ::Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. 
+                      </p>
+
+                      <h4>
+                        Step 2 
+                      </h4>
+                      <p>
+                        ::Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. 
+                      </p>
+
+                      <h4>
+                        Step 3 
+                      </h4>
+                      <p>
+                        ::Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. 
+                      </p>
+
+                      <h4>
+                        Step 4 
+                      </h4>
+                      <p>
+                        ::Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. 
+                      </p>
+
+                      <h4>
+                        Step 5
+                      </h4>
+                      <p>
+                        ::Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. 
+                      </p>
+                     </div>
+                   </div>
+                   <div>
+                     <img src="https://cdn.shopify.com/s/files/1/1801/4767/files/userguide.jpg?10081555334600249993" alt="Download and get setup image">
+                   </div>
+                   <div class="text-center">
+                     <iframe width="560" height="315" src="https://www.youtube.com/embed/HAosj7T0unU" frameborder="0" allowfullscreen></iframe>
+                   </div>
+                {% when 'silent-zones' %}
+                  <h1>Silent zones</h1>
+                   <div class="text19">
+                     ;;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. Dicet pro me ipsa virtus nec dubitabit isti vestro beato M. Dulce amarum, leve asperum, prope longe, stare movere, quadratum rotundum. Huic ego, si negaret quicquam interesse ad beate vivendum quali uteretur victu, concederem, laudarem etiam; Et quidem Arcesilas tuus, etsi fuit in disserendo pertinacior, tamen noster fuit; Duo Reges: constructio interrete. Quid iudicant sensus? Quantum Aristoxeni ingenium consumptum videmus in musicis?
+                   </div>
+                {% when 'group-share-mode' %}
+                  <h1>Group share mode</h1>
+                   <div class="text19">
+                     ;;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. Dicet pro me ipsa virtus nec dubitabit isti vestro beato M. Dulce amarum, leve asperum, prope longe, stare movere, quadratum rotundum. Huic ego, si negaret quicquam interesse ad beate vivendum quali uteretur victu, concederem, laudarem etiam; Et quidem Arcesilas tuus, etsi fuit in disserendo pertinacior, tamen noster fuit; Duo Reges: constructio interrete. Quid iudicant sensus? Quantum Aristoxeni ingenium consumptum videmus in musicis?
+                   </div>
+                {% when 'disconnecting-nuttag' %}
+                    <h1>Disconnecting your NutTag</h1>
+                   <div class="text19">
+                     ;;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod autem ratione actum est, id officium appellamus. Dicet pro me ipsa virtus nec dubitabit isti vestro beato M. Dulce amarum, leve asperum, prope longe, stare movere, quadratum rotundum. Huic ego, si negaret quicquam interesse ad beate vivendum quali uteretur victu, concederem, laudarem etiam; Et quidem Arcesilas tuus, etsi fuit in disserendo pertinacior, tamen noster fuit; Duo Reges: constructio interrete. Quid iudicant sensus? Quantum Aristoxeni ingenium consumptum videmus in musicis?
+                   </div>
+                   
+              {% endcase %}
+          </div>
+      
+        </div>
+      </div>
+    </div>
+   
+  </div>
+
+</div>

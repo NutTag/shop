@@ -1,0 +1,189 @@
+<div class="wrapper">
+
+  {% include 'breadcrumb' %}
+  
+  <div class="grid grid-border">
+
+    <div class="grid-item{% if has_sidebar %} large--four-fifths grid-border--left{% endif %}">
+
+      <div class="grid-uniform products">
+
+        <header class="section-header one-half push--large--one-half medium-down--one-whole">
+
+          <h1 class="section-header--title">{{ collection.title }}</h1>
+
+          {% if section.settings.product_star_rating_html != blank %}
+          <div class="star-rating">
+          {{ section.settings.product_star_rating_html }} 
+          </div>
+          {% endif %}
+          
+          {% if section.settings.product_lead_text != blank %}
+          <p class="lead-text">{{ section.settings.product_lead_text }}</p>
+          {% endif %}
+          {% if section.settings.product_compare_link_text != blank %}
+          <p><a href="#compare-specifications" class="fancybox-full fancybox--info">{{ section.settings.product_compare_link_text }}</a></p>
+          {% endif %}
+
+        </header>
+
+        {% for product in collection.products %}
+        <div class="desktop-product medium-down--hide">
+          {% include 'custom-product-list' %}
+        </div>
+        {% endfor %}
+        <div class="mobile-product large--hide">
+          {% include 'custom-product-list-mobile' %}
+        </div>
+
+
+        <div class="grid-item push--one-half one-half bottom-btn text-left medium-down--one-whole add-cart-form-block">
+          <ul>
+            <li>
+              
+              {% assign afterpay_logo_theme = 'colour' %}
+              <p class="afterpay">Make 4 interest-free payments with 
+                <a target="_blank" href="https://www.afterpay.com.au/terms">
+                  <img src="https://static.afterpay.com/integration/product-page/logo-afterpay-{{ afterpay_logo_theme }}.png" srcset="https://static.afterpay.com/integration/product-page/logo-afterpay-{{ afterpay_logo_theme }}.png 1x, https://static.afterpay.com/integration/product-page/logo-afterpay-{{ afterpay_logo_theme }}@2x.png 2x, https://static.afterpay.com/integration/product-page/logo-afterpay-{{ afterpay_logo_theme }}@3x.png 3x" width="100" height="21" alt="Afterpay" />
+                  <u>More info</u>
+                </a>
+              </p>
+
+              <div class="add-cart-form-buttons">
+
+                <!--<p class="red-text error-text">*Please select a colour to continue</p>-->
+                <button type="submit" id="addToCart-main" class="btn addToCart medium-down--hide">
+                  <span class="icon icon-cart"></span>
+                  <span id="addToCartText">{{ 'products.product.add_to_cart' | t }}</span>
+                </button>
+                <button type="submit" id="addToCart-mobile" class="btn addToCart large--hide">
+                  <span class="icon icon-cart"></span>
+                  <span id="addToCartText">{{ 'products.product.add_to_cart' | t }}</span>
+                </button>
+
+              </div>
+
+              <div class="add-cart-form-links">
+
+                <!-- Genuine Products Disclaimer -->
+                <a href="#purchase-genuine" class="fancybox fancybox--info">Genuine Products Disclaimer</a>
+                      
+                {% if section.settings.download_brochure_text != blank and section.settings.download_brochure_jotformid != blank %}
+                <a class="icon icon-download" data-fancybox-type="iframe" href="https://form.jotform.co/{{ section.settings.download_brochure_jotformid }}" target="_blank">{{ section.settings.download_brochure_text }}</a>
+                {% endif %}
+
+              </div>
+              
+            </li>
+          </ul>
+        </div>        
+        
+        {% if collection.description != '' %}
+        <div class="grid-item rte rte--bottom text-center">
+          {{ collection.description }}
+        </div>
+        {% endif %}
+        
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+{% if section.settings.disclaimer_page != blank %}
+<div class="purchase-genuine" id="purchase-genuine" style="display: none;">
+  <h2>{{ pages[section.settings.disclaimer_page].title }}</h2>
+  <p>{{ pages[section.settings.disclaimer_page].content }}</p>
+  <div class="text-right"><a href="javascript:void(0)" class="thanks_btn btn green-btn" onclick="javascript:document.getElementById('fancybox-close').click();">Thanks, got it!</a></div>
+</div>
+{% endif %}
+
+
+<div id="compare-specifications" class="compare-specifications-container fancy-container" style="display: none;">
+  {{ pages.compare-specifications.content }}
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Collection",
+  "class": "collection-template-section",
+  "settings": [
+    {
+      "type": "html",
+      "id": "product_star_rating_html",
+      "label": "Product Stars"
+    },
+    {
+      "type": "text",
+      "id": "product_lead_text",
+      "label": "Product Lead Text"
+    },
+    {
+      "type": "text",
+      "id": "product_compare_link_text",
+      "label": "Compare Link Text"
+    },
+    {
+      "type": "header",
+      "content": "Product Listing"
+    },
+    {
+      "type": "text",
+      "id": "product_price_notes",
+      "label": "Price Foot Notes"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_show_compare_at_price",
+      "label": "Show compare at price",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "product_show_saved_amount",
+      "label": "Show saved amount",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Foot Links"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer_link_text",
+      "label": "Disclaimer Link Text"
+    },
+    {
+      "type": "page",
+      "id": "disclaimer_page",
+      "label": "Disclaimer Page"
+    },
+    {
+      "type": "text",
+      "id": "download_brochure_text",
+      "label": "Download Brochure Text"
+    },
+    {
+      "type": "text",
+      "id": "download_brochure_jotformid",
+      "label": "Download Brochure JotFormId"
+    },
+    {
+      "type": "url",
+      "id": "download_brochure_link",
+      "label": "Download Brochure Link"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+

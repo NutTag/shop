@@ -1,0 +1,45 @@
+{% case section.settings.showcase_size %}
+  {% when 'small' %}
+    {% assign product_showcase_grid_class = '2/5--lap-and-up' %}
+    {% assign product_info_grid_class = '3/5--lap-and-up' %}
+
+  {% when 'normal' %}
+    {% assign product_showcase_grid_class = '1/2--lap-and-up' %}
+    {% assign product_info_grid_class = '1/2--lap-and-up' %}
+
+  {% when 'big' %}
+    {% assign product_showcase_grid_class = '3/5--lap-and-up' %}
+    {% assign product_info_grid_class = '2/5--lap-and-up' %}
+{% endcase %}
+
+<div class="product__details">
+  <div class="inner">
+    {% include 'product_meta', show_vendor: section.settings.show_vendor, for_mobile: true %}
+
+    <div class="grid">
+      {% include 'product_slideshow' %}
+
+      <div class="product__info grid__cell {{ product_info_grid_class }}">
+        {% include 'product_meta', show_vendor: section.settings.show_vendor, for_mobile: false %}
+
+        {% if section.settings.form_position == 'before_description' %}
+          {% include 'product_form' %}
+        {% endif %}
+
+        {% if section.settings.always_show_description %}
+          <div class="product__description rte">
+            {{ product.description }}
+          </div>
+        {% endif %}
+
+        <div class="product__share">
+          {% include 'share_buttons' %}
+        </div>
+
+        {% if section.settings.form_position == 'after_description' %}
+          {% include 'product_form' %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

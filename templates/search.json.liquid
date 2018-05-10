@@ -1,0 +1,44 @@
+{% layout none %}
+
+{% capture results %}
+  {% for result in search.results limit: 3 %}
+    {% if result.object_type == 'product' %}
+      {
+        "object_type" : {{ result.object_type | json }},
+        "vendor"      : {{ result.vendor | json }},
+        "title"       : {{ result.title | json }},
+        "url"         : {{ result.url | json }},
+        "price_min"   : {{ result.price_min | json }},
+        "image"       : {{ result.featured_image | img_url: '120x' | json }}
+      },
+    {% elsif result.object_type == 'article' %}
+      {%- assign url_parts = result.url | split: '/' -%}
+      {%- assign article_blog_handle = url_parts[2] -%}
+      {%- assign article_blog = blogs[article_blog_handle] -%}
+
+      {
+        "object_type" : {{ result.object_type | json }},
+        "title"       : {{ result.title | json }},
+        "url"         : {{ result.url | json }},
+        "image"       : {{ result.image | img_url: '120x' | json }},
+        "blog"        : {{ article_blog.title | json }}
+      },
+    {% else %}
+      {
+        "object_type" : {{ result.object_type | json }},
+        "title"       : {{ result.title | json }},
+        "url"         : {{ result.url | json }},
+        "image"       : {{ result.image | img_url: '120x' | json }}
+      },
+    {% endif %}
+  {% endfor %}
+{% endcapture %}
+
+[
+  {{ results }}
+  {
+    "object_type": "all_results",
+    "results_count": {{ search.results_count }},
+    "url": "/search?q={{ search.terms }}&type={{ settings.search_mode }}"
+  }
+]

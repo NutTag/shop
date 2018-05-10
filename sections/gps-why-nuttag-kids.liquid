@@ -1,0 +1,184 @@
+<div class="wrapper text-center"> 
+
+  {% if section.settings.heading != blank %}
+  <h3 class="block-heading dark-text37">{{ section.settings.heading }}</h3>
+  {% endif %}
+  {% if section.settings.sub_text != blank %}
+  <p class="block-text text19">{{ section.settings.sub_text }}</p>
+  {% endif %}
+
+  
+  <div class="grid-uniform text-center section-{{ section.id }} bluetooth-why-nuttag" data-visible-block-count="{{ section.settings.visible_blocks_count}}">
+  
+    {% for block in section.blocks %}
+    <div class="grid-item one-third why-section">
+      <div class="why-section-inner display-table">
+        <div class="display-table-cell">
+          <div class="grid wow zoomIn">
+
+            {% if block.settings.block_image != blank %}             
+            <img src="{{ block.settings.block_image | img_url: 'original' }}" alt="{{ block.settings.block_image.alt }}">
+            {% endif %}
+
+            {% if block.settings.block_heading != blank %}
+            <p class="block-text1 text19">{{ block.settings.block_heading }}</p>
+            {% endif %}
+
+            {% if block.settings.block_text != blank %}
+            <p>{{ block.settings.block_text }}</p>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+
+  {% if section.settings.button_text != "" or section.settings.grey_text != "" %}
+  <div class="one-whole text-center why-btn-section">
+
+    {% if section.settings.button_text != "" %}
+    <a href="{{ section.settings.button_link }}" class="feature-link-lg icon icon-slideDown">
+      {{ section.settings.button_text }}
+    </a>
+    {% endif %}
+
+    {% if section.settings.grey_text != "" %}
+    <p class="grey-text">{{ section.settings.grey_text }}</p>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+</div>
+
+{% schema %}
+{
+  "name": "GPS - Why NutTag?",
+  "class": "bluetooth-why-nuttag-section",
+  "settings": [
+  {
+    "type": "text",
+    "id": "heading",
+    "label": "Heading"
+  },
+  {
+    "type": "html",
+    "id": "sub_text",
+    "label": "Sub text"
+  },
+  {
+    "type": "text",
+    "id": "button_text",
+    "label": "Button text"
+  },
+  {
+    "type": "url",
+    "id": "button_link",
+    "label": "Button link"
+  },
+  {
+    "type": "html",
+    "id": "grey_text",
+    "label": "Text besides button"
+  },
+  {
+     "type": "select",
+     "id": "visible_blocks_count",
+     "options": [
+        { "value": "3", "label": "Show 3 Blocks"},
+        { "value": "6", "label": "Show 6 Blocks"},
+        { "value": "9", "label": "Show 9 Blocks"},
+        { "value": "12", "label": "Show 12 Blocks"}
+     ],
+     "label": "Visible Blocks"
+  }
+  ],
+  "blocks" : [
+  {
+    "type": "image",
+    "name": "Image",
+    "settings": [
+    {
+      "type": "image_picker",
+      "id": "block_image",
+      "label": "Image"
+    },
+    {
+      "type": "html",
+      "id": "block_heading",
+      "label": "Heading"
+    },
+    {
+      "type": "html",
+      "id": "block_text",
+      "label": "Text"
+    }
+  ]
+  } 
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+
+$(document).ready(function() 
+{
+  var $section = $('.shopify-section.bluetooth-why-nuttag-section');
+  initWhyNutTagPage($section);
+});
+
+var initWhyNutTagPage = function($section)
+{
+  if ($section == 'undefined' || $section.length == 0)
+    $section = $(document);
+
+  var $gridSection = $section.find('.bluetooth-why-nuttag');
+  if ($gridSection.length)
+  {
+    var blockCount = $gridSection.find('.why-section').length;
+    var visibleBlockCount = parseInt($gridSection.data('visible-block-count'));
+
+    $gridSection.find('.why-section:gt(' + (visibleBlockCount-1) + ')').fadeOut();  
+    if (blockCount >= visibleBlockCount)
+    {
+      $section.find('.why-btn-section').show();
+    }
+   
+    if (visibleBlockCount <= 3)
+    {
+      $gridSection.find('.why-section').css('border-bottom', 'none');
+    }
+    else
+    {
+      $gridSection.find('.why-section:gt(' + (visibleBlockCount-4) + ')').css('border-bottom', 'none');
+    }
+
+  }
+
+  $(document).off('click.whybtn-more').on('click.whybtn-more', '.why-btn-section a', function(e)
+  {
+    var $self = $(e.target);
+
+    $gridSection.find('.why-section').fadeIn().removeAttr('style');
+    var blockCount = $gridSection.find('.why-section').length;
+    if (blockCount % 3 == 0)
+    {
+      $gridSection.find('.why-section:gt(' + (blockCount-4) + ')').css('border-bottom', 'none');
+    }
+    else
+    {
+      var rem = blockCount % 3;
+      $gridSection.find('.why-section:gt(' + (blockCount-(rem+1)) + ')').css('border-bottom', 'none');
+    }
+    $self.closest('.why-btn-section').hide();
+    return false;
+  });
+}
+
+{% endjavascript %}

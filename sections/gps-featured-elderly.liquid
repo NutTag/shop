@@ -1,0 +1,240 @@
+<div class="wrapper"> 
+
+  <div class="grid-uniform bluetooth-featured-grid">
+    <div class="grid-item one-half left-section text-center medium-down--one-whole">
+      
+      <div class="regular slider" data-speed="{{ section.settings.slider_home_rate }}" data-autoplay="{{ section.settings.slider_home_auto }}">
+      {% for block in section.blocks %}    
+        <div class="block-slides" data-color ="{{ block.settings.slide_color }}">
+          {% if block.settings.slide_image != blank %}
+              <img src="{{ block.settings.slide_image | img_url: 'master' }}" alt="{{ block.settings.slide_image.alt }}">
+          {% endif %}    
+        </div>
+      {% endfor %}      
+      </div>
+      
+      {% comment %} <p><img src="{{ 'icon-gps-tracks-your-items.svg' | asset_url }}" alt="{{ section.settings.slider_foot_image.alt }}"/></p> {% endcomment %}
+
+    </div>
+    <div class="grid-item one-half right-section text-left medium-down--one-whole medium-down--text-center">
+
+      <h1>{{ section.settings.feature_heading }}</h1>
+      <div class="feature-container">
+              
+        <div class="text19">
+          {{ section.settings.feature_html }}
+        </div>
+
+        {% if section.settings.feature_article != blank %}
+        <p class="text19">{{ section.settings.feature_article_text }}: <a class="fancybox fancybox-full" href="#article-{{ articles[section.settings.feature_article].id }}">{{ articles[section.settings.feature_article].title }}</a></p>
+        {% endif %}
+
+        {% if section.settings.download_brochure_text != "" or  section.settings.video_text != "" %}
+        <div class="button-container">        
+                      
+          {% if section.settings.download_brochure_text != blank and section.settings.download_brochure_jotformid != blank %}
+          <a class="learn_more btn green-btn" data-fancybox-type="iframe" href="https://form.jotform.co/{{ section.settings.download_brochure_jotformid }}" target="_blank">{{ section.settings.download_brochure_text }}</a>
+          {% endif %}
+
+          {% if section.settings.video_text != "" %}
+          <a href="{{ section.settings.video_code }}" class="fancybox fancybox.iframe play_video_find btn black-btn">{{ section.settings.video_text }}</a>       
+          {% endif %}
+          
+          {% if section.settings.buynow_collection != blank and section.settings.buynow_text != "" %}
+          <a href="{{ collections[section.settings.buynow_collection].url }}" class="buy_now btn">{{ section.settings.buynow_text }}</a>
+          {% endif %}
+
+        </div>
+        {% endif %}
+      
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div id="article-{{ articles[section.settings.feature_article].id }}" class="blog-container fancy-container" style="display: none;">
+
+  {% if articles[section.settings.feature_article].image %}
+    <img src="{{ articles[section.settings.feature_article].image | img_url: 'original' }}" alt="{{ articles[section.settings.feature_article].title }}" />
+  {% endif %}
+  <h1 class="section-header--title">{{ articles[section.settings.feature_article].title }}</h1>
+  {% comment %}
+  <div class="blog-meta">
+  {% capture date %}<strong><time pubdate datetime="{{ articles[section.settings.feature_article].published_at | date: '%Y-%m-%d' }}">{{ articles[section.settings.feature_article].published_at | date: format: 'month_day_year' }}</time></strong>{% endcapture %}
+  {% capture author %}<strong>{{ articles[section.settings.feature_article].author }}</strong>{% endcapture %}
+  {{ 'blogs.article.author_on_date_html' | t: author: author, date: date }}
+  </div>
+  {% endcomment %}
+  <div class="html blog-html">
+    {{ articles[section.settings.feature_article].content }}
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "GPS - Feature Content",
+  "class": "bluetooth-featured-section",
+  "presets": [
+  {
+    "name": "Featured Bluetooth",
+    "category": "Featured"
+  }
+  ],
+  "blocks" : [
+  {
+    "type": "image",
+    "name": "Image",
+    "settings": [
+    {
+      "type": "image_picker",
+      "id": "slide_image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "slide_color",
+      "label": "Choose color",
+      "options": [
+      {
+        "value": "black",
+        "label": "Black"
+      },
+      {
+        "value": "white",
+        "label": "White"
+      },
+      {
+        "value": "grey",
+        "label": "Grey"
+      },
+      {
+        "value": "pink",
+        "label": "Pink"
+      },
+      {
+        "value": "green",
+        "label": "Green"
+      },
+      {
+        "value": "red",
+        "label": "Red"
+      },
+      {
+        "value": "blue",
+        "label": "Blue"
+      }]
+    }]
+  }],
+  "settings": [
+  {
+    "type": "checkbox",
+    "id": "slider_home_auto",
+    "label": "Auto-rotate slides"
+  },
+  {
+    "type": "select",
+    "id": "slider_home_rate",
+    "label": "Transition time",
+    "options": [
+    {
+      "value": "3000",
+      "label": "3 seconds"
+    },
+    {
+      "value": "4000",
+      "label": "4 seconds"
+    },
+    {
+      "value": "5000",
+      "label": "5 seconds"
+    },
+    {
+      "value": "7000",
+      "label": "7 seconds"
+    },
+    {
+      "value": "10000",
+      "label": "10 seconds"
+    },
+    {
+      "value": "15000",
+      "label": "15 seconds"
+    }
+    ]
+  },
+  {
+    "type": "text",
+    "id": "feature_heading",
+    "label": "Heading"
+  },
+  {
+    "type": "text",
+    "id": "feature_sub_heading",
+    "label": "Sub heading"
+  },
+  {
+    "type": "html",
+    "id": "feature_html",
+    "label": "HTML"
+  },
+  {
+    "type": "article",
+    "id": "feature_article",
+    "label": "Latest News Article"
+  },
+  {
+    "type": "text",
+    "id": "feature_article_text",
+    "label": "Latest News Text"
+  },
+  {
+    "type": "header",
+    "content": "Buttons"
+  },
+  {
+    "type": "text",
+    "id": "download_brochure_text",
+    "label": "Download Brochure Text",
+    "default": "Download Brochure"      
+  },
+  {
+    "type": "text",
+    "id": "download_brochure_jotformid",
+    "label": "Download Brochure JotFormId",
+    "default": "72428729033862",
+    "info": "The form id provided by JotForms"
+  },
+  {
+    "type": "collection",
+    "id": "buynow_collection",
+    "label": "Buy Now Button Collection"
+  },
+  {
+    "type": "text",
+    "id": "buynow_text",
+    "label": "Buy Now Button Text",
+    "default": "Buy Now"
+  },
+  {
+    "type": "text",
+    "id": "video_text",
+    "label": "Video Text"
+  },
+  {
+    "type": "html",
+    "id": "video_code",
+    "label": "Video Code"
+  }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

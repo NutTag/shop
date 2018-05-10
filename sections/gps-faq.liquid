@@ -1,0 +1,143 @@
+<div class="wrapper"> 
+  <div class="grid-uniform section-{{ section.id }} gps-faq">     
+    <div class="grid-item small--one-whole medium--two-sixths large--two-sixths wow fadeInUp">  
+
+      {% if section.settings.image != blank %}
+      <img src="{{ section.settings.image | img_url: 'original' }}" alt="{{ section.settings.image.alt }}"/>
+      {% endif %}
+
+    </div>
+    <div class="grid-item small--one-whole medium--four-sixths large--four-sixths wow fadeInUp">
+
+      {% if section.settings.heading != blank %}
+      <h3 class="dark-text37 wow fadeInDown">{{ section.settings.heading }}</h3>
+      {% endif %}      
+
+      {% for block in section.blocks %}    
+      <div class="faq-container{% if block.settings.faq_featured != blank %} faq-featured{% endif %}">
+
+        {% if block.settings.faq_heading != blank %}
+        <h3 class="faq-heading text19"><a href="#">{{ block.settings.faq_heading }}</a></h3>
+        {% endif %}
+
+        {% if block.settings.faq_text != blank %}
+        <div class="faq-text text19" style="display:none">
+          <p>{{ block.settings.faq_text }}</p>
+        </div>
+        {% endif %}
+
+      </div>
+      {% endfor %}
+
+      <!-- FAQ Learn More -->
+      {% if section.settings.learn_more_page != blank %}
+      <a href="#faq-popup" class="fancybox fancybox--info icon icon-more">{{ section.settings.learn_more_text }}</a>
+      {% endif %}
+
+    </div>      
+  </div>
+</div>
+
+{% if section.settings.learn_more_page != blank %}
+<div id="faq-popup" class="page-container fancy-container" style="display: none;">  
+    {{ pages[section.settings.learn_more_page].content }}
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "GPS - FAQ",
+  "class": "bluetooth-technology-section",
+  "settings": [
+  {
+    "type": "text",
+    "id": "heading",
+    "label": "Heading"
+  },
+  {
+    "type": "image_picker",
+    "id": "image",
+    "label": "Image"
+  },
+  {
+    "type": "text",
+    "id": "learn_more_text",
+    "label": "Learn More Text",
+    "default": "Learn more"
+  },
+  {
+    "type": "page",
+    "id": "learn_more_page",
+    "label": "Learn More Page"
+  }],
+  "blocks" : [
+  {
+    "type": "text",
+    "name": "FAQ",
+    "settings": [
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQ Heading"
+    },
+    {
+      "type": "html",
+      "id": "faq_text",
+      "label": "FAQ Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "faq_featured",
+      "label": "Is Featured?",
+      "default": false
+    }]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+
+  $(document).ready(function(){
+
+    $(document).on('click', '.faq-container', function(e){
+
+        var $self = $(e.currentTarget);
+
+        var $faqHeading = $self.find('.faq-heading');
+        var $faqText = $self.find('.faq-text');
+
+        if (!$faqText.is(':visible')){
+
+          //open it.
+          $faqText.slideDown();
+
+          //change icon to minus
+          $faqHeading.find('a').addClass('faq-open');
+
+          //remove border and padding 
+          //$self.css('border-color', 'transparent');
+          //$self.css('padding-bottom', '0');
+        }
+        else
+        {
+
+          //close it.
+          $faqText.slideUp();
+
+          //change icon to plus
+          $faqHeading.find('a').removeClass('faq-open');
+
+          //remove border and padding
+          //$self.css('border-color', '#e5e5e5');
+          //$self.css('padding-bottom', '4px');
+        }
+
+        return false;
+    });
+
+  })
+
+{% endjavascript %}

@@ -1,0 +1,253 @@
+{% assign instagram_enabled = false %}
+{% assign instagram_access_token = '' %}
+{% assign instagram_subtitle = '' %}
+
+{% assign twitter_enabled = false %}
+{% assign twitter_username = '' %}
+{% assign twitter_subtitle = '' %}
+
+{% for block in section.blocks %}
+  {% case block.type %}
+    {% when 'instagram' %}
+      {% assign instagram_enabled = true %}
+      {% assign instagram_access_token = block.settings.instagram_access_token %}
+      {% assign instagram_subtitle = block.settings.instagram_subtitle %}
+
+    {% when 'twitter' %}
+      {% assign twitter_enabled = true %}
+      {% assign twitter_username = block.settings.twitter_username %}
+      {% assign twitter_subtitle = block.settings.twitter_subtitle %}
+  {% endcase %}
+{% endfor %}
+
+<section class="index-module section section--padded section--alternate index-module__social {% if section.settings.use_secondary_background %}section--secondary{% endif %}"
+         {% if instagram_enabled %}data-instagram-access-token="{{ instagram_access_token }}"{% endif %}
+         {% if twitter_enabled %}data-twitter-username="{{ twitter_username | remove_first: '@' }}"{% endif %}>
+  <div class="inner">
+    <h2 class="section__title">{{ section.settings.title | escape }}</h2>
+
+    {% if instagram_enabled or twitter_enabled %}
+      {% comment %}
+      When we have both modules activated, we want the Instagram pictures AND the tweet to have the same height.
+      To avoid to use an expensive JS solution, we'll use a solution based on table-cell, but it requires two
+      different markup depending on the context
+      {% endcomment %}
+
+      {% if instagram_enabled and twitter_enabled %}
+        <div class="social-feeds social-feeds--mobile">
+          {% for block in section.blocks %}
+            {% if block.type == 'instagram' %}
+              <div class="social-feeds__instagram instagram">
+                <div id="instafeed-mobile" class="instagram__images"></div>
+
+                {% if instagram_subtitle != blank %}
+                  <p class="social-feeds__subtitle">{{ instagram_subtitle | escape }}</p>
+                {% endif %}
+              </div>
+            {% elsif block.type == 'twitter' %}
+              <div class="social-feeds__twitter">
+                <div class="tweet">
+                  <div class="tweet__content rte"></div>
+                  <time class="tweet__date"></time>
+                </div>
+
+                {% if twitter_subtitle != blank %}
+                  <p class="social-feeds__subtitle">{{ twitter_subtitle | escape }}</p>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="social-feeds social-feeds--desktop">
+          <div class="social-feeds__row">
+            {% for block in section.blocks %}
+              {% if block.type == 'instagram' %}
+                <div id="instafeed" class="instagram__images"></div>
+              {% elsif block.type == 'twitter' %}
+                <div class="tweet">
+                  <div class="tweet__content"></div>
+                  <time class="tweet__date"></time>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          <div class="social-feeds__row">
+            {% for block in section.blocks %}
+              {% if block.type == 'instagram' and instagram_subtitle != blank %}
+                <p class="social-feeds__subtitle">{{ instagram_subtitle }}</p>
+              {% elsif block.type == 'twitter' and twitter_subtitle != blank %}
+                <p class="social-feeds__subtitle">{{ twitter_subtitle }}</p>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% else %}
+        <div class="social-feeds">
+          {% if instagram_enabled %}
+            <div class="social-feeds__instagram">
+              <div id="instafeed" class="instagram__images"></div>
+
+              {% if instagram_subtitle != blank %}
+                <p class="social-feeds__subtitle">{{ instagram_subtitle | escape }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if twitter_enabled %}
+            <div class="social-feeds__twitter">
+              <div class="tweet">
+                <div class="tweet__content rte"></div>
+                <time class="tweet__date"></time>
+              </div>
+
+              {% if twitter_subtitle != blank %}
+                <p class="social-feeds__subtitle">{{ twitter_subtitle | escape }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if twitter_enabled %}
+        <div id="twitter-timeline" style="display: none !important"></div>
+      {% endif %}
+    {% else %}
+      {% comment %}This displays some placeholder if no module are enabled{% endcomment %}
+
+      {% capture instagram_placeholder %}
+        <div class="instagram__image-wrapper">
+          <a href="#" target="_blank">
+            <div class="instagram__overlay">
+              <p class="instagram__caption"></p>
+              <time class="instagram__date">{{ 'home_page.onboarding.instagram_date' | t }}</time>
+            </div>
+
+            {{ 'image' | placeholder_svg_tag: 'instagram__image' }}
+          </a>
+        </div>
+
+        <div class="instagram__image-wrapper">
+          <a href="#" target="_blank">
+            <div class="instagram__overlay">
+              <p class="instagram__caption"></p>
+              <time class="instagram__date">{{ 'home_page.onboarding.instagram_date' | t }}</time>
+            </div>
+
+            {{ 'image' | placeholder_svg_tag: 'instagram__image' }}
+          </a>
+        </div>
+
+        <div class="instagram__image-wrapper">
+          <a href="#" target="_blank">
+            <div class="instagram__overlay">
+              <p class="instagram__caption"></p>
+              <time class="instagram__date">{{ 'home_page.onboarding.instagram_date' | t }}</time>
+            </div>
+
+            {{ 'image' | placeholder_svg_tag: 'instagram__image' }}
+          </a>
+        </div>
+      {% endcapture %}
+
+      {% capture tweet_placeholder %}
+        <div class="tweet">
+          <div class="tweet__content">
+            <p class="timeline-Tweet-text" lang="en" dir="ltr">{{ 'home_page.onboarding.tweet_content' | t }}</p>
+          </div>
+
+          <time class="tweet__date">{{ 'home_page.onboarding.tweet_date' | t }}</time>
+        </div>
+      {% endcapture %}
+
+      <div class="social-feeds social-feeds--mobile">
+        <div class="social-feeds__instagram instagram">
+          <div id="instafeed-mobile" class="instagram__images">
+            {{ instagram_placeholder }}
+          </div>
+        </div>
+
+        <div class="social-feeds__twitter">
+          {{ tweet_placeholder }}
+        </div>
+      </div>
+
+      <div class="social-feeds social-feeds--desktop">
+        <div class="social-feeds__row">
+          <div id="instafeed" class="instagram__images">
+            {{ instagram_placeholder }}
+          </div>
+
+          {{ tweet_placeholder }}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Social feeds",
+  "class": "shopify-section__social",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Social feeds"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_secondary_background",
+      "label": "Use secondary background",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "instagram",
+      "name": "Instagram",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "instagram_access_token",
+          "label": "Access Token",
+          "info": "[Find your access token](http://www.maestrooo.com/instagram)."
+        },
+        {
+          "type": "text",
+          "id": "instagram_subtitle",
+          "label": "Subtitle"
+        }
+      ]
+    },
+    {
+      "type": "twitter",
+      "name": "Twitter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "twitter_username",
+          "label": "Username"
+        },
+        {
+          "type": "text",
+          "id": "twitter_subtitle",
+          "label": "Subtitle"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Social media",
+      "name": "Social feeds",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,50 @@
+<div class="wrapper"> 
+  <div class="grid-uniform text-center section-{{ section.id }} bluetooth-features">
+    <div class="display-table">
+    {% for block in section.blocks %}    
+      <div class="grid-item one-quarter display-table-cell">
+          {% if block.settings.block_image != blank %}
+        <div class="blocks-img featured-img">
+          <img class="featured-img-sec" src="{{ block.settings.block_image | img_url: 'original' }}" alt="{{ block.settings.block_image.alt }}">
+          {% endif %}   
+        </div>
+          {% if block.settings.block_title != blank %}
+          <div class="feature-title">
+            <h3>{{ block.settings.block_title }}</h3>
+          </div>
+          {% endif %}
+      </div>
+    {% endfor %}
+   </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bluetooth Features",
+  "class": "bluetooth-features-section",
+  "max_blocks": 4,
+  "blocks" : [
+  {
+    "type": "image",
+    "name": "Image",
+    "settings": [
+    {
+      "type": "image_picker",
+      "id": "block_image",
+      "label": "Image"
+    },
+    {
+      "type": "html",
+      "id": "block_title",
+      "label": "Title"
+    }]
+  }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

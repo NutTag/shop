@@ -1,0 +1,85 @@
+<div class="wrapper"> 
+  <div class="text-center section-{{ section.id }} featured-blog">
+    {% if section.settings.featured_blog_heading != blank %}
+    <h3 class="wow fadeInDown" data-wow-delay="0.1s">{{ section.settings.featured_blog_heading }}</h3>
+    {% endif %}     
+    <div class="grid-uniform">
+      <div class="grid-item">
+        <ul class="grid"> 
+          {% for article in blogs[section.settings.featured_blog].articles limit: 3 %}
+          <li class="grid-item one-third text-left">
+
+            {% if article.image %}
+            {% assign image_alt = article.title | escape %}
+            <div class="blog-img wow zoomIn block-setion-rel">
+              <a href="{{ article.url }}">
+                {{ article | img_url: 'original' | img_tag: image_alt, 'article__image' }}
+                <div class="overlay-content">
+                  <span class="display-table">
+                    <span class="display-table-cell">
+                      <img src="{{ 'plus.png' | asset_url }}"/></span></span>
+                </div>
+              </a>
+            </div>
+            {% endif %}
+            <div class="blog-content">
+              <h4 class="blog-title">{{ article.title | link_to: article.url }}</h4>
+              {% if article.excerpt.size > 0 %}
+              {{ article.excerpt }}
+              {% else %}
+              <p class="blog-text">{{ article.content | strip_html | truncatewords: 100 }}</p>
+              {% endif %}
+            </div>
+          </li>
+          {% endfor %}
+        </ul>  
+
+        {% if section.settings.see_more_button != "" %}
+        <a href="{{ section.settings.see_more_button_link }}" class="see_more btn green-btn">
+          {{ section.settings.see_more_button }}
+        </a>
+        {% endif %}
+      </div>       
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+"name": "Featured blog",
+"class": "featured-blog-section",
+"presets": [
+{
+"name": "Featured blog",
+"category": "Featured"
+}
+],
+"settings": [
+{
+"type": "text",
+"id": "featured_blog_heading",
+"label": "Heading"
+},
+{
+"type": "blog",
+"id": "featured_blog",
+"label": "Choose blog"
+},
+{
+"type": "text",
+"id": "see_more_button",
+"label": "Button text"
+},
+{
+"type": "url",
+"id": "see_more_button_link",
+"label": "Button link"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

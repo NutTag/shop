@@ -1,0 +1,24 @@
+{% include 'newsletter' %}
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "class": "shopify-section__newsletter",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Any customers who sign up will have an account created for them in Shopify. [View customers](/admin/customers?query=&accepts_marketing=1)."
+    },
+    {
+      "type": "paragraph",
+      "content": "You can sync your customers with a newsletter service by installing their app."
+    }
+  ],
+  "presets": [
+    {
+      "category": "Promotional",
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}

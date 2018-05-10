@@ -1,0 +1,92 @@
+<div class="wrapper1"> 
+  <div class="grid-uniform section-{{ section.id }} bluetooth-policy">
+    <div class="wrapper">
+            
+        {% if section.settings.image != blank %}   
+        <div class="grid-item one-half medium-down--one-whole">
+          <img src="{{ section.settings.image | img_url: 'master' }}" alt="{{ section.settings.image.alt }}">
+        </div>
+        {% endif %}
+      
+        <div class="grid-item two-fifths right medium-down--one-whole">
+            {% if section.settings.heading %}
+            <h3 class="dark-text34">{{ section.settings.heading }}</h3>
+            {% endif %}
+            {% if section.settings.sub_text %}
+            <p>{{ section.settings.sub_text }}</p>
+            {% endif %}
+          
+          <div class="purchase-data">
+            {% for block in section.blocks %} 
+            {% if block.settings.list_text %}
+              <div>{{ block.settings.list_text }}</div>
+            {% endif %}
+            {% endfor %}
+          </div>
+
+            
+            {% if section.settings.stamp_img_1 != blank %}   
+            <img src="{{ section.settings.stamp_img_1 | img_url: 'master' }}" alt="{{ section.settings.stamp_img_1.alt }}">
+            {% endif %}
+            {% if section.settings.stamp_img_2 != blank %}   
+            <img src="{{ section.settings.stamp_img_2 | img_url: 'master' }}" alt="{{ section.settings.stamp_img_2.alt }}">
+            {% endif %}
+
+        </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bluetooth Purchase policy",
+  "class": "bluetooth-purchase-policy",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "sub_text",
+      "label": "Sub text"
+    },
+    {
+      "type": "image_picker",
+      "id": "stamp_img_1",
+      "label": "Stamp image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "stamp_img_2",
+      "label": "Stamp image 2"
+    }
+  ],
+  "blocks" : [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "html",
+          "id": "list_text",
+          "label": "List text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,67 @@
+<div class="bg-wrapper">
+<div class="wrapper1"> 
+  <div class="grid-uniform1 text-left section-{{ section.id }} corporate-bmw">
+    <div class="wrapper">
+      <div class="one-whole align-{{ section.settings.align_text }}">
+        {% if section.settings.block_logo!= blank %}
+        <div class="block-logo">
+        <img src="{{ section.settings.block_logo | img_url : 'original' }}" />
+        </div>
+        {% endif %}
+        
+        {% if section.settings.block_title != blank or section.settings.block_text != blank %}
+        <div class="one-whole flex-item1 bmw-section1">
+          <div class="feature-block wow">
+            <h3 class="dark-text37">{{ section.settings.block_title }}</h3>
+            <p class="text19">{{ section.settings.block_text }}</p>
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.block_image != blank %}   
+        <div class="grid-item five-eighths flex-item2">
+          <span class="bluetooth-img">
+            <img src="{{ section.settings.block_image | img_url: 'original' }}" alt="{{ section.settings.block_image.alt }}"></span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% schema %}
+{
+"name": "Corporate - BMW",
+"class": "corporate-bmw-section",
+"settings": [
+
+{
+"type": "image_picker",
+"id": "block_logo",
+"label": "Logo"
+},
+{
+"type": "image_picker",
+"id": "block_image",
+"label": "Image"
+},
+
+{
+"type": "text",
+"id": "block_title",
+"label": "Title"
+},
+{
+"type": "html",
+"id": "block_text",
+"label": "Text"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

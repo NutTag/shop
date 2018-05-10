@@ -1,0 +1,101 @@
+<section class="index-module section section--padded {% if section.settings.use_secondary_background %}section--secondary{% endif %}">
+  <div class="inner">
+    {% if section.settings.title != blank %}
+      <h2 class="section__title">{{ section.settings.title | escape }}</h2>
+    {% endif %}
+
+    <div class="list-collections list-collections--grid grid grid--middle grid--gallery">
+        {% assign grid_items_per_row = section.settings.grid_items_per_row %}
+
+        {% for block in section.blocks %}
+          {% assign page = pages[block.settings.page] %}
+
+          <div class="list-collections__item collection grid__cell 1/2 1/3--handheld 1/{{ grid_items_per_row }}--lap-and-up" {{ block.shopify_attributes }}>
+            <a href="{{ page.url }}" class="collection__link">
+              <img class="collection__image item" src="{{ block.settings.image | img_url: '800x800' }}" alt="{{ block.settings.image.alt | escape }}">
+
+              <div class="collection__overlay">
+                <h3 class="collection__title">{{ page.title }}</h3>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured pages",
+  "class": "shopify-section__featured-collections",
+  "max_blocks": 9,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Pages list"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_secondary_background",
+      "label": "Use secondary background",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "grid_items_per_row",
+      "label": "Items per row",
+      "info": "This setting is only used for the grid layout mode.",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "page",
+      "name": "Page",
+      "settings": [
+		{
+		  "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+		},
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Collection",
+      "name": "Page list",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

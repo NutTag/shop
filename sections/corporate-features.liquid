@@ -1,0 +1,62 @@
+<div class="wrapper"> 
+  <hr>
+  <div class="text-center section-{{ section.id }} corporate-features-inner">       
+    <div class="grid-uniform">
+      <div class="grid-item">
+        <ul class="grid"> 
+          {% for block in section.blocks %}
+          <li class="grid-item one-third text-center medium-down--one-whole">
+
+            {% if block.settings.block_icon != blank %}
+            <div class="img-section">
+              <span class="img-section1">
+                <img src="{{ block.settings.block_icon | img_url: 'original' }}" />
+              </span>
+            </div>
+            {% endif %}
+            <div class="featured-content">
+              <h4 class="featured-title">{{ block.settings.block_heading }}</h4>
+              <p class="featured-text">{{ block.settings.block_text }}</p>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>  
+      </div>       
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+"name": "Corporate features",
+"class": "corporate-features",
+"blocks" : [
+{
+"type": "text",
+"name": "Text",
+"settings": [
+{
+"type": "image_picker",
+"id": "block_icon",
+"label": "Icon"
+},
+{
+"type": "text",
+"id": "block_heading",
+"label": "Heading"
+},
+{
+"type": "html",
+"id": "block_text",
+"label": "Text"
+}
+]
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

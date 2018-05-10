@@ -1,0 +1,72 @@
+{% assign base_menu_handle = settings.navigation_menu | default: 'main-menu' %}
+{% assign navigation_name = linklists[handle].title %}
+
+<ul class="navigation-sidebar__list {% if handle == base_menu_handle %}navigation-sidebar__list--active{% endif %}" data-list-index="{{ list_index }}" data-nav-for="{{ handle }}" data-nav-name="{{ navigation_name }}">
+  {% for link in linklists[handle].links %}
+    {% if link.handle == '' %}
+      {% comment %}When handle is empty, this means user is using a non-Latin language (like Chinese or Japanese){% endcomment %}
+
+      {% assign has_dropdown = false %}
+
+      {% for linklist in linklists %}
+        {% if linklist.title == link.title and linklist.links.size > 0 %}
+          <li class="navigation-sidebar__item navigation-sidebar__item--expandable">
+            <a href="{{ link.url }}" class="navigation-sidebar__link" data-open-nav="{{ linklist.handle }}">
+              <span class="navigation-sidebar__link-title">{{ link.title }}</span>
+              {% include 'icon' with 'arrow-right' %}
+            </a>
+          </li>
+
+          {% assign has_dropdown = true %}
+
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% unless has_dropdown %}
+        <li class="navigation-sidebar__item">
+          <a href="{{ link.url }}" class="navigation-sidebar__link">
+            <span class="navigation-sidebar__link-title">{{ link.title }}</span>
+          </a>
+        </li>
+      {% endunless %}
+    {% else %}
+      {% comment %}
+      We want also to do a check to make sure that the link title matches the linklist title, but we want to make it case
+      insensitive, so we need to create additional variables
+      {% endcomment %}
+
+      {% assign child_linklist_title = linklists[link.handle].title | downcase %}
+      {% assign current_link_title = link.title | downcase %}
+
+      {% if linklists[link.handle] and linklists[link.handle].links.size > 0 and child_linklist_title == current_link_title %}
+        <li class="navigation-sidebar__item navigation-sidebar__item--expandable">
+          <a href="{{ link.url }}" class="navigation-sidebar__link" data-open-nav="{{ link.handle }}">
+            <span class="navigation-sidebar__link-title">{{ link.title }}</span>
+            {% include 'icon' with 'arrow-right' %}
+          </a>
+        </li>
+      {% else %}
+        <li class="navigation-sidebar__item">
+          <a href="{{ link.url }}" class="navigation-sidebar__link">
+            <span class="navigation-sidebar__link-title">{{ link.title }}</span>
+          </a>
+        </li>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  {% if handle == base_menu_handle %}
+    {% if shop.customer_accounts_enabled %}
+      {% if customer %}
+        <li class="navigation-sidebar__item">
+          <a href="/account" class="navigation-sidebar__link" >{{ 'customer.account.title' | t }}</a>
+        </li>
+      {% else %}
+        <li class="navigation-sidebar__item">
+          <a href="/account/login" class="navigation-sidebar__link" >{{ 'customer.login.title' | t }}</a>
+        </li>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+</ul>

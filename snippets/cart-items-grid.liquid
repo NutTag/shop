@@ -1,0 +1,115 @@
+{% unless grid_item_width %}
+{% assign grid_item_width = 'large--one-quarter medium-down--one-half' %}
+{% endunless %}
+
+{% unless image_size %}
+{%- assign image_size = '400x400' -%}
+{% endunless %}
+
+{% unless current_collection %}
+{% assign current_collection = collection %}
+{% endunless %}
+
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available  %}
+{% assign sold_out = false %}
+{% endif %}
+
+<div class="cart-ajax grid">
+
+  <div  class="product-grid-item">
+    <div class="product-grid-image1">
+      <div class="grid">
+        <div class="grid-item one-third large--three-tenths">
+          <a href="{{current_collection.url }}">
+            <div class="product-grid-image--centered cart-image">
+              {% if sold_out %}
+              <div class="badge badge--sold-out"><span class="badge-label">{{ 'products.product.sold_out' | t }}</span></div>
+              {% endif %}
+              <img src="{{ product.featured_image.src | img_url: '400x400' , crop: 'center'  }}" alt="{{ product.featured_image.alt | escape }}">
+            </div>
+          </a>
+        </div>
+        <div class="grid-item two-thirds large--seven-tenths">
+          <a href="{{current_collection.url }}"><p>{{ product.title }}</p></a>
+          <div class="product-item--price drawer-price">
+            <span class="h2 medium--left">
+              {% if on_sale %}
+              <span class="visually-hidden">{{ "products.general.sale_price" | t }}</span>
+              {% else %}
+              <span class="visually-hidden">{{ "products.general.regular_price" | t }}</span>
+              {% endif %}
+              {% if on_sale %}
+              <small>
+                <s>
+                  <span class="visually-hidden">{{ "products.general.regular_price" | t }}</span>
+                  {% include 'price' with product.compare_at_price %}
+                </s>
+              </small>
+              {% endif %}
+              {% include 'price' with product.price %}
+
+            </span>
+            {% comment %}
+            {% if on_sale %}
+            <span class="sale-tag">
+              {% assign compare_price = product.compare_at_price %}
+              {% assign product_price = product.price %}
+              ({% include 'price-sale' %})
+            </span>
+            {% endif %}
+            {% endcomment %}
+
+          </div>
+          <form action="/cart/add" method="post" enctype="multipart/form-data" id="addToCartForm" class="addToCartForm add-tocart-top1">
+            <select name="id" id="productSelect-{{ section.id }}" class="product-variants product-variants-{{ section.id }}">
+              {% for variant in product.variants %}
+              {% if variant.available %}
+              <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+              {% else %}
+              <option disabled="disabled">
+                {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+              </option>
+              {% endif %}
+              {% endfor %}
+            </select>
+            <input type="hidden" name="return_to" value="back" />
+            <button type="submit" name="add" id="addToCart" class="drawer_add_to_cart addToCart">
+              <span id="addToCartText-{{ section.id }}">{{ 'products.product.add_to_cart' | t }}</span>
+            </button>
+          </form>
+
+          {% if section.settings.product_reviews_enable %}
+          <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <form action="/cart/add" method="post" enctype="multipart/form-data" id="addToCartForm" class="addToCartForm add-tocart-top">
+    <select name="id" id="productSelect-{{ section.id }}" class="product-variants product-variants-{{ section.id }}">
+      {% for variant in product.variants %}
+      {% if variant.available %}
+      <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+      {% else %}
+      <option disabled="disabled">
+        {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+      </option>
+      {% endif %}
+      {% endfor %}
+    </select>
+    <input type="hidden" name="return_to" value="back" />
+    <button type="submit" name="add" id="addToCart" class="btn addToCart">
+      {% include 'icon-plus' %}
+      <span id="addToCartText-{{ section.id }}">{{ 'products.product.add_to_cart' | t }}</span>
+    </button>
+  </form>
+</div>

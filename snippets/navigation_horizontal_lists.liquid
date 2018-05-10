@@ -1,0 +1,86 @@
+{% assign class_types = 'list,dropdown,dropdown,dropdown' | split: ',' %}
+
+{% if horizontal_nav_linklist == blank %}
+  {% assign base_menu_handle = settings.navigation_menu | default: 'main-menu' %}
+  {% assign horizontal_nav_linklist = linklists[base_menu_handle] %}
+{% endif %}
+
+{% assign mega_nav_linklist = linklists[settings.navigation_horizontal_mega_nav] %}
+
+<ul class="navigation-horizontal__{{ class_types[level] }}">
+  {% for link in horizontal_nav_linklist.links %}
+    {% if link.handle == '' %}
+      {% comment %}When handle is empty, this means user is using a non-Latin language (like Chinese or Japanese){% endcomment %}
+
+      {% assign has_dropdown = false %}
+
+      {% for linklist in linklists %}
+        {% if linklist.title == link.title and linklist.links.size > 0 and level < 2 %}
+          <li class="navigation-horizontal__{{ class_types[level] }}-item navigation-horizontal__{{ class_types[level] }}-item--expandable">
+            <a href="{{ link.url }}" class="navigation-horizontal__{{ class_types[level] }}-link">
+              {{ link.title }}
+
+              {% if class_types[level] == 'list' %}
+                {% include 'icon' with 'dropdown-arrow' %}
+              {% else %}
+                {% include 'icon' with 'dropdown-arrow-right' %}
+              {% endif %}
+            </a>
+
+            {% if mega_nav_linklist.title == linklist.title %}
+              {% include 'navigation_horizontal_mega_nav', mega_nav: linklist %}
+            {% else %}
+              {% assign next_level = level | plus: 1 %}
+              {% include 'navigation_horizontal_lists', horizontal_nav_linklist: linklist, level: next_level %}
+              {% assign level = level | minus: 1 %}
+            {% endif %}
+          </li>
+
+          {% assign has_dropdown = true %}
+
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% unless has_dropdown %}
+        <li class="navigation-horizontal__{{ class_types[level] }}-item">
+          <a href="{{ link.url }}" class="navigation-horizontal__{{ class_types[level] }}-link">{{ link.title }}</a>
+        </li>
+      {% endunless %}
+    {% else %}
+      {% comment %}
+      We want also to do a check to make sure that the link title matches the linklist title, but we want to make it case
+      insensitive, so we need to create additional variables
+      {% endcomment %}
+
+      {% assign child_linklist_title = linklists[link.handle].title | downcase %}
+      {% assign current_link_title = link.title | downcase %}
+
+      {% if linklists[link.handle] and linklists[link.handle].links.size > 0 and child_linklist_title == current_link_title and level < 2 %}
+        <li class="navigation-horizontal__{{ class_types[level] }}-item navigation-horizontal__{{ class_types[level] }}-item--expandable">
+          <a href="{{ link.url }}" class="navigation-horizontal__{{ class_types[level] }}-link">
+            {{ link.title }}
+
+            {% if class_types[level] == 'list' %}
+              {% include 'icon' with 'dropdown-arrow' %}
+            {% else %}
+              {% include 'icon' with 'dropdown-arrow-right' %}
+            {% endif %}
+          </a>
+
+          {% if mega_nav_linklist.handle == link.handle %}
+            {% include 'navigation_horizontal_mega_nav', mega_nav: linklists[link.handle] %}
+          {% else %}
+            {% assign next_level = level | plus: 1 %}
+            {% include 'navigation_horizontal_lists', horizontal_nav_linklist: linklists[link.handle], level: next_level %}
+            {% assign level = level | minus: 1 %}
+          {% endif %}
+        </li>
+      {% else %}
+        <li class="navigation-horizontal__{{ class_types[level] }}-item">
+          <a href="{{ link.url }}" class="navigation-horizontal__{{ class_types[level] }}-link">{{ link.title }}</a>
+        </li>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</ul>

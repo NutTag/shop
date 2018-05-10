@@ -1,0 +1,29 @@
+{% assign handle_as_array = handle | split: '/' %}
+{% assign handles_accumulator = handles_accumulator | concat: handle_as_array %}
+
+{% for link in linklists[handle].links %}
+  {% comment %}
+  We iterate through each link, and if this links contains a nested dropdown, we accumulate it. There is a specific case: if handle is empty, this
+  means that user is using a non-Latin language (like Chinese or Japanese). In this case, we need to have additional logic.
+  {% endcomment %}
+
+  {% if link.handle == '' %}
+    {% comment %}When handle is empty, we have no other choices that iterate other linklist and compare with the title{% endcomment %}
+
+    {% for linklist in linklists %}
+      {% if linklist.title == link.title and linklist.links.size > 0 %}
+        {% unless handles_accumulator contains linklist.handle %}
+          {% include 'navigation_accumulator', handle: linklist.handle %}
+        {% endunless %}
+
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    {% if linklists[link.handle] and linklists[link.handle].links.size > 0 %}
+      {% unless handles_accumulator contains link.handle %}
+        {% include 'navigation_accumulator', handle: link.handle %}
+      {% endunless %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
