@@ -1,4 +1,4 @@
-# shop
+# NutTag Australia Shopify Theme
 
 NutTag Shopify Theme https://nuttag.com.au
 
