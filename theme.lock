@@ -224,7 +224,7 @@ assets/tab-arrow.png:
 assets/theme.js.liquid:
   development: 2017-12-14T23:25:13+11:00   3d0bfe47857fc793fa858fc12a45e0d3
 assets/theme.scss.liquid:
-  development: 2018-03-21T15:35:08+11:00   443a5fd7e2c2f323424bbf4a85915a33
+  development: 2018-05-23T22:13:52+10:00   03c887828c052e171cfa0734a2d91d0d
 assets/tick.jpg:
   development: 2017-11-23T11:48:30+11:00   b1bdcd9f045b8bcd11a7de2a971a4427
 assets/top-s.png:
@@ -245,6 +245,8 @@ assets/white-arrow.png:
   development: 2017-11-23T11:48:30+11:00   81bccea63a5b57ff9a4b597716b81a12
 assets/white.png:
   development: 2017-11-23T11:48:30+11:00   0e477a6e40dbdc5b7428c15edddf171d
+assets/why-nuttag.js:
+  development: 2018-05-23T21:52:12+10:00   3b6af3654620db40f539b06a40970e41
 config/settings_data.json:
   development: 2018-05-22T15:51:42+10:00   8f312d8952d293a6bc90b4b193346c46
 config/settings_schema.json:
@@ -316,9 +318,9 @@ sections/bluetooth-technology_split-a.liquid:
 sections/bluetooth-technology_split-b.liquid:
   development: 2017-11-23T11:48:11+11:00   ccf61b60b43b003bee7977c9aca0b2b6
 sections/bluetooth-video-map.liquid:
-  development: 2017-11-23T11:48:11+11:00   26535626e135180d91fbe994cbde9bce
+  development: 2018-05-23T22:04:32+10:00   32aff635e8f35adba58a575c6772acb3
 sections/bluetooth-why-nuttag.liquid:
-  development: 2017-11-23T11:48:11+11:00   a3fcd783e2f53ad4a63c05fb198ee010
+  development: 2018-05-23T21:50:20+10:00   b75a90aa4affa44876c6746e5a00e59e
 sections/cart.liquid:
   development: 2017-04-27T21:53:48+10:00   a8163772bb659543c778a2315bd55306
 sections/collapse-content.liquid:
@@ -380,19 +382,19 @@ sections/custom-collection-pagenav.liquid:
 sections/custom-collection.liquid:
   development: 2017-11-23T11:48:11+11:00   b200d1f73565d6b5e7dd5320ca39dff6
 sections/custom-collections-gps-elderly-watch.liquid:
-  development: 2018-05-16T18:36:10+10:00   36c56195cddeb51853c59a2a5c5be238
+  development: 2018-05-23T21:16:26+10:00   7e26b77b57698a1b1c91f42eb36d2a7f
 sections/custom-collections-gps-elderly.liquid:
-  development: 2017-11-23T11:48:11+11:00   36c56195cddeb51853c59a2a5c5be238
+  development: 2018-05-23T21:16:57+10:00   be2bb950c76ac174e3d854b3436a0e55
 sections/custom-collections-gps-kids-watch.liquid:
-  development: 2018-05-16T19:06:54+10:00   36c56195cddeb51853c59a2a5c5be238
+  development: 2018-05-23T21:16:58+10:00   7e26b77b57698a1b1c91f42eb36d2a7f
 sections/custom-collections-gps-kids.liquid:
-  development: 2017-11-23T11:48:11+11:00   36c56195cddeb51853c59a2a5c5be238
+  development: 2018-05-23T21:16:57+10:00   be2bb950c76ac174e3d854b3436a0e55
 sections/custom-collections-gps-pets.liquid:
-  development: 2017-11-23T11:48:12+11:00   36c56195cddeb51853c59a2a5c5be238
+  development: 2018-05-23T21:16:57+10:00   be2bb950c76ac174e3d854b3436a0e55
 sections/custom-collections-gps-vehicle.liquid:
-  development: 2017-11-23T11:48:12+11:00   36c56195cddeb51853c59a2a5c5be238
+  development: 2018-05-23T21:16:55+10:00   be2bb950c76ac174e3d854b3436a0e55
 sections/custom-collections-gps.liquid:
-  development: 2017-11-23T11:48:12+11:00   36c56195cddeb51853c59a2a5c5be238
+  development: 2018-05-23T21:16:57+10:00   be2bb950c76ac174e3d854b3436a0e55
 sections/custom-collections-pro.liquid:
   development: 2017-11-23T11:48:12+11:00   3588b113d2cd18b90fd23f99d62c113a
 sections/customer-feedback-gps-elderly-watch.liquid:
@@ -466,7 +468,7 @@ sections/gps-featured-elderly.liquid:
 sections/gps-featured-kids-watch.liquid:
   development: 2018-05-17T23:51:15+10:00   191ea17f1b880e66110e9252aadd2719
 sections/gps-featured-kids.liquid:
-  development: 2017-12-04T12:11:10+11:00   038cb3068bb1b857ed57df553110e591
+  development: 2018-05-23T14:31:53+10:00   601178c02aed4a0b303e184699ebb7d0
 sections/gps-featured-parallax-elderly.liquid:
   development: 2017-11-23T11:48:13+11:00   0eb92190a5241d434402f7eb1cb54ec1
 sections/gps-featured-parallax-kids.liquid:
@@ -544,27 +546,27 @@ sections/gps-tab-slider-vehicle.liquid:
 sections/gps-tab-slider.liquid:
   development: 2017-11-23T11:48:14+11:00   43cfb20d391e1cc3cce76c358af7fd06
 sections/gps-video-map-elderly.liquid:
-  development: 2017-11-23T11:48:14+11:00   85bb91e721f19afa79065fc685897e8c
+  development: 2018-05-23T22:03:55+10:00   406f2569879c9e267fba099bc6fc6963
 sections/gps-video-map-kids.liquid:
-  development: 2017-11-23T11:48:14+11:00   85bb91e721f19afa79065fc685897e8c
+  development: 2018-05-23T22:04:33+10:00   4cc5d89465035683b01fc002f179ad95
 sections/gps-video-map-pets.liquid:
-  development: 2017-11-23T11:48:14+11:00   85bb91e721f19afa79065fc685897e8c
+  development: 2018-05-23T22:04:31+10:00   4cc5d89465035683b01fc002f179ad95
 sections/gps-video-map-vehicle.liquid:
-  development: 2017-11-23T11:48:14+11:00   85bb91e721f19afa79065fc685897e8c
+  development: 2018-05-23T22:04:33+10:00   4cc5d89465035683b01fc002f179ad95
 sections/gps-video-map.liquid:
-  development: 2017-11-23T11:48:14+11:00   85bb91e721f19afa79065fc685897e8c
+  development: 2018-05-23T22:04:33+10:00   4cc5d89465035683b01fc002f179ad95
 sections/gps-why-nuttag-elderly.liquid:
-  development: 2017-11-23T11:48:14+11:00   08b6cf0b67f8c79edca53a3705153a72
+  development: 2018-05-23T21:50:21+10:00   ebbe78259b0afd02d58be99779c78fa6
 sections/gps-why-nuttag-kids-watch.liquid:
-  development: 2018-05-21T10:27:31+10:00   08b6cf0b67f8c79edca53a3705153a72
+  development: 2018-05-23T21:50:20+10:00   5406acf97ce83376aa1dfbd8be3a42c3
 sections/gps-why-nuttag-kids.liquid:
-  development: 2017-11-23T11:48:14+11:00   08b6cf0b67f8c79edca53a3705153a72
+  development: 2018-05-23T21:48:32+10:00   906f3d048dbeae4078424e6da9176ae6
 sections/gps-why-nuttag-pets.liquid:
-  development: 2017-11-23T11:48:14+11:00   08b6cf0b67f8c79edca53a3705153a72
+  development: 2018-05-23T21:50:24+10:00   ebbe78259b0afd02d58be99779c78fa6
 sections/gps-why-nuttag-vehicle.liquid:
-  development: 2017-11-23T11:48:14+11:00   08b6cf0b67f8c79edca53a3705153a72
+  development: 2018-05-23T21:50:22+10:00   906f3d048dbeae4078424e6da9176ae6
 sections/gps-why-nuttag.liquid:
-  development: 2017-11-23T11:48:14+11:00   08b6cf0b67f8c79edca53a3705153a72
+  development: 2018-05-23T21:50:24+10:00   ebbe78259b0afd02d58be99779c78fa6
 sections/guide-topics.liquid:
   development: 2017-11-23T11:48:14+11:00   ad2df6e4aa20ff30b546f71b7b43ba99
 sections/header-parallax.liquid:

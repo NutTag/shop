@@ -44,6 +44,10 @@
           <a href="{{ collections[section.settings.buynow_collection].url }}" class="buy_now btn">{{ section.settings.buynow_text }}</a>
           {% endif %}
           
+          {% if section.settings.buynow2_collection != blank and section.settings.buynow2_text != "" %}
+          <a href="{{ collections[section.settings.buynow2_collection].url }}" class="buy_now btn">{{ section.settings.buynow2_text }}</a>
+          {% endif %}
+          
         </div>
         {% endif %}
       
@@ -217,6 +221,17 @@
     "type": "text",
     "id": "buynow_text",
     "label": "Buy Now Button Text",
+    "default": "Buy Now"
+  },
+  {
+    "type": "collection",
+    "id": "buynow2_collection",
+    "label": "Buy Now 2 Button Collection"
+  },
+  {
+    "type": "text",
+    "id": "buynow2_text",
+    "label": "Buy Now 2 Button Text",
     "default": "Buy Now"
   },
   {

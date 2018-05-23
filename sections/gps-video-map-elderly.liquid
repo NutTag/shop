@@ -16,9 +16,13 @@
       <source src="{{ section.settings.custom_video_url }}" type="video/mp4">
       </video>
       {% endif %}
+      
+      {% if section.settings.custom_gif != blank  %}     
       <div class="custom-gif mobile large--hide">
-       <img src="{{ section.settings.custom_gif }}" alt= "custom_gif" />
-      </div>
+       <img src="{{ section.settings.custom_gif }}" alt= "" />
+      </div>      
+      {% endif %}
+
       {% else %}
 
       {% if section.settings.video_url.type == "youtube" %}

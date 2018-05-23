@@ -8,7 +8,7 @@
   {% endif %}
 
   
-  <div class="grid-uniform text-center section-{{ section.id }} bluetooth-why-nuttag" data-visible-block-count="{{ section.settings.visible_blocks_count}}">
+  <div class="grid-uniform grid-flex text-center section-{{ section.id }} bluetooth-why-nuttag" data-visible-block-count="{{ section.settings.visible_blocks_count}}">
   
     {% for block in section.blocks %}
     <div class="grid-item one-third why-section">
@@ -126,59 +126,7 @@
 {% endstylesheet %}
 
 {% javascript %}
-
-$(document).ready(function() 
-{
-  var $section = $('.shopify-section.bluetooth-why-nuttag-section');
-  initWhyNutTagPage($section);
-});
-
-var initWhyNutTagPage = function($section)
-{
-  if ($section == 'undefined' || $section.length == 0)
-    $section = $(document);
-
-  var $gridSection = $section.find('.bluetooth-why-nuttag');
-  if ($gridSection.length)
-  {
-    var blockCount = $gridSection.find('.why-section').length;
-    var visibleBlockCount = parseInt($gridSection.data('visible-block-count'));
-
-    $gridSection.find('.why-section:gt(' + (visibleBlockCount-1) + ')').fadeOut();  
-    if (blockCount >= visibleBlockCount)
-    {
-      $section.find('.why-btn-section').show();
-    }
-   
-    if (visibleBlockCount <= 3)
-    {
-      $gridSection.find('.why-section').css('border-bottom', 'none');
-    }
-    else
-    {
-      $gridSection.find('.why-section:gt(' + (visibleBlockCount-4) + ')').css('border-bottom', 'none');
-    }
-
-  }
-
-  $(document).off('click.whybtn-more').on('click.whybtn-more', '.why-btn-section a', function(e)
-  {
-    var $self = $(e.target);
-
-    $gridSection.find('.why-section').fadeIn().removeAttr('style');
-    var blockCount = $gridSection.find('.why-section').length;
-    if (blockCount % 3 == 0)
-    {
-      $gridSection.find('.why-section:gt(' + (blockCount-4) + ')').css('border-bottom', 'none');
-    }
-    else
-    {
-      var rem = blockCount % 3;
-      $gridSection.find('.why-section:gt(' + (blockCount-(rem+1)) + ')').css('border-bottom', 'none');
-    }
-    $self.closest('.why-btn-section').hide();
-    return false;
-  });
-}
-
 {% endjavascript %}
+
+<!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'why-nuttag.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+<!--[if lt IE 9]><script src="{{ 'why-nuttag.js' | asset_url }}"></script><![endif]-->
