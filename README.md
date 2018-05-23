@@ -1,6 +1,6 @@
 # NutTag Australia Shopify Theme
 
-NutTag Shopify Theme https://nuttag.com.au
+https://nuttag.com.au
 
 Using Theme Kit for development:
 
