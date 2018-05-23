@@ -102,7 +102,7 @@
           "logo": "shopify:\/\/shop_images\/NutLogo.png",
           "logo_max_width": "129",
           "cart_logo": "shopify:\/\/shop_images\/cart.png",
-          "header_message": "<p>FREE Delivery*\n<\/p>",
+          "header_message": "Mayhem <span>35% OFF<\/span> +<p> FREE Delivery*\n<\/p>",
           "menu": "main-menu",
           "buy_now_text": "Buy now",
           "buy_now_link": "https:\/\/nuttag.com.au\/collections\/nuttag-pro",
@@ -2341,7 +2341,7 @@
         "type": "custom-collections-pro",
         "settings": {
           "product_star_rating_html": "<span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star-half\"><\/i><\/span>",
-          "product_lead_text": "Easily attach NutTAG to your valuables and use the app to locate them in seconds. Great for keys, wallets, bags – anything! <br><b>Note:<\/b> Android users please consult Live Chat or Support about your phone model",
+          "product_lead_text": "Easily attach NutTAG to your valuables and use the app to locate them in seconds. Great for keys, wallets, bags – anything! <br><b>Note:<\/b> Android users please ask Live Chat or Support about your phone model",
           "product_compare_link_text": "Compare Find 3 and PRO unit specifications",
           "product_price_notes": "+ Free Shipping",
           "product_show_compare_at_price": true,
@@ -2356,11 +2356,18 @@
       "header-tracking": {
         "type": "header-tracking",
         "blocks": {
-          "1505272847132": {
+          "1505322357292": {
             "type": "page",
             "settings": {
-              "tracking_page_text": "Luggage",
-              "tracking_page_handle": "luggage-page"
+              "tracking_page_text": "Kids",
+              "tracking_page_handle": "tracking-kids"
+            }
+          },
+          "1505322352043": {
+            "type": "page",
+            "settings": {
+              "tracking_page_text": "Elderly",
+              "tracking_page_handle": "tracking-elderly"
             }
           },
           "1505322318228": {
@@ -2384,27 +2391,6 @@
               "tracking_page_handle": "tracking-pets"
             }
           },
-          "1505322346890": {
-            "type": "page",
-            "settings": {
-              "tracking_page_text": "Bike",
-              "tracking_page_handle": "tracking-bike"
-            }
-          },
-          "1505322352043": {
-            "type": "page",
-            "settings": {
-              "tracking_page_text": "Elderly",
-              "tracking_page_handle": "tracking-elderly"
-            }
-          },
-          "1505322357292": {
-            "type": "page",
-            "settings": {
-              "tracking_page_text": "Kids",
-              "tracking_page_handle": "tracking-kids"
-            }
-          },
           "1507163528097": {
             "type": "page",
             "settings": {
@@ -2412,30 +2398,44 @@
               "tracking_page_handle": "tracking-phone"
             }
           },
+          "1505272847132": {
+            "type": "page",
+            "settings": {
+              "tracking_page_text": "Luggage",
+              "tracking_page_handle": "luggage-page"
+            }
+          },
+          "1505322346890": {
+            "type": "page",
+            "settings": {
+              "tracking_page_text": "Bike",
+              "tracking_page_handle": "tracking-bike"
+            }
+          },
           "1507163540218": {
             "type": "page",
             "settings": {
-              "tracking_page_text": "Vehicles",
+              "tracking_page_text": "Vehicles, Car",
               "tracking_page_handle": "tracking-vehicles"
             }
           },
           "1507163555182": {
             "type": "page",
             "settings": {
-              "tracking_page_text": "Asset management",
+              "tracking_page_text": "Are you a business?",
               "tracking_page_handle": "tracking-asset-management"
             }
           }
         },
         "block_order": [
-          "1505272847132",
+          "1505322357292",
+          "1505322352043",
           "1505322318228",
           "1505322328047",
           "1505322334581",
-          "1505322346890",
-          "1505322352043",
-          "1505322357292",
           "1507163528097",
+          "1505272847132",
+          "1505322346890",
           "1507163540218",
           "1507163555182"
         ],
@@ -5075,7 +5075,7 @@
               "main_text": "<font color=\"white\">Personal Travel Security<br><\/font>",
               "sub_text": "Your personal luggage tracker, travel confidently.",
               "buy_now_text": "Buy Now",
-              "buy_now_link": "shopify:\/\/collections\/seek-kids-gps",
+              "buy_now_link": "shopify:\/\/collections\/seek-gps-trackers-travel-luggage-bags",
               "video_text": "",
               "video_code": ""
             }
@@ -5337,6 +5337,368 @@
         "settings": {
           "accessories_heading": "Accessories",
           "accessories_collection": ""
+        }
+      },
+      "custom-collections-gps-elderly-watch": {
+        "type": "custom-collections-gps-elderly-watch",
+        "settings": {
+          "product_star_rating_html": "<span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star-half\"><\/i><\/span>",
+          "product_lead_text": "Smart watch with, real-time tracker allows you to keep track of your loved ones via the Online Portal and mobile App. Emergency SOS button and two way communication means your always close by.",
+          "product_compare_link_text": "",
+          "product_price_notes": "Free Delivery",
+          "product_show_compare_at_price": false,
+          "product_show_saved_amount": true,
+          "disclaimer_link_text": "access-plan",
+          "disclaimer_page": "gps-subscription",
+          "download_brochure_text": "",
+          "download_brochure_jotformid": "",
+          "download_brochure_link": ""
+        }
+      },
+      "custom-collection-pagenav-gps-elderly-watch": {
+        "type": "custom-collection-pagenav-gps-elderly-watch",
+        "settings": {}
+      },
+      "customer-feedback-gps-elderly-watch": {
+        "type": "customer-feedback-gps-elderly-watch",
+        "settings": {
+          "heading": ""
+        }
+      },
+      "product-featured-parallax-gps-elderly-watch": {
+        "type": "product-featured-parallax-gps-elderly-watch",
+        "settings": {
+          "featured_parallax_image": "",
+          "featured_parallax_heading": "",
+          "featured_parallax_text": "",
+          "download_brochure_text": "Download Brochure",
+          "download_brochure_jotformid": "72428729033862",
+          "watch_more_button": "",
+          "watch_more_button_link": ""
+        }
+      },
+      "product-accessories-gps-watch": {
+        "type": "product-accessories-gps-watch",
+        "settings": {
+          "accessories_heading": "Accessories",
+          "accessories_collection": "gps-watch-tracker-accessories"
+        }
+      },
+      "product-whats-inbox-gps-watch": {
+        "type": "product-whats-inbox-gps-watch",
+        "blocks": {
+          "1526867311240": {
+            "type": "image",
+            "settings": {
+              "block_image": "shopify:\/\/shop_images\/3g_GPS_Watch_264987fc-b1bf-47a0-874e-3d571b303940.jpg",
+              "block_title": "GPS Smart Watch<br>\nUSB Charging cable<br>\nSIM Embedded *12 months included<br>"
+            }
+          }
+        },
+        "block_order": [
+          "1526867311240"
+        ],
+        "settings": {
+          "heading": "What's in the box?",
+          "sub_text": "We engineer each unit in Melbourne so it is ready for use - out of the box!"
+        }
+      },
+      "unit-specifications-gps-elderly-watch": {
+        "type": "unit-specifications-gps-elderly-watch",
+        "settings": {
+          "heading": "Unit Specifications",
+          "left_block_title_1": "Range",
+          "left_block_icon_1": "shopify:\/\/shop_images\/1.png",
+          "left_block_text_1": "Unlimited\n<br><font size=\"-1\"> International SIM available<\/font>",
+          "left_block_title_2": "Water resistant",
+          "left_block_icon_2": "shopify:\/\/shop_images\/3.png",
+          "left_block_text_2": "IP65 Standard",
+          "left_block_title_3": "Technology",
+          "left_block_icon_3": "",
+          "left_block_text_3": "3G + GPS + WiFi + LBS multi-mode positioning",
+          "center_block_image": "shopify:\/\/shop_images\/Front_side.png",
+          "right_block_title_1": "Dimensions & Weight",
+          "right_block_icon_1": "shopify:\/\/shop_images\/4.png",
+          "right_block_text_1": "1.6 x 3.6 x 1.6 cm",
+          "right_block_icon_1_2": "shopify:\/\/shop_images\/5.png",
+          "right_block_text_1_2": "40g",
+          "right_block_title_2": "Battery Life",
+          "right_block_icon_2": "shopify:\/\/shop_images\/7.png",
+          "right_block_text_2": "1-2 Days<br><font size=\"-1\"> Regular use<\/font>",
+          "right_block_icon_2_2": "shopify:\/\/shop_images\/7.png",
+          "right_block_text_2_2": "4-5 Days<br><font size=\"-1\"> Standby<\/font>"
+        }
+      },
+      "product-faq-gps-elderly-watch": {
+        "type": "product-faq-gps-elderly-watch",
+        "blocks": {
+          "1526882277068": {
+            "type": "text",
+            "settings": {
+              "block_title": "How long does the battery last?",
+              "block_text": "Our Smart GPS watch has a 600mAH rechargeable batter which will get you 1-2 days normal use and up to 5 days on standby mode."
+            }
+          },
+          "1526882931716": {
+            "type": "text",
+            "settings": {
+              "block_title": "How long does it take to charge the battery?",
+              "block_text": "Our Smart GPS watch will take between 2-3 hours to fully recharge."
+            }
+          },
+          "1526884005239": {
+            "type": "text",
+            "settings": {
+              "block_title": "Can I use it internationally?",
+              "block_text": "Yes you can however you will need to activate global roaming at an additional charge of $1 per day. Please contact LiveChat or support@nuttag.com.au for assistance in getting ready for your travels."
+            }
+          },
+          "1526884246374": {
+            "type": "text",
+            "settings": {
+              "block_title": "What are the on-going costs?",
+              "block_text": "Our SIM cards are embedded in the GPS unit with 12 months subscriptions – so they are ready for use out of the box. There are no contracts, so you can let the subscription expire and not renew, if you choose. Note the basic subscription doesn't include SMS credit."
+            }
+          },
+          "1526884280687": {
+            "type": "text",
+            "settings": {
+              "block_title": "What is GPS?",
+              "block_text": "GPS is used for real-time or live tracking, see location activity and manage your GPS features via the easy to use Mobile App and Web Portal."
+            }
+          },
+          "1526884297170": {
+            "type": "text",
+            "settings": {
+              "block_title": "How accurate is the location?",
+              "block_text": "Our SEEK GPS technology can be within 2-5m of accuracy.\nit uses 3G + GPS + WiFi + LBS multi-mode positioning"
+            }
+          },
+          "1526884318319": {
+            "type": "text",
+            "settings": {
+              "block_title": "What is a Geo-fence?",
+              "block_text": "A Geo-Fence or Safety Zone is a pre-defined perimeter around a location which you can draw on the map. A virtual fence. If your GPS exits or enters this area, a notification will be sent to the App &amp; Web Portal."
+            }
+          },
+          "1526884330812": {
+            "type": "text",
+            "settings": {
+              "block_title": "How are notifications delivered?",
+              "block_text": "You will receive push notifications via the App &amp; Web Portal. You can also purchase SMS credit to receive SMS alerts."
+            }
+          },
+          "1526884372140": {
+            "type": "text",
+            "settings": {
+              "block_title": "Why does it need a SIM card?",
+              "block_text": "The GPS unit will send its reporting information data via the 3G network to the cloud. The unit also has SMS and two way communication ability."
+            }
+          },
+          "1526884396254": {
+            "type": "text",
+            "settings": {
+              "block_title": "What is included in the subscription?",
+              "block_text": "A subscription includes SIM, 12 months of national SIM Data, Support, Portal and App access."
+            }
+          },
+          "1526884413488": {
+            "type": "text",
+            "settings": {
+              "block_title": "Do I pay extra for SMS?",
+              "block_text": "Yes, this is not included in your plan, alerts (eg. low battery, geo-fence, falls, SOS etc.) can be sent via SMS to your desired number at 22 cents per message for local and 75 cents per SMS for international *in addition to the subscription plan."
+            }
+          },
+          "1526884429147": {
+            "type": "text",
+            "settings": {
+              "block_title": "Global Roaming",
+              "block_text": "Recommended Services – 850MHz (Telstra) – For use in Americas 900MHz (Vodafone) – For use in Europe, Middle East, Asia and Africa Please contact support to confirm coverage."
+            }
+          }
+        },
+        "block_order": [
+          "1526882277068",
+          "1526882931716",
+          "1526884005239",
+          "1526884246374",
+          "1526884280687",
+          "1526884297170",
+          "1526884318319",
+          "1526884330812",
+          "1526884372140",
+          "1526884396254",
+          "1526884413488",
+          "1526884429147"
+        ],
+        "settings": {
+          "heading": "FAQ's"
+        }
+      },
+      "custom-collections-gps-kids-watch": {
+        "type": "custom-collections-gps-kids-watch",
+        "settings": {
+          "product_star_rating_html": "<span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star\"><\/i><\/span><span class=\"stars\"><i class=\"fa fa-fw fa-star-half\"><\/i><\/span>",
+          "product_lead_text": "<b>Dispatch June 30<\/b>  - Smart watch designed for kids with real-time GPS tracking allows you to keep track of your loved ones via the Online Portal and mobile App.  Emergency SOS, Two way communication means your always close by. <br><b>INCLUDES<\/b> - 1 year Telstra Service, App’s, Online Portal and Support.",
+          "product_compare_link_text": "",
+          "product_price_notes": "Free Delivery",
+          "product_show_compare_at_price": true,
+          "product_show_saved_amount": false,
+          "disclaimer_link_text": "access-plan",
+          "disclaimer_page": "gps-subscription",
+          "download_brochure_text": "",
+          "download_brochure_jotformid": "",
+          "download_brochure_link": ""
+        }
+      },
+      "gps-why-nuttag-kids-watch": {
+        "type": "gps-why-nuttag-kids-watch",
+        "blocks": {
+          "1526863474346": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Emergency SOS",
+              "block_text": "For emergency situations activate the on-board SOS to receive instant alerts via your App, email, SMS or voice call."
+            }
+          },
+          "1526863986180": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Geo-Fence \/ Safety Regions",
+              "block_text": "Receive alerts whenever GPS watch enters or exits proximity of your custom safe or danger zones."
+            }
+          },
+          "1526864949427": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Instant Notifications \/ Alerts",
+              "block_text": "In app push notifications, Email and SMS. Low battery, fall \/ collision, Geo-fence, SOS *Extra cost to enable SMS alerts."
+            }
+          },
+          "1526864962497": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Two Way Voice Communication",
+              "block_text": "Speak direct over your tracker just like a mobile phone. *Extra cost to enable"
+            }
+          },
+          "1526865471947": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Camera",
+              "block_text": "On board camera allows video calls and photos."
+            }
+          },
+          "1526865775880": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>SMS Message",
+              "block_text": "send SMS text messages directly to our smart watch."
+            }
+          },
+          "1526865037348": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Water Resistant",
+              "block_text": "IPX5 Standard (Spill resistant)"
+            }
+          },
+          "1526865072602": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Historical Location Records",
+              "block_text": "Access up to 40 days of location history."
+            }
+          },
+          "1526865140204": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Live Tracking",
+              "block_text": "Find the location of your loved one at any point in time."
+            }
+          },
+          "1526865177623": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Listen In",
+              "block_text": "Listen-in is a silent call to the tracker to perform an audible check-in to the tracker."
+            }
+          },
+          "1526865203782": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br> Do Not Disturb",
+              "block_text": "Set a do not disturb time period to ensure the watch will not be a distraction during your defined times."
+            }
+          },
+          "1526865567519": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Reminder Alarms",
+              "block_text": "Set helpful reminder alarms."
+            }
+          },
+          "1526865087262": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Location Accuracy",
+              "block_text": "Your Watch GPS unit uses multiple positioning technologies to get you the most accurate location 2-5m with No range limitations."
+            }
+          },
+          "1526865629618": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Step Counter",
+              "block_text": "Monitor daily activity with a pedometer step counter and calorie counter."
+            }
+          },
+          "1526887240703": {
+            "type": "image",
+            "settings": {
+              "block_image": "",
+              "block_heading": "<br>Social Media Free",
+              "block_text": "Internet access and Social media applications have been disabled."
+            }
+          }
+        },
+        "block_order": [
+          "1526863474346",
+          "1526863986180",
+          "1526864949427",
+          "1526864962497",
+          "1526865471947",
+          "1526865775880",
+          "1526865037348",
+          "1526865072602",
+          "1526865140204",
+          "1526865177623",
+          "1526865203782",
+          "1526865567519",
+          "1526865087262",
+          "1526865629618",
+          "1526887240703"
+        ],
+        "settings": {
+          "heading": "Key Features",
+          "sub_text": "Kids GPS smart watch is one of the most advanced trackers in our range, see features below to discover why.",
+          "button_text": "See more features",
+          "button_link": "",
+          "grey_text": "",
+          "visible_blocks_count": "12"
         }
       }
     },
